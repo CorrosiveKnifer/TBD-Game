@@ -147,7 +147,7 @@
     <ClCompile Include="ScaleBar.cpp">
       <Filter>Source Files\Engine\Widget</Filter>
     </ClCompile>
-    <ClCompile Include="Player.cpp">
+    <ClCompile Include="PlayerThree.cpp">
       <Filter>Source Files\Non-Engine\Entities</Filter>
     </ClCompile>
     <ClCompile Include="ThreeDGameScene.cpp">
@@ -243,6 +243,9 @@
     <ClCompile Include="TwoDGameScene.cpp">
       <Filter>Source Files\Non-Engine\Scenes</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerTwo.cpp">
+      <Filter>Source Files\Non-Engine\Entities</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Renderer.h">
@@ -293,7 +296,7 @@
     <ClInclude Include="Button.h">
       <Filter>Header Files\Engine\Widget</Filter>
     </ClInclude>
-    <ClInclude Include="Player.h">
+    <ClInclude Include="PlayerThree.h">
       <Filter>Header Files\Non-Engine\Entities</Filter>
     </ClInclude>
     <ClInclude Include="MainMenuScene.h">
@@ -391,6 +394,9 @@
     </ClInclude>
     <ClInclude Include="Model.h">
       <Filter>Header Files\Engine\Render</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerTwo.h">
+      <Filter>Header Files\Non-Engine\Entities</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -27,14 +27,14 @@
 #include <ctime>
 
 //Forward Declaration
-class Player;
+class PlayerThree;
 class MeshEntity;
 class Projectile;
 class TextGenerator;
 class ScaleBar;
 class Camera;
 class CubeMap;
-class Player;
+class PlayerThree;
 class Program;
 
 class ThreeDGameScene : public SceneADT
@@ -74,7 +74,7 @@ protected:
 	int m_waveCount;
 	unsigned int m_waveMax;
 
-	Player* m_pPlayer;
+	PlayerThree* m_pPlayer;
 	std::vector<Projectile*> m_Bullets;
 
 	CubeMap* m_pCubeMap;

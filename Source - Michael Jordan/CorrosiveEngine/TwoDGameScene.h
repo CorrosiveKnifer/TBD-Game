@@ -27,14 +27,14 @@
 #include <ctime>
 
 //Forward Declaration
-class Player;
+class PlayerTwo;
 class MeshEntity;
 class Projectile;
 class TextGenerator;
 class ScaleBar;
 class Camera;
 class CubeMap;
-class Player;
+class PlayerTwo;
 class Program;
 
 class TwoDGameScene : public SceneADT
@@ -51,8 +51,6 @@ public:
 	virtual void Process(float dT);
 	virtual void Resize();
 
-	void SpawnBullet(Model* _model, glm::vec3 _origin, glm::vec3 _direct, float _speed);
-	
 protected:
 	void DrawHUD();
 	void ProcessWave(float dt);
@@ -75,11 +73,11 @@ protected:
 	int m_waveCount;
 	unsigned int m_waveMax;
 
-	Player* m_pPlayer;
+	PlayerTwo* m_pPlayer;
 	std::vector<Projectile*> m_Bullets;
 
 	CubeMap* m_pCubeMap;
-	MeshEntity* m_pGroundMesh;
+	Entity* m_pGroundMesh;
 
 	TextGenerator* m_Technical_30;
 	TextGenerator* m_Avara60;

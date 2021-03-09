@@ -17,7 +17,7 @@
 #include "ThreeDGameScene.h"
 
 //Local Includes
-#include "Player.h"
+#include "PlayerThree.h"
 #include "InputHandler.h"
 #include "AudioManager.h"
 #include "IniParser.h"
@@ -109,7 +109,7 @@ bool ThreeDGameScene::Initialise()
 	m_pMainCam = m_pPlayerCam;
 
 	//Packet Two
-	m_pPlayer = new Player(m_pMainCam);
+	m_pPlayer = new PlayerThree(m_pMainCam);
 	InstantiateEntity(m_pPlayer);
 	dynamic_cast<EntityCamera*>(m_pMainCam)->SetEntity(m_pPlayer);
 	dynamic_cast<EntityCamera*>(m_pMainCam)->SetFollowing(true);

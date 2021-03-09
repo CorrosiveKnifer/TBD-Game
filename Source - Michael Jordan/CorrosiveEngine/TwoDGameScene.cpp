@@ -17,7 +17,7 @@
 #include "TwoDGameScene.h"
 
 //Local Includes
-#include "Player.h"
+#include "PlayerTwo.h"
 #include "InputHandler.h"
 #include "AudioManager.h"
 #include "IniParser.h"
@@ -110,7 +110,7 @@ bool TwoDGameScene::Initialise()
 	m_pMainCam = m_pPlayerCam;
 
 	//Packet Two
-	m_pPlayer = new Player(m_pMainCam);
+	m_pPlayer = new PlayerTwo(m_pMainCam);
 	InstantiateEntity(m_pPlayer);
 	//dynamic_cast<EntityCamera*>(m_pMainCam)->SetEntity(m_pPlayer);
 	//dynamic_cast<EntityCamera*>(m_pMainCam)->SetFollowing(true);
@@ -131,11 +131,16 @@ bool TwoDGameScene::Initialise()
 	m_isPlayerLocked = false;
 
 	//Packet Five
-	m_pGroundMesh = new MeshEntity(Renderer::GetInstance().CreateSquareMesh());
+	m_pGroundMesh = new Entity();
+
+	MeshEntity* mE = new MeshEntity(Renderer::GetInstance().CreateSquareMesh());
 	Texture* temp = &Renderer::GetInstance().CreateTexture("FloorGrayTexture.png");
-	m_pGroundMesh->SetTexture(*temp);
-	m_pGroundMesh->GetTransformRef().GetPositionRef() = glm::vec3(0.0f, 0.0f, -1.0f);
-	m_pGroundMesh->GetTransformRef().GetScaleRef() = glm::vec3(temp->GetSize().x, temp->GetSize().y, 1.0f);
+
+	mE->SetTexture(*temp);
+	mE->GetTransformRef().GetPositionRef() = glm::vec3(0.0f, 0.0f, -2.0f);
+	mE->GetTransformRef().GetScaleRef() = glm::vec3(temp->GetSize().x, temp->GetSize().y, 1.0f);
+	m_pGroundMesh->AddChild(mE);
+	m_pGroundMesh->GetTransformRef().GetScaleRef() = glm::vec3((float)Renderer::SCREEN_WIDTH / temp->GetSize().x, (float) Renderer::SCREEN_HEIGHT / temp->GetSize().y, 1.0f);
 	InstantiateEntity(m_pGroundMesh);
 
 	//Default Variables
@@ -229,15 +234,6 @@ void TwoDGameScene::Draw()
 	m_pCubeMap->Draw(m_pMainCam, nullptr);
 
 	SceneADT::DrawEntities(m_pMainCam);
-	//m_pGroundMesh->Draw(m_pMainCam, m_mainProgram);
-	
-	//Draw foreground
-	//m_pPlayer->Draw(m_pMainCam, m_mainProgram);
-
-	//for (Projectile* bullet : m_Bullets)
-	//{
-	//	bullet->Draw(m_pMainCam, m_mainProgram);
-	//}
 
 	DrawHUD();
 }
@@ -257,27 +253,6 @@ void TwoDGameScene::Draw()
 void TwoDGameScene::Process(float dT)
 {
 	m_pCubeMap->Process(dT);
-
-	if (InputHandler::GetInstance().IsKeyPressed('w'))
-	{
-		//m_pPlayerCam->SetPosition(m_pPlayerCam->GetWorldPosition() + glm::vec3(0.0f,1.0f,0.0f));
-		m_pGroundMesh->GetTransformRef().GetScaleRef() *= 2.0f;
-		LogManager::GetInstance().Log(std::to_string(m_pGroundMesh->GetTransform().GetScaleRef().x).c_str());
-	}
-	if (InputHandler::GetInstance().IsKeyPressed('s'))
-	{
-		//m_pPlayerCam->SetPosition(m_pPlayerCam->GetWorldPosition() + glm::vec3(0.0f, -1.0f, 0.0f));
-		m_pGroundMesh->GetTransformRef().GetScaleRef() /= 2.0f;
-		LogManager::GetInstance().Log(std::to_string(m_pGroundMesh->GetTransform().GetScaleRef().x).c_str());
-	}
-	if (InputHandler::GetInstance().IsKeyPressed('a'))
-	{
-		//m_pPlayerCam->SetPosition(m_pPlayerCam->GetWorldPosition() + glm::vec3(-1.0f, 0.0f, 0.0f));
-	}
-	if (InputHandler::GetInstance().IsKeyPressed('d'))
-	{
-		//m_pPlayerCam->SetPosition(m_pPlayerCam->GetWorldPosition() + glm::vec3(1.0f, 0.0f, 0.0f));
-	}
 
 	if (InputHandler::GetInstance().IsKeyPressedFirst('`') || InputHandler::GetInstance().IsKeyPressedFirst('~'))
 	{
@@ -419,15 +394,15 @@ void TwoDGameScene::Resize()
 //
 //	Return: n/a		|
 //
-void TwoDGameScene::SpawnBullet(Model* _model, glm::vec3 _origin, glm::vec3 _direct, float _speed)
-{
-	//Projectile* bullet = new Projectile(_model, _direct, _speed);
-	//bullet->SetLocalPosition(_origin);
-	//bullet->SetLocalScale(glm::vec3(1.8f, 1.8f, 1.8f));
-	//bullet->SetFriendly(true);
-	//m_shots++;
-	//m_Bullets.push_back(bullet);
-}
+//void TwoDGameScene::SpawnBullet(Model* _model, glm::vec3 _origin, glm::vec3 _direct, float _speed)
+//{
+//	//Projectile* bullet = new Projectile(_model, _direct, _speed);
+//	//bullet->SetLocalPosition(_origin);
+//	//bullet->SetLocalScale(glm::vec3(1.8f, 1.8f, 1.8f));
+//	//bullet->SetFriendly(true);
+//	//m_shots++;
+//	//m_Bullets.push_back(bullet);
+//}
 
 //	DrawHUD()
 //
@@ -539,7 +514,7 @@ void TwoDGameScene::HandlePlayerOutOfBounds()
 		{
 			m_isPlayerLocked = true;
 			m_pPlayer->StartFalling();
-			m_pPlayer->HandleDamage(200.0f); //Lethal damage
+			//m_pPlayer->HandleDamage(200.0f); //Lethal damage
 			dynamic_cast<EntityCamera*>(m_pMainCam)->SetFollowing(false);
 		}
 	}
