@@ -30,3 +30,5 @@
 *.exe
 *.out
 *.app
+Source - Michael Jordan/.vs/CorrosiveEngine/v16/ipch/AutoPCH/435b27d8e434c8a/STARTSCENE.ipch
+*.ipch

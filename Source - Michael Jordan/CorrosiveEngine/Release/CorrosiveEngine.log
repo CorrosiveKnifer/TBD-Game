@@ -1,0 +1,32 @@
+﻿  BoidEntity.cpp
+  BoidSystem.cpp
+D:\CorrosiveEngine\Source - Michael Jordan\CorrosiveEngine\BoidSystem.cpp(429,19): warning C4244: 'initializing': conversion from 'unsigned int' to 'float', possible loss of data
+D:\CorrosiveEngine\Source - Michael Jordan\CorrosiveEngine\BoidSystem.cpp(432,43): warning C4244: 'argument': conversion from 'float' to 'const unsigned int', possible loss of data
+D:\CorrosiveEngine\Source - Michael Jordan\CorrosiveEngine\BoidSystem.cpp(437,12): warning C4018: '<': signed/unsigned mismatch
+D:\CorrosiveEngine\Source - Michael Jordan\CorrosiveEngine\BoidSystem.cpp(440,26): warning C4244: 'argument': conversion from 'float' to 'const unsigned int', possible loss of data
+  ClientSocket.cpp
+  Entity.cpp
+  GameScene.cpp
+  LobbyScene.cpp
+  MainMenuScene.cpp
+  MultiGameScene.cpp
+D:\CorrosiveEngine\Source - Michael Jordan\CorrosiveEngine\MultiGameScene.cpp(385,25): warning C4018: '<': signed/unsigned mismatch
+D:\CorrosiveEngine\Source - Michael Jordan\CorrosiveEngine\MultiGameScene.cpp(703,13): warning C4018: '<': signed/unsigned mismatch
+  NetworkControl.cpp
+  Player.cpp
+  PostalService.cpp
+D:\CorrosiveEngine\Source - Michael Jordan\CorrosiveEngine\PostalService.cpp(36,24): warning C4101: 'packet': unreferenced local variable
+D:\CorrosiveEngine\Source - Michael Jordan\CorrosiveEngine\PostalService.cpp(38,15): warning C4101: 'index': unreferenced local variable
+  Projectile.cpp
+  ServerDisplayScene.cpp
+  ServerSocket.cpp
+  SettingsMenuScene.cpp
+  Socket.cpp
+  StartScene.cpp
+  main.cpp
+  Generating code
+  151 of 3271 functions ( 4.6%) were compiled, the rest were copied from previous compilation.
+    27 functions were new in current compilation
+    142 functions had inline decision re-evaluated but remain unchanged
+  Finished generating code
+  CorrosiveEngine.vcxproj -> D:\CorrosiveEngine\Source - Michael Jordan\Release\CorrosiveEngine.exe
