@@ -39,12 +39,13 @@
 //Default Constructor
 TwoDGameScene::TwoDGameScene()
 {
-
+	glDisable(GL_DEPTH_TEST);
 }
 
 //Destructor
 TwoDGameScene::~TwoDGameScene()
 {
+	glEnable(GL_DEPTH_TEST);
 	//Delete player
 	delete m_pMainCam;
 	m_pMainCam = 0;
@@ -109,12 +110,6 @@ bool TwoDGameScene::Initialise()
 	m_pFreeCam->SetView(glm::vec3(0.0f, 1.0f, 20.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 	m_pMainCam = m_pPlayerCam;
 
-	//Packet Two
-	m_pPlayer = new PlayerTwo(m_pMainCam);
-	InstantiateEntity(m_pPlayer);
-	//dynamic_cast<EntityCamera*>(m_pMainCam)->SetEntity(m_pPlayer);
-	//dynamic_cast<EntityCamera*>(m_pMainCam)->SetFollowing(true);
-
 	std::string files[6];
 	for (unsigned int i = 0; i < 6; i++)
 		files[i] = "space_c0" + std::to_string(i) + ".png";
@@ -142,6 +137,10 @@ bool TwoDGameScene::Initialise()
 	m_pGroundMesh->AddChild(mE);
 	m_pGroundMesh->GetTransformRef().GetScaleRef() = glm::vec3((float)Renderer::SCREEN_WIDTH / temp->GetSize().x, (float) Renderer::SCREEN_HEIGHT / temp->GetSize().y, 1.0f);
 	InstantiateEntity(m_pGroundMesh);
+
+	//Packet Two
+	m_pPlayer = new PlayerTwo(m_pMainCam);
+	InstantiateEntity(m_pPlayer);
 
 	//Default Variables
 	m_xClamp = 300.0f;

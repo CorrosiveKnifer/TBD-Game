@@ -67,10 +67,10 @@ void Button::Draw(Program* _program)
 	float posX = topLeft.x + (m_pBase->GetSize().x * 0.5f * scale.x);
 	float posY = topLeft.y + (m_pBase->GetSize().y * 0.5f * scale.y);
 
+	DrawTexture(_program, *m_pBase, GetLocalScale());
+
 	m_label->SetCanvasAlignment(glm::vec2(posX, posY));
 	m_label->Draw(_program);
-
-	DrawTexture(_program, *m_pBase, GetLocalScale());
 }
 
 //	Process( dT )

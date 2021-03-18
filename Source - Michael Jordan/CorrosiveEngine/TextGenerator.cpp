@@ -129,6 +129,8 @@ void TextGenerator::RenderText(std::string text, glm::vec2 position)
 	if (!m_isFunctioning)
 		return;
 
+	glDisable(GL_DEPTH_TEST);
+
 	m_renderProgram->Use();
 
 	m_renderProgram->SetVector3("TextColor", m_color);
@@ -170,6 +172,7 @@ void TextGenerator::RenderText(std::string text, glm::vec2 position)
 		LocalPos.x += glyph->Advance;
 	}
 
+	glEnable(GL_DEPTH_TEST);
 	//Clear buffers
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindTexture(GL_TEXTURE_2D, 0);
