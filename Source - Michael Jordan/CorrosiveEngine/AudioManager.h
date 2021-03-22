@@ -73,7 +73,6 @@ private:
 	FMOD::ChannelGroup* m_musicChannels;
 	FMOD::ChannelGroup* m_soundEffectChannels;
 	
-
 	std::map<std::string, FMOD::Sound*> m_soundMaps;
 };
 

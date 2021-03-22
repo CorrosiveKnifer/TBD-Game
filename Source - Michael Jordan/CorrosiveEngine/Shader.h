@@ -23,6 +23,7 @@ protected:
 	std::string m_shaderName;
 	GLuint m_shaderID;
 private:
+
 };
 
 #endif

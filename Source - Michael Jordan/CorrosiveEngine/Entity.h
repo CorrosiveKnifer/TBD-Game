@@ -68,26 +68,6 @@ public:
 
 	virtual std::string Deserialize(std::string update);
 
-	//virtual bool IsBoxCollidingWith(Entity& other) const;
-	//virtual bool IsCircleCollidingWith(Entity& other) const;
-
-	//virtual Bound GetBounds() const;
-	//glm::vec2 GetRotatedCoord(glm::vec2 orignal);
-	//virtual glm::vec3 GetVelocity() const { return m_moveVector * m_speed; };
-
-	//void SetGrounded(bool _status) { m_isGrounded = _status; };
-	//bool IsGrounded() { return m_isGrounded; };
-
-	//float GetWidth() { return m_width; };
-	//float GetHeight() { return m_height; };
-	//bool GetCollide() { return m_canCollide; };
-
-	//void HandleCollision(Entity& other);
-	//void EnableCollision() { m_canCollide = true; };
-	//void DisableCollision() { m_canCollide = false; };
-
-	//bool IsPointWithin(glm::vec3 point);
-
 	Transform GetTransform() const { return m_localTransform; };
 	Transform& GetTransformRef() { return m_localTransform; };
 
@@ -108,20 +88,7 @@ protected:
 	//Collider* m_collider;
 	Transform m_localTransform;
 	glm::mat4 m_inheritMatrix;
-	//bool m_isGravity;
-	//bool m_isGrounded;
-	//bool m_canCollide;
-	//
-	//float m_width;
-	//float m_height;
-	//
-	//float m_speed;
-	//float m_accel;
-	//
-	//float m_maxSpeed;
-	//glm::vec3 m_moveVector;
 
-	//glm::vec3 m_gravity;
 private:
 	
 };

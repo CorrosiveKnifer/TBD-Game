@@ -46,6 +46,7 @@ TwoDGameScene::TwoDGameScene()
 TwoDGameScene::~TwoDGameScene()
 {
 	glEnable(GL_DEPTH_TEST);
+
 	//Delete player
 	delete m_pMainCam;
 	m_pMainCam = 0;
@@ -288,72 +289,8 @@ void TwoDGameScene::Process(float dT)
 
 	SceneADT::ProcessEntities(dT);
 
-	//Process player
-	//if (!m_pPlayer->IsDead())
-	//{
-	//	m_pPlayer->Process(dT);
-	//	m_pPlayer->ProcessDestruction(dT);
-	//}
-	//else //Prepare to respawn
-	//{
-	//	if (m_lives > 0)
-	//	{
-	//		m_lives--;
-	//		m_isPlayerLocked = false;
-	//		m_pPlayer->Respawn(glm::vec3(0.0f, 0.0f, 0.0f));
-	//		m_pMainCam->SetView(glm::vec3(0.0f, 40.0f, 0.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 0.0f, 1.0f));
-	//		dynamic_cast<EntityCamera*>(m_pMainCam)->SetFollowing(true);
-	//	}
-	//	else
-	//	{
-	//		unsigned int kills = m_kills;
-	//		float accuracy = (m_shots != 0) ? (float)m_kills / (float)m_shots : 0.0f;
-	//		double seconds = std::difftime(time(0), m_startTime);
-	//		SceneManager::PopScene();
-	//		SceneManager::PushScene(new GameOverScene(false, kills, seconds, accuracy));
-	//		return;
-	//	}
-	//}
 	//Check if player is out of bounds
 	HandlePlayerOutOfBounds();
-
-	//Process camera
-	//m_pMainCam->Process(dT);
-
-	//Process enemies
-
-	//Create projectile if able (Enables holding click)
-	//if (!m_isPlayerLocked && m_gameDelay <= 0 && InputHandler::GetInstance().IsMousePressedFirst(GLUT_LEFT_BUTTON))
-	//{
-	//	m_pPlayer->Fire(this);
-	//}
-
-	//Process all bullets
-	//std::vector<Projectile*>::iterator iter = m_Bullets.begin();
-	//while (iter != m_Bullets.end())
-	//{
-	//	(*iter)->Process(dT);
-	//	
-	//	if (m_pEnemies.CheckBoidCollision(**iter))
-	//	{	//Enemy collision
-	//		m_kills++;
-	//		delete* iter;
-	//		iter = m_Bullets.erase(iter);
-	//	}
-	//	else if (abs(glm::distance((*iter)->GetLocalPosition(), glm::vec3(0.0f, 0.0f, 0.0f))) > 65.0f)
-	//	{	//Despawn bullet
-	//		delete* iter;
-	//		iter = m_Bullets.erase(iter);
-	//	}
-	//	else
-	//		iter++;
-	//}
-
-	//Enemy colliding with player
-	//if (m_pEnemies.CheckBoidCollision(*m_pPlayer, false))
-	//{
-	//	m_pPlayer->HandleDamage(0.1f);
-	//}
 
 	//Update HUD
 	m_playerHealth->SetValue((float)m_pPlayer->GetHealth() / 100.0f);
