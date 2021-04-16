@@ -1,0 +1,60 @@
+﻿  BackBuffer.cpp
+E:\Programming\Platformer\Platformer\BackBuffer.h(19,10): fatal error C1083: Cannot open include file: 'SFML/Graphics.hpp': No such file or directory
+  Background.cpp
+E:\Programming\Platformer\Platformer\Backbuffer.h(19,10): fatal error C1083: Cannot open include file: 'SFML/Graphics.hpp': No such file or directory
+  Box.cpp
+E:\Programming\Platformer\Platformer\Entity.h(18,10): fatal error C1083: Cannot open include file: 'SFML/Graphics.hpp': No such file or directory
+  Bullet.cpp
+E:\Programming\Platformer\Platformer\BackBuffer.h(19,10): fatal error C1083: Cannot open include file: 'SFML/Graphics.hpp': No such file or directory
+  Button.cpp
+E:\Programming\Platformer\Platformer\Widget.h(17,10): fatal error C1083: Cannot open include file: 'SFML/Graphics.hpp': No such file or directory
+  ButtonObject.cpp
+E:\Programming\Platformer\Platformer\Entity.h(18,10): fatal error C1083: Cannot open include file: 'SFML/Graphics.hpp': No such file or directory
+  CheckBox.cpp
+E:\Programming\Platformer\Platformer\Widget.h(17,10): fatal error C1083: Cannot open include file: 'SFML/Graphics.hpp': No such file or directory
+  Door.cpp
+E:\Programming\Platformer\Platformer\Entity.h(18,10): fatal error C1083: Cannot open include file: 'SFML/Graphics.hpp': No such file or directory
+  Entity.cpp
+E:\Programming\Platformer\Platformer\Entity.h(18,10): fatal error C1083: Cannot open include file: 'SFML/Graphics.hpp': No such file or directory
+  Game.cpp
+E:\Programming\Platformer\Platformer\Window.h(19,10): fatal error C1083: Cannot open include file: 'SFML/Graphics.hpp': No such file or directory
+  Guard.cpp
+E:\Programming\Platformer\Platformer\Entity.h(18,10): fatal error C1083: Cannot open include file: 'SFML/Graphics.hpp': No such file or directory
+  iniParser.cpp
+E:\Programming\Platformer\Platformer\iniParser.cpp(114,34): warning C4267: 'initializing': conversion from 'size_t' to 'int', possible loss of data
+  InputHandler.cpp
+E:\Programming\Platformer\Platformer\InputHandler.h(18,10): fatal error C1083: Cannot open include file: 'SFML/Graphics.hpp': No such file or directory
+  ListBox.cpp
+E:\Programming\Platformer\Platformer\Widget.h(17,10): fatal error C1083: Cannot open include file: 'SFML/Graphics.hpp': No such file or directory
+  LogoWindow.cpp
+E:\Programming\Platformer\Platformer\Window.h(19,10): fatal error C1083: Cannot open include file: 'SFML/Graphics.hpp': No such file or directory
+  MenuWindow.cpp
+E:\Programming\Platformer\Platformer\Window.h(19,10): fatal error C1083: Cannot open include file: 'SFML/Graphics.hpp': No such file or directory
+  MiniWindow.cpp
+E:\Programming\Platformer\Platformer\Window.h(19,10): fatal error C1083: Cannot open include file: 'SFML/Graphics.hpp': No such file or directory
+  NoiseSystem.cpp
+E:\Programming\Platformer\Platformer\BackBuffer.h(19,10): fatal error C1083: Cannot open include file: 'SFML/Graphics.hpp': No such file or directory
+  Platform.cpp
+E:\Programming\Platformer\Platformer\Entity.h(18,10): fatal error C1083: Cannot open include file: 'SFML/Graphics.hpp': No such file or directory
+  Platformer.cpp
+E:\Programming\Platformer\Platformer\BackBuffer.h(19,10): fatal error C1083: Cannot open include file: 'SFML/Graphics.hpp': No such file or directory
+  Generating Code...
+  Compiling...
+  Player.cpp
+E:\Programming\Platformer\Platformer\Entity.h(18,10): fatal error C1083: Cannot open include file: 'SFML/Graphics.hpp': No such file or directory
+  End.cpp
+E:\Programming\Platformer\Platformer\Entity.h(18,10): fatal error C1083: Cannot open include file: 'SFML/Graphics.hpp': No such file or directory
+  ScaleBar.cpp
+E:\Programming\Platformer\Platformer\Widget.h(17,10): fatal error C1083: Cannot open include file: 'SFML/Graphics.hpp': No such file or directory
+  SoundBuffer.cpp
+E:\Programming\Platformer\Platformer\SoundBuffer.h(19,10): fatal error C1083: Cannot open include file: 'SFML/Audio.hpp': No such file or directory
+  SpriteMap.cpp
+E:\Programming\Platformer\Platformer\SpriteMap.h(19,10): fatal error C1083: Cannot open include file: 'SFML/Graphics.hpp': No such file or directory
+  TextObject.cpp
+E:\Programming\Platformer\Platformer\Entity.h(18,10): fatal error C1083: Cannot open include file: 'SFML/Graphics.hpp': No such file or directory
+  Widget.cpp
+E:\Programming\Platformer\Platformer\Widget.h(17,10): fatal error C1083: Cannot open include file: 'SFML/Graphics.hpp': No such file or directory
+  Window.cpp
+E:\Programming\Platformer\Platformer\Window.h(19,10): fatal error C1083: Cannot open include file: 'SFML/Graphics.hpp': No such file or directory
+  winmain.cpp
+  Generating Code...
