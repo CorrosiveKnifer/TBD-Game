@@ -14,9 +14,6 @@
 //Self Include
 #include "ListBox.h"
 
-//Local Includes
-#include "BackBuffer.h"
-
 //Constructor
 ListBox::ListBox()
 	: m_displayStart(0), m_displayEnd(0), m_itemLimit(0), m_hoverValue(0)
@@ -43,11 +40,11 @@ ListBox::~ListBox()
 //
 // @return	boolean		Status of the initialisation.
 //
-bool ListBox::Initialise(BackBuffer& _buffer, sf::Vector2f position)
+bool ListBox::Initialise(sf::Vector2f position)
 {
 	//Create Sprite
-	sf::Sprite* up = _buffer.CreateSprite("widget/UpButton.png");
-	sf::Sprite* down = _buffer.CreateSprite("widget/DownButton.png");
+	sf::Sprite* up = Renderer::GetInstance().CreateSprite("UpButton.png");
+	sf::Sprite* down = Renderer::GetInstance().CreateSprite("DownButton.png");
 	up->setScale(0.25, 0.25);
 	down->setScale(0.25, 0.25);
 	up->setColor(m_notHover);
@@ -80,13 +77,14 @@ bool ListBox::Initialise(BackBuffer& _buffer, sf::Vector2f position)
 //
 // @return	n/a
 //
-void ListBox::Draw(BackBuffer& _backBuffer)
+void ListBox::Draw()
 {
-	_backBuffer.SetColour(sf::Color::White);
-	_backBuffer.DrawRectangle(m_x, m_y, m_width, m_height);
-	_backBuffer.SetFontSize(static_cast<int>(m_fontSize));
-	_backBuffer.SetFontAlign(Align::Left);
-	_backBuffer.SetColour(sf::Color::Black);
+	Renderer* renderer = &Renderer::GetInstance();
+	renderer->SetColour(sf::Color::White);
+	renderer->DrawRectangle(m_x, m_y, m_width, m_height);
+	renderer->SetFontSize(static_cast<int>(m_fontSize));
+	renderer->SetFontAlign(Align::Left);
+	renderer->SetColour(sf::Color::Black);
 
 	//Draw list:
 	for (unsigned int i = m_displayStart; i < m_displayEnd; i++)
@@ -94,27 +92,27 @@ void ListBox::Draw(BackBuffer& _backBuffer)
 		int offset = m_displayEnd - m_itemLimit;
 		if (m_value == i)
 		{
-			_backBuffer.SetColour(m_notHover);
-			_backBuffer.DrawRectangle(m_x, m_y + m_fontSize * (i - offset), m_width, m_fontSize);
-			_backBuffer.SetColour(sf::Color::Black);
+			renderer->SetColour(m_notHover);
+			renderer->DrawRectangle(m_x, m_y + m_fontSize * (i - offset), m_width, m_fontSize);
+			renderer->SetColour(sf::Color::Black);
 		}
 		else if (m_hoverValue == i)
 		{
-			_backBuffer.SetColour(m_hover);
-			_backBuffer.DrawRectangle(m_x, m_y + m_fontSize * (i - offset), m_width, m_fontSize);
-			_backBuffer.SetColour(sf::Color::Black);
+			renderer->SetColour(m_hover);
+			renderer->DrawRectangle(m_x, m_y + m_fontSize * (i - offset), m_width, m_fontSize);
+			renderer->SetColour(sf::Color::Black);
 		}
 		if (i < m_items.size())
 		{
-			_backBuffer.DrawTextToWorld(m_items.at(i), m_x, m_y + m_fontSize * (i - offset));
+			renderer->DrawTextToWorld(m_items.at(i), m_x, m_y + m_fontSize * (i - offset));
 		}
 	}
 
 	//Draw side buttons:
-	_backBuffer.SetColour(sf::Color(140, 140, 140));
-	_backBuffer.DrawRectangle(m_x + m_width, m_y, m_buttonSize, m_height);
-	_backBuffer.DrawAt(*m_sprite, sf::Vector2f(m_x + m_width, m_y));
-	_backBuffer.DrawAt(*m_pSpriteDown, sf::Vector2f(m_x + m_width, m_y + m_height - m_buttonSize));
+	renderer->SetColour(sf::Color(140, 140, 140));
+	renderer->DrawRectangle(m_x + m_width, m_y, m_buttonSize, m_height);
+	renderer->DrawAt(*m_sprite, sf::Vector2f(m_x + m_width, m_y));
+	renderer->DrawAt(*m_pSpriteDown, sf::Vector2f(m_x + m_width, m_y + m_height - m_buttonSize));
 }
 
 // HandleMouse( float _x, float _y )

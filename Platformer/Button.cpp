@@ -16,9 +16,7 @@
 
 //Local Includes
 #include "SpriteMap.h"
-#include "BackBuffer.h"
-#include "Window.h"
-
+#include "Renderer.h"
 //Constructor
 Button::Button()
 	: m_Anim(0)
@@ -45,10 +43,12 @@ Button::~Button()
 //
 // @return	boolean		Status of the initialisation.
 //
-bool Button::Initialise(sf::Sprite* _sprite)
+bool Button::Initialise(sf::Sprite* _sprite, std::function<void()> clickCallback)
 {
 	m_Anim = new SpriteMap();
 	m_Anim->Initialise(_sprite, 2, 1);
+	o_clickCallback = clickCallback;
+
 	return Widget::Initialise(_sprite);
 }
 
@@ -61,11 +61,11 @@ bool Button::Initialise(sf::Sprite* _sprite)
 //
 // @return	boolean		Status of the initialisation.
 //
-bool Button::HandleMouse(float _x, float _y)
+bool Button::HandleMouse(sf::Vector2i pos)
 {
 	if (m_isVisible)
 	{
-		if (_x >= m_x && _x < m_x + ((m_width * m_scale.x )/ 2) && _y >= m_y && _y < m_y + ((m_height * m_scale.y) /1))
+		if (pos.x >= m_x && pos.x < m_x + ((m_width * m_scale.x )/ 2) && pos.y >= m_y && pos.y < m_y + ((m_height * m_scale.y) /1))
 		{
 			m_value = 1.0f;
 		}
@@ -73,7 +73,6 @@ bool Button::HandleMouse(float _x, float _y)
 		{
 			m_value = 0.0f;
 		}
-		Update();
 	}
 	return (m_value == 1);
 }
@@ -88,6 +87,11 @@ bool Button::HandleMouse(float _x, float _y)
 //
 void Button::Update()
 {
+	if (HandleMouse(InputHandler::GetInstance().GetMousePosition()) && InputHandler::GetInstance().IsMousePressed(sf::Mouse::Left))
+	{
+		o_clickCallback();
+	}
+
 	m_Anim->SetIndexX(static_cast<int>(m_value));
 }
 
@@ -99,8 +103,8 @@ void Button::Update()
 //
 // @return	n/a
 //
-void Button::Draw(BackBuffer& _backBuffer)
+void Button::Draw()
 {
 	if (m_isVisible)
-		_backBuffer.Draw(*m_sprite);
+		Renderer::GetInstance().Draw(*m_sprite);
 }

@@ -20,7 +20,7 @@
 //Forward Declaration
 class BackBuffer;
 class Game;
-class LogoWindow;
+class LogoScene;
 class Window;
 
 //Implementation
@@ -28,27 +28,27 @@ class InputHandler
 {
 	//Member function
 public:
+	static InputHandler& GetInstance();
+	static void DestroyInstance();
+
+	void Update();
+
+	bool IsKeyPressed(sf::Keyboard::Key _key) { return sf::Keyboard::isKeyPressed(_key); };
+	bool IsMousePressed(sf::Mouse::Button _button) { return sf::Mouse::isButtonPressed(_button);};
+	sf::Keyboard::Key IsAnyKeyPressed();
+	sf::Vector2i GetMousePosition();
+private:
 	InputHandler();
 	~InputHandler();
-
-	bool Initialise(const BackBuffer& buffer);
-
-	void HandleGameInput(Game& _Game);
-	void HandleClickEvents(Window& _window);
-	void HandleCinematicEvents(Window& _window);
-private:
-
 protected:
 
 	//Member data
 public:
 
 private:
-	
+	static InputHandler* sm_pInstance;
+
 protected:
-	const BackBuffer* m_pBackBuffer;
-	bool m_KeyA, m_KeyD, m_KeyQ, m_KeyE, m_KeyR, m_KeySpace;
-	bool m_KeyShift;
-	bool m_KeyTilde, m_KeyEsc;
+
 };
 #endif // _INPUT_HANDLER_H_

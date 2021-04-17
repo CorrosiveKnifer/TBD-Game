@@ -27,10 +27,10 @@ public:
 	virtual ~CheckBox();
 	CheckBox(const CheckBox& _other);
 
-	bool Initialise(BackBuffer& _backBuffer, float _x, float _y);
+	bool Initialise(float _x, float _y);
 	
 	//Inherited Functions:
-	virtual void Draw(BackBuffer& _backBuffer);
+	virtual void Draw();
 	virtual void Update();
 	virtual bool HandleMouse(float _mouseX, float _mouseY);
 

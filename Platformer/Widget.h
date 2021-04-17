@@ -13,11 +13,10 @@
 // Author         	: Michael Jordan
 // Mail         	: michael.jor8834@mediadesign.com
 //
+// 
 //Library Includes
-#include <SFML/Graphics.hpp>
-
-//Forward Declaration
-class BackBuffer;
+#include "Renderer.h"
+#include "InputHandler.h"
 
 //Implementation
 class Widget
@@ -29,8 +28,7 @@ public:
 
 	bool Initialise(sf::Sprite* _sprite);
 
-	virtual void Draw(BackBuffer& _backBuffer) = 0;
-	virtual bool HandleMouse(float _mouseX, float _mouseY) = 0;
+	virtual void Draw() = 0;
 	virtual void Update() = 0;
 
 	void SetValue(float _val);
@@ -46,7 +44,7 @@ public:
 private:
 
 protected:
-
+	virtual bool HandleMouse(sf::Vector2i pos) = 0;
 	//Member Data
 public:
 

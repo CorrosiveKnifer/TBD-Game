@@ -14,9 +14,6 @@
 //Self Include
 #include "ScaleBar.h"
 
-//Local Includes
-#include "BackBuffer.h"
-
 //Constructor
 ScaleBar::ScaleBar()
 	: m_fMin(0), m_fMax(1)
@@ -63,10 +60,10 @@ ScaleBar::ScaleBar(const ScaleBar& _other)
 //
 // @return	boolean		Status of the initialisation.
 //
-bool ScaleBar::Initialise(BackBuffer& _backBuffer, float _x, float _y)
+bool ScaleBar::Initialise(float _x, float _y)
 {
-	sf::Sprite* sp = _backBuffer.CreateSprite("widget/ScaleBar.png");
-	m_pCursor = _backBuffer.CreateSprite("widget/ScaleCursor.png");
+	sf::Sprite* sp = Renderer::GetInstance().CreateSprite("widget/ScaleBar.png");
+	m_pCursor = Renderer::GetInstance().CreateSprite("widget/ScaleCursor.png");
 	sp->setPosition(_x, _y + (m_pCursor->getTexture()->getSize().y/4));
 	Widget::Initialise(sp);
 	Widget::SetScale(sf::Vector2f(1.5f, 0.8f)); //DEFAULT
@@ -116,7 +113,7 @@ void ScaleBar::SetIncrement(float _delta)
 //
 // @return	n/a
 //
-void ScaleBar::Draw(BackBuffer& _backBuffer)
+void ScaleBar::Draw()
 {
 	if (m_isVisible)
 	{
@@ -128,11 +125,11 @@ void ScaleBar::Draw(BackBuffer& _backBuffer)
 		int j = 0;
 		for (float i = m_fMin; i <= m_fMax; i += m_fInc)
 		{
-			_backBuffer.SetColour(sf::Color::Black);
-			_backBuffer.DrawRectangle(m_x + j * space, m_y + 5, 2, 8);
+			Renderer::GetInstance().SetColour(sf::Color::Black);
+			Renderer::GetInstance().DrawRectangle(m_x + j * space, m_y + 5, 2, 8);
 			j++;
 		}
-		_backBuffer.Draw(*m_pCursor);
+		Renderer::GetInstance().Draw(*m_pCursor);
 	}
 }
 

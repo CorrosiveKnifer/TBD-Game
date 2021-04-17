@@ -19,66 +19,40 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="BackBuffer.cpp" />
-    <ClCompile Include="Background.cpp" />
-    <ClCompile Include="Box.cpp" />
-    <ClCompile Include="Bullet.cpp" />
+    <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Button.cpp" />
-    <ClCompile Include="ButtonObject.cpp" />
     <ClCompile Include="CheckBox.cpp" />
-    <ClCompile Include="Door.cpp" />
     <ClCompile Include="Entity.cpp" />
-    <ClCompile Include="Game.cpp" />
-    <ClCompile Include="Guard.cpp" />
     <ClCompile Include="iniParser.cpp" />
     <ClCompile Include="InputHandler.cpp" />
     <ClCompile Include="ListBox.cpp" />
-    <ClCompile Include="LogoWindow.cpp" />
-    <ClCompile Include="MenuWindow.cpp" />
-    <ClCompile Include="MiniWindow.cpp" />
-    <ClCompile Include="NoiseSystem.cpp" />
-    <ClCompile Include="Platform.cpp" />
-    <ClCompile Include="Platformer.cpp" />
-    <ClCompile Include="Player.cpp" />
-    <ClCompile Include="End.cpp" />
+    <ClCompile Include="LogoScene.cpp" />
+    <ClCompile Include="MainMenuScene.cpp" />
     <ClCompile Include="ScaleBar.cpp" />
+    <ClCompile Include="Scene.cpp" />
+    <ClCompile Include="SceneManager.cpp" />
     <ClCompile Include="SoundBuffer.cpp" />
     <ClCompile Include="SpriteMap.cpp" />
-    <ClCompile Include="TextObject.cpp" />
     <ClCompile Include="Widget.cpp" />
-    <ClCompile Include="Window.cpp" />
     <ClCompile Include="winmain.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BackBuffer.h" />
-    <ClInclude Include="Background.h" />
-    <ClInclude Include="Box.h" />
-    <ClInclude Include="Bullet.h" />
+    <ClInclude Include="Renderer.h" />
     <ClInclude Include="Button.h" />
-    <ClInclude Include="ButtonObject.h" />
     <ClInclude Include="CheckBox.h" />
-    <ClInclude Include="Door.h" />
-    <ClInclude Include="End.h" />
     <ClInclude Include="Entity.h" />
-    <ClInclude Include="Game.h" />
-    <ClInclude Include="Guard.h" />
     <ClInclude Include="iniParser.h" />
     <ClInclude Include="InputHandler.h" />
     <ClInclude Include="ListBox.h" />
-    <ClInclude Include="LogoWindow.h" />
-    <ClInclude Include="MenuWindow.h" />
-    <ClInclude Include="MiniWindow.h" />
-    <ClInclude Include="NoiseSystem.h" />
-    <ClInclude Include="Platform.h" />
-    <ClInclude Include="Platformer.h" />
-    <ClInclude Include="Player.h" />
+    <ClInclude Include="LogoScene.h" />
+    <ClInclude Include="MainMenuScene.h" />
     <ClInclude Include="resource.h" />
     <ClInclude Include="ScaleBar.h" />
+    <ClInclude Include="Scene.h" />
+    <ClInclude Include="SceneManager.h" />
     <ClInclude Include="SoundBuffer.h" />
     <ClInclude Include="SpriteMap.h" />
-    <ClInclude Include="TextObject.h" />
     <ClInclude Include="Widget.h" />
-    <ClInclude Include="Window.h" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Platformer.rc" />

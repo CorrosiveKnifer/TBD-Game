@@ -24,12 +24,12 @@ public:
 	ListBox();
 	virtual ~ListBox();
 
-	bool Initialise(BackBuffer& _buffer, sf::Vector2f position);
+	bool Initialise(sf::Vector2f position);
 
 	void HandleHover(float _mouseX, float _mouseY);
 
 	//Inherited Functions:
-	virtual void Draw(BackBuffer& _backBuffer);
+	virtual void Draw();
 	virtual bool HandleMouse(float _mouseX, float _mouseY);
 	virtual void Update();
 

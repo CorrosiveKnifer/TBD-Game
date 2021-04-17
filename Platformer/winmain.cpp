@@ -1,11 +1,10 @@
-#include "Platformer.h"
+#include "SceneManager.h"
+#include "LogoScene.h"
 
 int main()
 {
-	Platformer p;
-
-	p.Initialise();
-	p.Start();
-
+	SceneManager::GetInstance().TransitionTo(new LogoScene());
+	SceneManager::GetInstance().DoSceneLoop();
+	
 	return 0;
 }

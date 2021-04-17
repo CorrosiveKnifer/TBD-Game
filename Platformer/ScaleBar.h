@@ -25,15 +25,16 @@ public:
 	virtual ~ScaleBar();
 	ScaleBar(const ScaleBar& _other);
 
-	bool Initialise(BackBuffer& _backBuffer, float _x, float _y);
+	bool Initialise(float _x, float _y);
 
 	void SetBounds(float _min, float _max);
 	void SetIncrement(float _delta);
 
 	//Inherited Functions:
-	virtual void Draw(BackBuffer& _backBuffer);
-	virtual bool HandleMouse(float _mouseX, float _mouseY);
+	virtual void Draw(); 
 	virtual void Update();
+	virtual bool HandleMouse(float _mouseX, float _mouseY);
+	
 
 	void SetWorldPosition(sf::Vector2f _pos);
 private:

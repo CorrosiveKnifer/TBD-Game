@@ -16,6 +16,7 @@
 //Parent Include
 #include "Widget.h"
 
+#include <functional>
 //Forward Declaration
 class SpriteMap;
 
@@ -27,17 +28,15 @@ public:
 	Button();
 	virtual ~Button();
 
-	bool Initialise(sf::Sprite* _sprite);
+	bool Initialise(sf::Sprite* _sprite, std::function<void()> clickCallback);
 
-	//Inherited Functions:
-	virtual bool HandleMouse(float _x, float _y);
-	virtual void Draw(BackBuffer& _backBuffer);
+	virtual void Draw();
 	virtual void Update();
 
 private:
 
 protected:
-
+	virtual bool HandleMouse(sf::Vector2i pos);
 	//Member Data
 public:
 
@@ -45,5 +44,6 @@ private:
 
 protected:
 	SpriteMap* m_Anim;
+	std::function<void()> o_clickCallback;
 };
 #endif // _BUTTON_H_

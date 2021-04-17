@@ -15,11 +15,10 @@
 // Mail         	: michael.jor8834@mediadesign.com
 //
 //Library Includes
-#include <SFML/Graphics.hpp>
 #include <cstdlib>
 
 //Local Includes
-#include "BackBuffer.h"
+#include "Renderer.h"
 
 //Implementation
 class Entity
@@ -37,7 +36,7 @@ public:
 	bool Deinitialise();
 
 	//Inheritance functions:
-	virtual void Draw(BackBuffer& buffer) = 0;
+	virtual void Draw() = 0;
 	virtual void Process(float dT) = 0;
 	virtual void ApplyGravity(float _grav) = 0;
 	virtual bool IsCollidingWith(const sf::IntRect& otherDiment) const = 0;

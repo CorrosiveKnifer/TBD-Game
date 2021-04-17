@@ -15,7 +15,6 @@
 #include "Checkbox.h"
 
 //Local Includes
-#include "BackBuffer.h"
 #include "SpriteMap.h"
 
 //Constructor
@@ -58,9 +57,9 @@ CheckBox::CheckBox(const CheckBox& _other)
 //
 // @return	boolean		Status of the initialisation.
 //
-bool CheckBox::Initialise(BackBuffer& _backBuffer, float _x, float _y)
+bool CheckBox::Initialise(float _x, float _y)
 {
-	sf::Sprite* sp = _backBuffer.CreateSprite("widget/checkbox.png");
+	sf::Sprite* sp = Renderer::GetInstance().CreateSprite("widget/checkbox.png");
 	sp->setPosition(_x, _y);
 	sp->setScale(0.5, 0.5);
 	m_scale.x = 0.5;
@@ -84,10 +83,10 @@ bool CheckBox::Initialise(BackBuffer& _backBuffer, float _x, float _y)
 //
 // @return	n/a
 //
-void CheckBox::Draw(BackBuffer& _backBuffer)
+void CheckBox::Draw()
 {
 	if(m_isVisible)
-		_backBuffer.Draw(*m_sprite);
+		Renderer::GetInstance().Draw(*m_sprite);
 }
 
 // Update( )
