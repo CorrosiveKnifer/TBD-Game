@@ -1,2 +1,42 @@
-﻿  Button.cpp
-  Platformer.vcxproj -> D:\CorrosiveEngine\TBD-Game\Debug\Platformer.exe
+﻿  LevelLoader.cpp
+G:\AA_Year_2_half\SW_Engineering\TBD-Game\Platformer\LevelLoader.cpp(67,30): warning C4018: '<': signed/unsigned mismatch
+G:\AA_Year_2_half\SW_Engineering\TBD-Game\Platformer\LevelLoader.cpp(90,49): warning C4101: 'face1c': unreferenced local variable
+G:\AA_Year_2_half\SW_Engineering\TBD-Game\Platformer\LevelLoader.cpp(86,39): warning C4101: 'c': unreferenced local variable
+  Renderer.cpp
+  Button.cpp
+  CheckBox.cpp
+  Entity.cpp
+  iniParser.cpp
+  InputHandler.cpp
+  ListBox.cpp
+  LogoScene.cpp
+G:\AA_Year_2_half\SW_Engineering\TBD-Game\Platformer\LogoScene.cpp(31,101): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+G:\AA_Year_2_half\SW_Engineering\TBD-Game\Platformer\LogoScene.cpp(31,64): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+G:\AA_Year_2_half\SW_Engineering\TBD-Game\Platformer\LogoScene.cpp(109,99): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+G:\AA_Year_2_half\SW_Engineering\TBD-Game\Platformer\LogoScene.cpp(109,64): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+  MainMenuScene.cpp
+  ScaleBar.cpp
+  Scene.cpp
+  SceneManager.cpp
+  SoundBuffer.cpp
+  SpriteMap.cpp
+  Widget.cpp
+  winmain.cpp
+  Generating Code...
+  Platformer.vcxproj -> G:\AA_Year_2_half\SW_Engineering\TBD-Game\Debug\Platformer.exe
