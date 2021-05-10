@@ -79,3 +79,71 @@ InputHandler::~InputHandler()
 {
 	
 }
+
+// Get Any Input from a Joystick
+int InputHandler::GetAnyJoystickInput()
+{
+
+}
+
+// Get the aiming direction input from the joystick
+sf::Vector2i InputHandler::GetAimInput(int joystickID)
+{
+	return sf::Vector2i();
+}
+
+// Get the movement direction input from the joystick
+sf::Vector2i InputHandler::GetMovementInput(int joystickID)
+{
+	return sf::Vector2i();
+}
+
+// Get the shoot input from the joystick
+float InputHandler::GetShootInput(int joystickID)
+{
+	return 0.0f;
+}
+
+// Get the emote input from the joystick
+int InputHandler::GetEmoteInput(int joystickID)
+{
+	return 0;
+}
+
+// Return the amount of joysticks connected
+int InputHandler::GetJoystickCount()
+{
+	return 0;
+}
+
+std::initializer_list<InputHandler::ButtonType> InputHandler::GetButtonInput(int joystickID)
+{
+	return std::initializer_list<ButtonType>();
+}
+
+
+// INITIALISE AND INFORMATION
+
+//// Is joystick #0 connected?
+//
+//for (int i = 0; i < 5; i++)
+//{
+//	bool connected = sf::Joystick::isConnected(i);
+//	sf::Joystick::Identification controllerID = sf::Joystick::getIdentification(i);
+//	if (connected)
+//	{
+//		std::cout << "Controller Detected" << std::endl;
+//		std::cout << "\nVendor ID: " << controllerID.vendorId << "\nProduct ID: " << controllerID.productId << std::endl << std::endl;
+//	}
+//}
+//
+//
+//// How many buttons does joystick #0 support?
+//unsigned int buttons = sf::Joystick::getButtonCount(1);
+//std::cout << buttons << std::endl;
+//// Does joystick #0 define a X axis?
+//bool hasX = sf::Joystick::hasAxis(0, sf::Joystick::X);
+//// Is button #2 pressed on joystick #0?
+//bool pressed = sf::Joystick::isButtonPressed(0, 2);
+//// What's the current position of the Y axis on joystick #0?
+//float position = sf::Joystick::getAxisPosition(0, sf::Joystick::Y);
