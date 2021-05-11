@@ -13,6 +13,7 @@
 #include "SceneManager.h"
 #include "Scene.h"
 #include "InputHandler.h"
+#include "GlobalVariables.h"
 
 #include <iostream>
 
@@ -85,6 +86,8 @@ void SceneManager::DoSceneLoop()
 		do {
 			//Calculate time since last loop
 			float deltaTime = m_clock.getElapsedTime().asSeconds();
+			C_GlobalVariables::DeltaTime = deltaTime; // Sonja
+
 			m_clock.restart();
 
 			InputHandler::GetInstance().Update();

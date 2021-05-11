@@ -19,7 +19,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Ball.cpp" />
+    <ClCompile Include="GlobalVariables.cpp" />
     <ClCompile Include="LevelLoader.cpp" />
+    <ClCompile Include="Level_1.cpp" />
+    <ClCompile Include="Player_Entity.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="CheckBox.cpp" />
@@ -38,7 +42,11 @@
     <ClCompile Include="winmain.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Ball.h" />
+    <ClInclude Include="GlobalVariables.h" />
     <ClInclude Include="LevelLoader.h" />
+    <ClInclude Include="Level_1.h" />
+    <ClInclude Include="Player_Entity.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="Button.h" />
     <ClInclude Include="CheckBox.h" />

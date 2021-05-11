@@ -140,7 +140,7 @@ void Entity::SetVelocity(sf::Vector2f _vel)
 //
 // @return	 ColliderType	type of collision.
 //
-Entity::ColliderType Entity::GetCollider(const sf::IntRect& otherDiment)
-{
-	return ColliderType::NONE;
-}
+//Entity::ColliderType Entity::GetCollider(const sf::IntRect& otherDiment)
+//{
+//	return ColliderType::NONE;
+//}

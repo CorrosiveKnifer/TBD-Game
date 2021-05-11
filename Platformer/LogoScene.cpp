@@ -20,6 +20,7 @@
 #include "InputHandler.h"
 #include "SceneManager.h"
 #include "MainMenuScene.h"
+#include "Level_1.h"
 
 //Constructor
 LogoScene::LogoScene()
@@ -99,7 +100,7 @@ void LogoScene::Update(float dt)
 	{
 		if (m_hasFinished)
 		{
-			SceneManager::GetInstance().TransitionTo(new MainMenuScene());
+			SceneManager::GetInstance().TransitionTo(new c_Level_1());
 			return;
 		}
 			

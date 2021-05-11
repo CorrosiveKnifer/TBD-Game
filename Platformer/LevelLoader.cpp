@@ -63,7 +63,7 @@ levelMesh::levelMesh(string path, b2World& world)
             {
 
                 std::size_t foundEnd = line.length();
-                int count = 2;
+                unsigned int count = 2;
                 while (count < foundEnd)
                 {
                     std::size_t foundSpace = line.find(" ", count);
@@ -83,11 +83,11 @@ levelMesh::levelMesh(string path, b2World& world)
                         for (unsigned int ik = 0; ik < Indices.size() - 1; ik++)
                         {
 
-                            int a, b, c;
+                            int a, b;
                             a = ik;
                             b = ik + 1;
 
-                            int face1a, face1b, face1c;
+                            int face1a, face1b;
                             face1a = *Indices[a];
                             face1b = *Indices[b];
 
@@ -99,11 +99,11 @@ levelMesh::levelMesh(string path, b2World& world)
                             vertex2.x = *vertices[(face1b) * 3 - 3];
                             vertex2.y = *vertices[(face1b) * 3 - 3 + 1];
 
-                            shape.SetTwoSided(b2Vec2(vertex1.x / PPM, vertex1.y / PPM), b2Vec2(vertex2.x / PPM, vertex2.y / PPM));
+                            shape.SetTwoSided(b2Vec2(vertex1.x / C_GlobalVariables::PPM, vertex1.y / C_GlobalVariables::PPM), b2Vec2(vertex2.x / C_GlobalVariables::PPM, vertex2.y / C_GlobalVariables::PPM));
                             ground->CreateFixture(&shape, 0.0f);
                         }
                         // finish off the complete shape, last indice connected to first indice.
-                        shape.SetTwoSided(b2Vec2(*vertices[*Indices.back() * 3 - 3] / PPM, *vertices[*Indices.back() * 3 - 3 + 1] / PPM), b2Vec2(*vertices[*Indices.front() * 3 - 3] / PPM, *vertices[*Indices.front() * 3 - 3 + 1] / PPM));
+                        shape.SetTwoSided(b2Vec2(*vertices[*Indices.back() * 3 - 3] / C_GlobalVariables::PPM, *vertices[*Indices.back() * 3 - 3 + 1] / C_GlobalVariables::PPM), b2Vec2(*vertices[*Indices.front() * 3 - 3] / C_GlobalVariables::PPM, *vertices[*Indices.front() * 3 - 3 + 1] / C_GlobalVariables::PPM));
                         ground->CreateFixture(&shape, 0.0f);
 
 

@@ -1,0 +1,39 @@
+
+
+#include "Ball.h"
+
+C_Ball::C_Ball(b2World* world, C_Player* _ownerOfThisBall, b2Vec2 _worldPosition, b2Vec2 _vectorVelocity) : Entity()
+{
+	Tx_MyBall.loadFromFile("Resources/images/Ball/Ball.png");
+
+	Spr_Ball.setTexture(Tx_MyBall);
+	Spr_Ball.setOrigin(Tx_MyBall.getSize().x/2.0f, Tx_MyBall.getSize().y / 2.0f);
+
+	//box2d setup
+	MyBox2d.DEF.type = b2_dynamicBody;
+	MyBox2d.DEF.position.Set(_worldPosition.x / C_GlobalVariables::PPM, _worldPosition.y / C_GlobalVariables::PPM);  // use spawn points for this.
+	MyBox2d.SHAPE.m_radius = (Tx_MyBall.getSize().x / 2.0f) / C_GlobalVariables::PPM;
+	MyBox2d.FIX.shape = &MyBox2d.SHAPE;
+	MyBox2d.FIX.density = 0.5f;
+	MyBox2d.FIX.friction = 0.5f;
+	MyBox2d.FIX.restitution = 0.9f;
+	MyBox2d.FIX.restitutionThreshold = 0.1f;
+	MyBox2d.BOD = world->CreateBody(&MyBox2d.DEF);
+	MyBox2d.BOD->CreateFixture(&MyBox2d.FIX);
+
+}
+
+void C_Ball::Draw()
+{
+
+}
+
+void C_Ball::Process(float dT)
+{
+	this->Spr_Ball.setPosition(this->MyBox2d.BOD->GetPosition().x * C_GlobalVariables::PPM, this->MyBox2d.BOD->GetPosition().y * C_GlobalVariables::PPM);
+}
+
+C_Ball::~C_Ball()
+{
+
+}

@@ -26,6 +26,8 @@
 //Library Includes
 #include <box2d.h>
 
+//local includes
+#include "GlobalVariables.h"
 
 namespace fs = std::filesystem;
 
@@ -46,7 +48,7 @@ private:
 	b2BodyDef bd;
 	b2EdgeShape shape;
 
-	const float PPM = 30.0f;
+	//const float PPM = 30.0f;
 };
 
 #endif // !_LEVEL_LOADER_
