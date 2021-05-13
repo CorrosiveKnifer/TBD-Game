@@ -100,7 +100,7 @@ void LogoScene::Update(float dt)
 	{
 		if (m_hasFinished)
 		{
-			SceneManager::GetInstance().TransitionTo(new c_Level_1());
+			SceneManager::GetInstance().TransitionTo(new MainMenuScene());
 			return;
 		}
 			
@@ -126,6 +126,7 @@ void LogoScene::SetLogo(sf::Sprite* sp)
 	{
 		delete m_logo;
 	}
+
 	m_logo = sp;
 	sf::Vector2f pos;
 	pos.x = (o_pRenderer->GetWindowSize().x - (sp->getTexture()->getSize().x * sp->getScale().x)) / 2;

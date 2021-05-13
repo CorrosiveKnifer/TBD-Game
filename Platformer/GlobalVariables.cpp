@@ -1,8 +1,8 @@
 
 #include "GlobalVariables.h"
 
-int C_GlobalVariables::ScreenSizeX = 1920;
-int C_GlobalVariables::ScreenSizeY = 1080;
+int C_GlobalVariables::ScreenSizeX = 1280;
+int C_GlobalVariables::ScreenSizeY = 720;
 
 float C_GlobalVariables::PPM = 30.0f;
 
@@ -15,4 +15,4 @@ float C_GlobalVariables::minimumSpeedForAnimJump = 0.01f;
 
 float  C_GlobalVariables::timeStep = 1 / 60.0f;
 
-int C_GlobalVariables::maxLives = 3, C_GlobalVariables::maxHealth=100;
+int C_GlobalVariables::maxLives = 3, C_GlobalVariables::maxHealth=100; // <- Michael "should be in player tbh"

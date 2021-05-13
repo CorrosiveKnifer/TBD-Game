@@ -35,8 +35,8 @@ public:
 	virtual void Draw();
 	virtual void Process(float dT);
 
-	sf::Sprite& GetSpriteLegs() { return Spr_Legs; }
-	sf::Sprite& GetSpr_UpperBody() { return Spr_UpperBody; }
+	//sf::Sprite& GetSpriteLegs() { return Spr_Legs; }
+	//sf::Sprite& GetSpr_UpperBody() { return Spr_UpperBody; }
 	sf::Sprite& GetSpriteBall() { return Spr_Ball_overlay; }
 
 private:
@@ -65,9 +65,11 @@ private:
 
 	enum Direction{facing_right, facing_upRight, facing_up, facing_upLeft, facing_left, facing_downLeft, facing_down, facing_downRight};
 	Direction MyDirection;
+	sf::Vector2i FaceDirection;
 
 	enum MovingDirection {moving_none, moving_right, moving_upRight, moving_up, moving_upLeft, moving_left, moving_downLeft, moving_down, moving_downRight };
 	MovingDirection MyMovingDirection;
+	sf::Vector2i MoveDirection;
 
 	bool mb_IsInvincible = false;
 	bool mb_PlayerHasBall = true;

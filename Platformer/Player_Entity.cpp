@@ -38,6 +38,7 @@ C_Player::C_Player(b2World* world,int _playerNumber, b2Vec2 _position) : Entity(
 		myBallColor = sf::Color::Yellow;
 	}
 
+	//Renderer can do this for you.
 	Tx_LegsIdle.loadFromFile(tempPath + "_0013_Legs_Idle.png");
 	Tx_LegsJump.loadFromFile(tempPath + "_0012_Legs_Jump.png");
 	Tx_LegsRun1.loadFromFile(tempPath + "_0009_Legs_Run_1.png");
@@ -85,13 +86,13 @@ C_Player::C_Player(b2World* world,int _playerNumber, b2Vec2 _position) : Entity(
 
 	MyDirection = facing_right;
 	MyMovingDirection = moving_none;
-
 }
 
 void C_Player::Draw()
 {
 	// draw legs, upperBody, ball.
-
+	Renderer::GetInstance().Draw(Spr_UpperBody);
+	Renderer::GetInstance().Draw(Spr_Legs);
 	// Ball overlay while being held by player
 	if (this->mb_PlayerHasBall == true)
 	{
@@ -140,83 +141,73 @@ void C_Player::Process(float dT)
 		}
 	}
 
-	// Upper body sprite
-	if (MyDirection == facing_right)
+	this->Spr_UpperBody.setScale((FaceDirection.x >= 0 ? 1.0f : -1.0f), 1.0f);
+
+	switch (MyDirection)
 	{
+	case C_Player::facing_right:
 		this->Spr_UpperBody.setTexture(this->Tx_UB_ThrowSide1);
-		this->Spr_UpperBody.setScale(1.0f, 1.0f);
-	}
-	if (MyDirection == facing_left)
-	{
-		this->Spr_UpperBody.setTexture(this->Tx_UB_ThrowSide1);
-		this->Spr_UpperBody.setScale(-1.0f, 1.0f);
-	}
-	if (MyDirection == facing_upRight)
-	{
+		break;
+	case C_Player::facing_upRight:
 		this->Spr_UpperBody.setTexture(this->Tx_UB_ThrowDiagUp1);
-		this->Spr_UpperBody.setScale(1.0f, 1.0f);
-	}
-	if (MyDirection == facing_upLeft)
-	{
-		this->Spr_UpperBody.setTexture(this->Tx_UB_ThrowDiagUp1);
-		this->Spr_UpperBody.setScale(-1.0f, 1.0f);
-	}
-	if (MyDirection == facing_up)
-	{
+		break;
+	case C_Player::facing_up:
 		this->Spr_UpperBody.setTexture(this->Tx_UB_ThrowUp1);
-		this->Spr_UpperBody.setScale(1.0f, 1.0f);
-	}
-	if (MyDirection == facing_down)
-	{
+		break;
+	case C_Player::facing_upLeft:
+		this->Spr_UpperBody.setTexture(this->Tx_UB_ThrowDiagUp1);
+		break;
+	case C_Player::facing_left:
+		this->Spr_UpperBody.setTexture(this->Tx_UB_ThrowSide1);
+		break;
+	case C_Player::facing_downLeft:
+		this->Spr_UpperBody.setTexture(this->Tx_UB_ThrowDiagDown1);
+		break;
+	case C_Player::facing_down:
 		this->Spr_UpperBody.setTexture(this->Tx_UB_ThrowDown1);
-		this->Spr_UpperBody.setScale(1.0f, 1.0f);
-	}
-	if (MyDirection == facing_downLeft)
-	{
+		break;
+	case C_Player::facing_downRight:
 		this->Spr_UpperBody.setTexture(this->Tx_UB_ThrowDiagDown1);
-		this->Spr_UpperBody.setScale(-1.0f, 1.0f);
+		break;
+	default:
+		break;
 	}
-	if (MyDirection == facing_downRight)
-	{
-		this->Spr_UpperBody.setTexture(this->Tx_UB_ThrowDiagDown1);
-		this->Spr_UpperBody.setScale(1.0f, 1.0f);
-	}
+
+	// Upper body sprite
+
 
 
 	// Ball overlay while being held by player
 	if (this->mb_PlayerHasBall == true)
 	{
-		if (MyDirection == facing_right)
+		switch (MyDirection)
 		{
-			this->Spr_Ball_overlay.setPosition(this->Spr_UpperBody.getPosition().x  - 27.f, this->Spr_UpperBody.getPosition().y - 23.f);
-		}
-		if (MyDirection == facing_left)
-		{
-			this->Spr_Ball_overlay.setPosition(this->Spr_UpperBody.getPosition().x + 27.f, this->Spr_UpperBody.getPosition().y - 23.f);
-		}
-		if (MyDirection == facing_upRight)
-		{
+		case C_Player::facing_right:
+			this->Spr_Ball_overlay.setPosition(this->Spr_UpperBody.getPosition().x - 27.f, this->Spr_UpperBody.getPosition().y - 23.f);
+			break;
+		case C_Player::facing_upRight:
 			this->Spr_Ball_overlay.setPosition(this->Spr_UpperBody.getPosition().x - 25.f, this->Spr_UpperBody.getPosition().y - 4.f);
-		}
-		if (MyDirection == facing_upLeft)
-		{
-			this->Spr_Ball_overlay.setPosition(this->Spr_UpperBody.getPosition().x + 25.f, this->Spr_UpperBody.getPosition().y - 4.f);
-		}
-		if (MyDirection == facing_up)
-		{
+			break;
+		case C_Player::facing_up:
 			this->Spr_Ball_overlay.setPosition(this->Spr_UpperBody.getPosition().x - 1.f, this->Spr_UpperBody.getPosition().y + 10.f);
-		}
-		if (MyDirection == facing_down)
-		{
-			this->Spr_Ball_overlay.setPosition(this->Spr_UpperBody.getPosition().x - 1.f, this->Spr_UpperBody.getPosition().y - 48.f);
-		}
-		if (MyDirection == facing_downLeft)
-		{
+			break;
+		case C_Player::facing_upLeft:
+			this->Spr_Ball_overlay.setPosition(this->Spr_UpperBody.getPosition().x + 25.f, this->Spr_UpperBody.getPosition().y - 4.f);
+			break;
+		case C_Player::facing_left:
+			this->Spr_Ball_overlay.setPosition(this->Spr_UpperBody.getPosition().x + 27.f, this->Spr_UpperBody.getPosition().y - 23.f);
+			break;
+		case C_Player::facing_downLeft:
 			this->Spr_Ball_overlay.setPosition(this->Spr_UpperBody.getPosition().x + 35.f, this->Spr_UpperBody.getPosition().y - 44.f);
-		}
-		if (MyDirection == facing_downRight)
-		{
+			break;
+		case C_Player::facing_down:
+			this->Spr_Ball_overlay.setPosition(this->Spr_UpperBody.getPosition().x - 1.f, this->Spr_UpperBody.getPosition().y - 48.f);
+			break;
+		case C_Player::facing_downRight:
 			this->Spr_Ball_overlay.setPosition(this->Spr_UpperBody.getPosition().x - 35.f, this->Spr_UpperBody.getPosition().y - 44.f);
+			break;
+		default:
+			break;
 		}
 	}
 	

@@ -57,15 +57,12 @@ c_Level_1::c_Level_1() : Scene()
 
 void c_Level_1::Draw()
 {
-	
 	o_pRenderer->Draw(backgroundSpr[0]);
 	o_pRenderer->Draw(backgroundSpr[1]);
 	o_pRenderer->Draw(backgroundSpr[2]);
 
 	for (auto it : MyPlayers)
 	{
-		o_pRenderer->Draw(it->GetSpriteLegs());
-		o_pRenderer->Draw(it->GetSpr_UpperBody());
 		o_pRenderer->Draw(it->GetSpriteBall());
 	}
 	
@@ -83,6 +80,7 @@ void c_Level_1::Update(float dT)
 	}
 	
 }
+
 c_Level_1::~c_Level_1()
 {
 	
