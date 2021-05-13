@@ -1,4 +1,14 @@
-﻿  Level_1.cpp
+﻿  Ball.cpp
+  GlobalVariables.cpp
+  LevelLoader.cpp
+  Level_1.cpp
+  Player_Entity.cpp
+  Renderer.cpp
+  Button.cpp
+  CheckBox.cpp
+  Entity.cpp
+  InputHandler.cpp
+  ListBox.cpp
   LogoScene.cpp
 G:\AA_Year_2_half\SW_Engineering\TBD-Game\Platformer\LogoScene.cpp(32,101): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
           with
@@ -20,6 +30,11 @@ G:\AA_Year_2_half\SW_Engineering\TBD-Game\Platformer\LogoScene.cpp(110,64): warn
           [
               T=float
           ]
-  Player_Entity.cpp
+  MainMenuScene.cpp
+  ScaleBar.cpp
+  Scene.cpp
+  SceneManager.cpp
+  Widget.cpp
+  winmain.cpp
   Generating Code...
   Platformer.vcxproj -> G:\AA_Year_2_half\SW_Engineering\TBD-Game\Debug\Platformer.exe
