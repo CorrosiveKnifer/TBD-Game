@@ -84,6 +84,7 @@ C_Player::C_Player(b2World* world,int _playerNumber, b2Vec2 _position) : Entity(
 	MyBox2d.FIX.density = 1.0f;
 	MyBox2d.FIX.friction = 1.0f;
 	MyBox2d.FIX.restitution = 0.001f;
+	MyBox2d.FIX.userData.pointer = reinterpret_cast<uintptr_t>(this);
 	MyBox2d.FIX.restitutionThreshold = 10.f;
 	MyBox2d.FIX.filter.categoryBits = C_GlobalVariables::GetCategoryFor(PlayerNumber);
 	MyBox2d.FIX.filter.maskBits = C_GlobalVariables::GetLayerMaskFor(PlayerNumber);
@@ -92,10 +93,16 @@ C_Player::C_Player(b2World* world,int _playerNumber, b2Vec2 _position) : Entity(
 
 	MyDirection = facing_right;
 	MyMovingDirection = moving_none;
+
+	m_immuneTimer = 2.0f;
 }
 
 void C_Player::Draw()
 {
+	if (m_isDead)
+	{
+		return;
+	}
 	// draw legs, upperBody, ball.
 	Renderer::GetInstance().Draw(Spr_UpperBody);
 	Renderer::GetInstance().Draw(Spr_Legs);
@@ -117,8 +124,26 @@ void C_Player::Process(float dT)
 	if(MyBall != nullptr)
 		MyBall->Process(dT);
 
-	HandleInput(dT);
+	if (m_isDead )
+	{
+		m_deathTimer += dT;
+		if (MyBox2d.BOD != nullptr)
+		{
+			MyBox2d.BOD->GetWorld()->DestroyBody(MyBox2d.BOD);
+			MyBox2d.BOD = nullptr;
+		}
+		//Destroy ball when dead
+		//if (MyBall != nullptr)
+		//{
+		//	delete MyBall;
+		//	MyBall = nullptr;
+		//}
+		return;
+	}
 
+	HandleInput(dT);
+	ProcessImmuneFrames(dT);
+	
 	this->Spr_Legs.setPosition(this->MyBox2d.BOD->GetPosition().x * C_GlobalVariables::PPM, this->MyBox2d.BOD->GetPosition().y * C_GlobalVariables::PPM);
 	this->Spr_UpperBody.setPosition(this->MyBox2d.BOD->GetPosition().x * C_GlobalVariables::PPM, this->MyBox2d.BOD->GetPosition().y * C_GlobalVariables::PPM);
 
@@ -269,6 +294,31 @@ void C_Player::Process(float dT)
 	}
 }
 
+void C_Player::HandleHit()
+{
+	if (!m_isDead)
+	{
+		m_isDead = true;
+		m_deathTimer = 0.0f;
+	}
+}
+
+void C_Player::Respawn(b2Vec2 position, b2World* world)
+{
+	m_immuneTimer = 3.0f;
+	MyBox2d.BOD = world->CreateBody(&MyBox2d.DEF);
+	MyBox2d.BOD->CreateFixture(&MyBox2d.FIX);
+	MyBox2d.BOD->SetTransform(position, 0);
+
+	m_isDead = false;
+
+	if (MyBall != nullptr)
+	{
+		delete MyBall;
+		MyBall = nullptr;
+	}
+}
+
 void C_Player::HandleInput(float dt)
 {
 	float xVelocity = MyBox2d.BOD->GetLinearVelocity().x * 0.8f; //0.8 for friction
@@ -351,6 +401,26 @@ void C_Player::HandleInput(float dt)
 		{
 			MyBox2d.BOD->ApplyLinearImpulseToCenter(b2Vec2(0, m_playerFallModifier * dt), true);
 		}
+	}
+}
+
+void C_Player::ProcessImmuneFrames(float dt)
+{
+	if (m_immuneTimer > 0)
+	{
+		m_immuneTimer -= dt;
+		float alpha = std::abs(std::sin(m_immuneTimer * m_immunityFramesSpeed)) * 255;
+		Spr_UpperBody.setColor(sf::Color(255, 255, 255, alpha));
+		Spr_Legs.setColor(sf::Color(255, 255, 255, alpha));
+		sf::Color ballCol = Spr_Ball_overlay.getColor();
+		Spr_Ball_overlay.setColor(sf::Color(ballCol.r, ballCol.g, ballCol.b, alpha));
+	}
+	else
+	{
+		Spr_UpperBody.setColor(sf::Color(255, 255, 255, 255));
+		Spr_Legs.setColor(sf::Color(255, 255, 255, 255));
+		sf::Color ballCol = Spr_Ball_overlay.getColor();
+		Spr_Ball_overlay.setColor(sf::Color(ballCol.r, ballCol.g, ballCol.b, 255));
 	}
 }
 

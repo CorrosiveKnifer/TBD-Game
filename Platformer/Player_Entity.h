@@ -28,19 +28,24 @@
 class C_Player : Entity
 {
 public:
-	C_Player(b2World* world,int _playerNumber,b2Vec2 _position);
+	C_Player(b2World* world,int _playerNumber, b2Vec2 _position);
 	virtual ~C_Player();
 
 	//Inheritance functions:
 	virtual void Draw();
 	virtual void Process(float dT);
+	virtual void HandleHit();
 
+	void Respawn(b2Vec2 position, b2World* world);
+	
 	//sf::Sprite& GetSpriteLegs() { return Spr_Legs; }
 	//sf::Sprite& GetSpr_UpperBody() { return Spr_UpperBody; }
 	sf::Sprite& GetSpriteBall() { return Spr_Ball_overlay; }
-
+	bool IsDead(float& outTimer) { outTimer = m_deathTimer; return m_isDead; };
+	virtual bool IsImmune() { return m_immuneTimer > 0; };
 private: 
 	void HandleInput(float dt);
+	void ProcessImmuneFrames(float dt);
 	void UpdateDirection(sf::Vector2i newFacingDirection);
 private:
 	// textures and sprites 
@@ -62,6 +67,7 @@ private:
 		b2FixtureDef FIX;
 		b2Body* BOD;
 	};
+
 	C_Ball* MyBall = nullptr;
 	body MyBox2d;
 
@@ -81,12 +87,17 @@ private:
 	float m_playerFallModifier = 75;
 	float m_playerGrabRange = 2.5f;
 
+	bool m_isDead = false;
+	float m_deathTimer = 0.0f;
 	bool mb_IsInvincible = false;
 	bool mb_PlayerHasBall = true;
 	bool m_isGrounded = false;
 	bool m_hasJumped = false;
 	int myHealth = C_GlobalVariables::maxHealth;
 	int myLives = C_GlobalVariables::maxLives;
+
+	float m_immuneTimer = 0.0f;
+	float m_immunityFramesSpeed = 2.0f;
 
 	float mf_Anim_ThrowTime = 0.2f;
 	float mf_Anim_ThrowTime_Timer = 0.0f;

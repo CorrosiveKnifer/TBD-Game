@@ -43,6 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Ball.h" />
+    <ClInclude Include="CollisionListener.h" />
     <ClInclude Include="GlobalVariables.h" />
     <ClInclude Include="LevelLoader.h" />
     <ClInclude Include="Level_1.h" />

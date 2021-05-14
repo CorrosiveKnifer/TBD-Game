@@ -164,6 +164,9 @@
     <ClInclude Include="RayCastClass.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CollisionListener.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="Platformer.rc">

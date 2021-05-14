@@ -17,10 +17,12 @@
 // local includes
 #include "InputHandler.h"
 #include "SceneManager.h"
-
+#include "CollisionListener.h"
 
 c_Level_1::c_Level_1() : Scene()
 {
+	world->SetContactListener(new CollisionListener());
+
 	// will use spawn point from file for this position info
 	MyPlayers.push_back( new C_Player(world, 1,b2Vec2(540.0f,168.0f))); // 1=red player
 	MyPlayers.push_back(new C_Player(world, 2, b2Vec2(1383.0f, 168.0f))); // player
@@ -78,7 +80,17 @@ void c_Level_1::Update(float dT)
 	{
 		it->Process(dT);
 	}
-	
+	for (auto it : MyPlayers)
+	{
+		float timer;
+		if (it->IsDead(timer))
+		{
+			if (timer >= 3.0f)
+			{
+				it->Respawn(b2Vec2(10, 10), world);
+			}
+		}
+	}
 }
 
 c_Level_1::~c_Level_1()

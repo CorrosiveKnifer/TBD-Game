@@ -36,7 +36,8 @@ public:
 	//Inheritance functions:
 	virtual void Draw() = 0;
 	virtual void Process(float dT) = 0;
-	
+	virtual void HandleHit() = 0;
+	virtual bool IsImmune() { return false; };
 
 	const sf::Vector2f GetWorldPosition() const;
 	const sf::Vector2f GetVelocity() const;

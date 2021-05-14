@@ -25,7 +25,7 @@
 // local includes
 #include "GlobalVariables.h"
 
-class C_Player;
+class Entity;
 
 class C_Ball : Entity
 {
@@ -36,6 +36,7 @@ public:
 	//Inheritance functions:
 	virtual void Draw();
 	virtual void Process(float dT);
+	virtual void HandleHit();
 
 	const b2Body* GetBody() { return MyBox2d.BOD; };
 private:
