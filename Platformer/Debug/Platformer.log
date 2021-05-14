@@ -1,1 +1,55 @@
-﻿C:\Program Files (x86)\Microsoft Visual Studio\2019\Community\MSBuild\Microsoft\VC\v160\Microsoft.Cpp.WindowsSDK.targets(46,5): error MSB8036: The Windows SDK version 10.0.18362.0 was not found. Install the required version of Windows SDK or change the SDK version in the project property pages or by right-clicking the solution and selecting "Retarget solution".
+﻿  Level_1.cpp
+  LogoScene.cpp
+D:\Programming\CorrosiveEngine\TBD-Game\Platformer\LogoScene.cpp(32,101): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+D:\Programming\CorrosiveEngine\TBD-Game\Platformer\LogoScene.cpp(32,64): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+D:\Programming\CorrosiveEngine\TBD-Game\Platformer\LogoScene.cpp(115,99): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+D:\Programming\CorrosiveEngine\TBD-Game\Platformer\LogoScene.cpp(115,64): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+  Player_Entity.cpp
+D:\Programming\CorrosiveEngine\TBD-Game\Platformer\Player_Entity.cpp(296,132): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+          with
+          [
+              T=int
+          ]
+D:\Programming\CorrosiveEngine\TBD-Game\Platformer\Player_Entity.cpp(296,115): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+          with
+          [
+              T=int
+          ]
+D:\Programming\CorrosiveEngine\TBD-Game\Platformer\Player_Entity.cpp(322,28): warning C4244: '=': conversion from 'float' to 'T', possible loss of data
+          with
+          [
+              T=int
+          ]
+D:\Programming\CorrosiveEngine\TBD-Game\Platformer\Player_Entity.cpp(326,27): warning C4244: '=': conversion from 'float' to 'T', possible loss of data
+          with
+          [
+              T=int
+          ]
+D:\Programming\CorrosiveEngine\TBD-Game\Platformer\Player_Entity.cpp(330,27): warning C4244: '=': conversion from 'float' to 'T', possible loss of data
+          with
+          [
+              T=int
+          ]
+D:\Programming\CorrosiveEngine\TBD-Game\Platformer\Player_Entity.cpp(334,28): warning C4244: '=': conversion from 'float' to 'T', possible loss of data
+          with
+          [
+              T=int
+          ]
+  Generating Code...
+  Platformer.vcxproj -> D:\Programming\CorrosiveEngine\TBD-Game\Debug\Platformer.exe

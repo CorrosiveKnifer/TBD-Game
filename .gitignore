@@ -32,3 +32,11 @@
 *.ipch
 .vs/Platformer/v16/.suo
 *.db
+*.log
+.vs/Platformer/v16/.suo
+.vs/Platformer/v16/.suo
+*.db
+*.ilk
+*.pdb
+*.idb
+*.pdb
