@@ -45,6 +45,8 @@ private:
 	sf::Sprite Spr_Ball;
 	sf::Color myBallColor;
 
+	float mf_SpeedModifier = 100.0f;
+
 	// box2d
 	struct body
 	{
