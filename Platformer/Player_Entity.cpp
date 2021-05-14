@@ -101,9 +101,15 @@ void C_Player::Draw()
 	Renderer::GetInstance().Draw(Spr_Legs);
 
 	if (MyBall != nullptr)
+	{
 		MyBall->Draw();
+	}
 	else
+	{
+		
 		Renderer::GetInstance().Draw(Spr_Ball_overlay);
+	}
+		
 
 	// Ball overlay while being held by player
 	if (this->mb_PlayerHasBall == true)
