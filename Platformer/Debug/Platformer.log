@@ -1,2 +1,40 @@
-﻿  Renderer.cpp
-  Platformer.vcxproj -> D:\Users\MDS00001XA\Desktop\Github\TBD-Game\Debug\Platformer.exe
+﻿  Ball.cpp
+  GlobalVariables.cpp
+  LevelLoader.cpp
+  Level_1.cpp
+  Player_Entity.cpp
+  Renderer.cpp
+  Button.cpp
+  CheckBox.cpp
+  Entity.cpp
+  InputHandler.cpp
+  ListBox.cpp
+  LogoScene.cpp
+G:\AA_Year_2_half\SW_Engineering\TBD-Game\Platformer\LogoScene.cpp(32,101): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+G:\AA_Year_2_half\SW_Engineering\TBD-Game\Platformer\LogoScene.cpp(32,64): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+G:\AA_Year_2_half\SW_Engineering\TBD-Game\Platformer\LogoScene.cpp(110,99): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+G:\AA_Year_2_half\SW_Engineering\TBD-Game\Platformer\LogoScene.cpp(110,64): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+  MainMenuScene.cpp
+  ScaleBar.cpp
+  Scene.cpp
+  SceneManager.cpp
+  Widget.cpp
+  winmain.cpp
+  Generating Code...
+  Platformer.vcxproj -> G:\AA_Year_2_half\SW_Engineering\TBD-Game\Debug\Platformer.exe
