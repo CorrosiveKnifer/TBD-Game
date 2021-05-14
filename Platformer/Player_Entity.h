@@ -44,7 +44,7 @@ private:
 	void UpdateDirection(sf::Vector2i newFacingDirection);
 private:
 	// textures and sprites 
-	sf::Texture Tx_LegsIdle, Tx_LegsJump, Tx_LegsRun1, Tx_LegsRun2, Tx_LegsRun3, Tx_LegsRun4;
+	sf::Texture Tx_LegsIdle, Tx_LegsJump, Tx_LegsRun[4];
 	sf::Texture Tx_UB_ThrowUp1, Tx_UB_ThrowUp2, Tx_UB_ThrowDown1, Tx_UB_ThrowDown2, Tx_UB_ThrowSide1, Tx_UB_ThrowSide2, Tx_UB_ThrowDiagUp1, Tx_UB_ThrowDiagUp2;
 	sf::Texture Tx_UB_ThrowDiagDown1, Tx_UB_ThrowDiagDown2, Tx_UB_Shield, Tx_UB_Victory;
 	
@@ -86,6 +86,11 @@ private:
 	int myHealth = C_GlobalVariables::maxHealth;
 	int myLives = C_GlobalVariables::maxLives;
 
+	float mf_Anim_ThrowTime = 0.2f;
+	float mf_Anim_ThrowTime_Timer = 0.0f;
+	float mf_Anim_RunSpeed = 0.15f;
+	float mf_Anim_RunSpeed_Timer = 0.0f;
+	int mi_Current_Leg_Frame = 0;
 	// add powerups
 	// add ball belonging to player (use pointer to this object)
 };

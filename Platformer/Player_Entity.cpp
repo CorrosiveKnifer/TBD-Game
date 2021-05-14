@@ -44,10 +44,10 @@ C_Player::C_Player(b2World* world,int _playerNumber, b2Vec2 _position) : Entity(
 	//Renderer can do this for you.
 	Tx_LegsIdle.loadFromFile(tempPath + "_0013_Legs_Idle.png");
 	Tx_LegsJump.loadFromFile(tempPath + "_0012_Legs_Jump.png");
-	Tx_LegsRun1.loadFromFile(tempPath + "_0009_Legs_Run_1.png");
-	Tx_LegsRun2.loadFromFile(tempPath + "_0011_Legs_Run_2.png");
-	Tx_LegsRun3.loadFromFile(tempPath + "_0010_Legs_Run_3.png");
-	Tx_LegsRun4.loadFromFile(tempPath + "_0011_Legs_Run_4.png");
+	Tx_LegsRun[0].loadFromFile(tempPath + "_0009_Legs_Run_1.png");
+	Tx_LegsRun[1].loadFromFile(tempPath + "_0011_Legs_Run_2.png");
+	Tx_LegsRun[2].loadFromFile(tempPath + "_0010_Legs_Run_3.png");
+	Tx_LegsRun[3].loadFromFile(tempPath + "_0011_Legs_Run_4.png");
 
 	Tx_UB_ThrowUp1.loadFromFile(tempPath + "_0001_Throw_Up_1.png");
 	Tx_UB_ThrowUp2.loadFromFile(tempPath + "_0000_Throw_Up_2.png");
@@ -127,23 +127,50 @@ void C_Player::Process(float dT)
 
 	if (this->MyBox2d.BOD->GetLinearVelocity().x < -C_GlobalVariables::minimumSpeedForAnim)
 	{
-		this->Spr_Legs.setTexture(this->Tx_LegsRun1);
-		this->Spr_Legs.setScale(-1.0f, 1.0f);
 		// setup running based on speed
+		mf_Anim_RunSpeed_Timer += dT;
+		if (mf_Anim_RunSpeed_Timer > mf_Anim_RunSpeed)
+		{
+			mi_Current_Leg_Frame++;
+			mf_Anim_RunSpeed_Timer = 0.0f;
+		}
+		if (mi_Current_Leg_Frame > 3) { mi_Current_Leg_Frame = 0; }
+		this->Spr_Legs.setTexture(this->Tx_LegsRun[mi_Current_Leg_Frame]);
+		this->Spr_Legs.setScale(-1.0f, 1.0f);
+		
 	}
 	if (this->MyBox2d.BOD->GetLinearVelocity().x > C_GlobalVariables::minimumSpeedForAnim)
 	{
-		this->Spr_Legs.setTexture(this->Tx_LegsRun1);
-		this->Spr_Legs.setScale(1.0f, 1.0f);
 		// setup running based on speed
+		mf_Anim_RunSpeed_Timer += dT;
+		if (mf_Anim_RunSpeed_Timer > mf_Anim_RunSpeed)
+		{
+			mi_Current_Leg_Frame++;
+			mf_Anim_RunSpeed_Timer = 0.0f;
+		}
+		if (mi_Current_Leg_Frame > 3) { mi_Current_Leg_Frame = 0; }
+		this->Spr_Legs.setTexture(this->Tx_LegsRun[mi_Current_Leg_Frame]);
+		this->Spr_Legs.setScale(1.0f, 1.0f);
+		
 	}
 
 	// stationary = Idle legs.
 	if (this->MyBox2d.BOD->GetLinearVelocity().x > -C_GlobalVariables::minimumSpeedForAnim && this->MyBox2d.BOD->GetLinearVelocity().x < C_GlobalVariables::minimumSpeedForAnim)
 	{
-		this->Spr_Legs.setTexture(this->Tx_LegsIdle);
-		this->Spr_Legs.setScale(1.0f, 1.0f);
+		if (MyDirection == C_Player::facing_right || MyDirection == C_Player::facing_upRight || MyDirection == C_Player::facing_downRight || MyDirection == C_Player::facing_down || MyDirection == C_Player::facing_up)
+		{
+			this->Spr_Legs.setTexture(this->Tx_LegsIdle);
+			this->Spr_Legs.setScale(1.0f, 1.0f);
+		}
+		else
+		{
+			this->Spr_Legs.setTexture(this->Tx_LegsIdle);
+			this->Spr_Legs.setScale(-1.0f, 1.0f);
+		}
 		
+		//reset
+		mi_Current_Leg_Frame = 0;
+		mf_Anim_RunSpeed_Timer = 0.0f;
 	}
 
 	// final -  override for legs if we are airborne
@@ -158,6 +185,9 @@ void C_Player::Process(float dT)
 		{
 			this->Spr_Legs.setScale(-1.0f, 1.0f);
 		}
+		//reset
+		mi_Current_Leg_Frame = 0;
+		mf_Anim_RunSpeed_Timer = 0.0f;
 	}
 
 	this->Spr_UpperBody.setScale((FaceDirection.x >= 0 ? 1.0f : -1.0f), 1.0f);
