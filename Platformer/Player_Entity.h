@@ -39,6 +39,9 @@ public:
 	//sf::Sprite& GetSpr_UpperBody() { return Spr_UpperBody; }
 	sf::Sprite& GetSpriteBall() { return Spr_Ball_overlay; }
 
+private: 
+	void HandleInput(float dt);
+	void UpdateDirection(sf::Vector2i newFacingDirection);
 private:
 	// textures and sprites 
 	sf::Texture Tx_LegsIdle, Tx_LegsJump, Tx_LegsRun1, Tx_LegsRun2, Tx_LegsRun3, Tx_LegsRun4;
@@ -71,9 +74,15 @@ private:
 	MovingDirection MyMovingDirection;
 	sf::Vector2i MoveDirection;
 
+	//Player Settings
+	float m_playerSpeed = 500;
+	float m_playerJumpForce = -800;
+	float m_playerFallModifier = 75;
+
 	bool mb_IsInvincible = false;
 	bool mb_PlayerHasBall = true;
-
+	bool m_isGrounded = false;
+	bool m_hasJumped = false;
 	int myHealth = C_GlobalVariables::maxHealth;
 	int myLives = C_GlobalVariables::maxLives;
 

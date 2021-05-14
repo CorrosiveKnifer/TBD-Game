@@ -37,6 +37,8 @@ public:
 	bool IsMousePressed(sf::Mouse::Button _button) { return sf::Mouse::isButtonPressed(_button);};
 	sf::Keyboard::Key IsAnyKeyPressed();
 	sf::Vector2i GetMousePosition();
+
+	void SwitchCharacter(int current);
 private:
 	InputHandler();
 	~InputHandler();
@@ -44,7 +46,8 @@ protected:
 
 	//Member data
 public:
-
+	int m_playerInControl = 1;
+	int m_playerNext = 1;
 private:
 	static InputHandler* sm_pInstance;
 

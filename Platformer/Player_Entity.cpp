@@ -10,7 +10,10 @@
 // Author         	: Sonja Fowler
 // Mail         	: sonja@alp.co.nz
 //
-#include"Player_Entity.h"
+
+#include "Player_Entity.h"
+#include "RayCastClass.h"
+#include <iostream>
 
 C_Player::C_Player(b2World* world,int _playerNumber, b2Vec2 _position) : Entity()
 {
@@ -74,6 +77,7 @@ C_Player::C_Player(b2World* world,int _playerNumber, b2Vec2 _position) : Entity(
 
 	//box2d setup
 	MyBox2d.DEF.type = b2_dynamicBody;
+	MyBox2d.DEF.fixedRotation = true;
 	MyBox2d.DEF.position.Set(_position.x / C_GlobalVariables::PPM, _position.y / C_GlobalVariables::PPM);  // use spawn points for this.
 	MyBox2d.SHAPE.SetAsBox(15 / C_GlobalVariables::PPM, 50 / C_GlobalVariables::PPM);
 	MyBox2d.FIX.shape = &MyBox2d.SHAPE;
@@ -102,10 +106,24 @@ void C_Player::Draw()
 
 void C_Player::Process(float dT)
 {
+	HandleInput(dT);
+
 	this->Spr_Legs.setPosition(this->MyBox2d.BOD->GetPosition().x * C_GlobalVariables::PPM, this->MyBox2d.BOD->GetPosition().y * C_GlobalVariables::PPM);
 	this->Spr_UpperBody.setPosition(this->MyBox2d.BOD->GetPosition().x * C_GlobalVariables::PPM, this->MyBox2d.BOD->GetPosition().y * C_GlobalVariables::PPM);
 
-	// optimize ->  this->MyBox2d.BOD->GetLinearVelocity().x  and for y
+	RayCastClass RayResult;
+	MyBox2d.BOD->GetWorld()->RayCast(&RayResult, MyBox2d.BOD->GetPosition(), MyBox2d.BOD->GetPosition() + b2Vec2(0, 2));
+	m_isGrounded = RayResult.rayHits.size() > 0;
+
+	//Wrap arround
+	if (this->MyBox2d.BOD->GetPosition().y * C_GlobalVariables::PPM > C_GlobalVariables::ScreenSizeY)
+	{
+		this->MyBox2d.BOD->SetTransform(b2Vec2(this->MyBox2d.BOD->GetPosition().x, 0), 0);
+	}
+	else if (this->MyBox2d.BOD->GetPosition().y * C_GlobalVariables::PPM < 0)
+	{
+		this->MyBox2d.BOD->SetTransform(b2Vec2(this->MyBox2d.BOD->GetPosition().x, C_GlobalVariables::ScreenSizeY / C_GlobalVariables::PPM), 0);
+	}
 
 	if (this->MyBox2d.BOD->GetLinearVelocity().x < -C_GlobalVariables::minimumSpeedForAnim)
 	{
@@ -127,6 +145,7 @@ void C_Player::Process(float dT)
 		this->Spr_Legs.setScale(1.0f, 1.0f);
 		
 	}
+
 	// final -  override for legs if we are airborne
 	if (this->MyBox2d.BOD->GetLinearVelocity().y > C_GlobalVariables::minimumSpeedForAnimJump || this->MyBox2d.BOD->GetLinearVelocity().y < -C_GlobalVariables::minimumSpeedForAnimJump)
 	{
@@ -174,9 +193,6 @@ void C_Player::Process(float dT)
 	}
 
 	// Upper body sprite
-
-
-
 	// Ball overlay while being held by player
 	if (this->mb_PlayerHasBall == true)
 	{
@@ -210,7 +226,129 @@ void C_Player::Process(float dT)
 			break;
 		}
 	}
-	
+}
+
+void C_Player::HandleInput(float dt)
+{
+	float xVelocity = MyBox2d.BOD->GetLinearVelocity().x * 0.8f; //0.8 for friction
+	if (xVelocity <= 0.05f && xVelocity >= -0.05f)
+	{
+		xVelocity = 0.0f;
+	}
+	float yVelocity = MyBox2d.BOD->GetLinearVelocity().y;
+	if (yVelocity <= 0.05f && yVelocity >= -0.05f)
+	{
+		yVelocity = 0.0f;
+	}
+	MyBox2d.BOD->SetLinearVelocity(b2Vec2(xVelocity, yVelocity));
+
+	if (PlayerNumber == InputHandler::GetInstance().m_playerInControl) //Lock only one character to move for now
+	{
+		//Switch active player
+		if (InputHandler::GetInstance().IsKeyPressed(sf::Keyboard::Tab))
+		{
+			InputHandler::GetInstance().SwitchCharacter(PlayerNumber);
+		}
+
+		float xAxis = 0.0f;
+		float yAxis = 0.0f;
+		if (InputHandler::GetInstance().IsKeyPressed(sf::Keyboard::D))
+		{
+			xAxis += 1.0f;
+		}
+		if (InputHandler::GetInstance().IsKeyPressed(sf::Keyboard::A))
+		{
+			xAxis -= 1.0f;
+		}
+
+		sf::Vector2i newFacingDirection;
+		if (InputHandler::GetInstance().IsKeyPressed(sf::Keyboard::Left))
+		{
+			newFacingDirection.x = -1.0f;
+		}
+		if (InputHandler::GetInstance().IsKeyPressed(sf::Keyboard::Right))
+		{
+			newFacingDirection.x = 1.0f;
+		}
+		if (InputHandler::GetInstance().IsKeyPressed(sf::Keyboard::Up))
+		{
+			newFacingDirection.y = 1.0f;
+		}
+		if (InputHandler::GetInstance().IsKeyPressed(sf::Keyboard::Down))
+		{
+			newFacingDirection.y = -1.0f;
+		}
+		UpdateDirection(newFacingDirection);
+		
+
+		if (InputHandler::GetInstance().IsKeyPressed(sf::Keyboard::Space) && m_isGrounded && !m_hasJumped)
+		{
+			yAxis += m_playerJumpForce;
+			m_hasJumped = true;
+		}
+		else if(m_isGrounded)
+		{
+			m_hasJumped = false;
+		}
+		MyBox2d.BOD->ApplyLinearImpulseToCenter(b2Vec2(xAxis * m_playerSpeed * dt, yAxis * dt), true);
+		std::cout << "< "<<MyBox2d.BOD->GetPosition().x << ", "<< MyBox2d.BOD->GetPosition().y << " >" << std::endl;
+
+		if (yVelocity > 0)
+		{
+			MyBox2d.BOD->ApplyLinearImpulseToCenter(b2Vec2(0, m_playerFallModifier * dt), true);
+		}
+	}
+}
+
+void C_Player::UpdateDirection(sf::Vector2i newFacingDirection)
+{
+	FaceDirection = newFacingDirection;
+	if (FaceDirection.x > 0.0f)
+	{
+		if (FaceDirection.y > 0.0f)
+		{
+			MyDirection = Direction::facing_upRight;
+		}
+		else if (FaceDirection.y < 0.0f)
+		{
+			MyDirection = Direction::facing_downRight;
+		}
+		else
+		{
+			MyDirection = Direction::facing_right;
+		}
+	}
+	else if (FaceDirection.x < 0.0f)
+	{
+
+		if (FaceDirection.y > 0.0f)
+		{
+			MyDirection = Direction::facing_upLeft;
+		}
+		else if (FaceDirection.y < 0.0f)
+		{
+			MyDirection = Direction::facing_downLeft;
+		}
+		else
+		{
+			MyDirection = Direction::facing_left;
+		}
+	}
+	else
+	{
+		if (FaceDirection.y > 0.0f)
+		{
+			MyDirection = Direction::facing_up;
+		}
+		else if (FaceDirection.y < 0.0f)
+		{
+			MyDirection = Direction::facing_down;
+		}
+		else
+		{
+			MyDirection = Direction::facing_right;
+		}
+	}
 }
 
 C_Player::~C_Player()

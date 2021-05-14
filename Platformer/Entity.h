@@ -19,15 +19,13 @@
 
 //Local Includes
 #include "Renderer.h"
+#include "InputHandler.h"
 
 //Implementation
 class Entity
 {
 	//Member Functions
 public:
-
-	//Platform Collision:
-	enum ColliderType { NONE, NORTH, EAST, WEST, SOUTH};
 
 	Entity();
 	virtual ~Entity();

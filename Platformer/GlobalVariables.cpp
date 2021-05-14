@@ -1,8 +1,8 @@
 
 #include "GlobalVariables.h"
 
-int C_GlobalVariables::ScreenSizeX = 1280;
-int C_GlobalVariables::ScreenSizeY = 720;
+int C_GlobalVariables::ScreenSizeX = 1980;
+int C_GlobalVariables::ScreenSizeY = 1020;
 
 float C_GlobalVariables::PPM = 30.0f;
 

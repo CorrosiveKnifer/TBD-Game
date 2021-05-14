@@ -74,6 +74,11 @@ void LogoScene::Draw()
 void LogoScene::Update(float dt)
 {
 	m_timePassed += dt;
+	if (InputHandler::GetInstance().IsMousePressed(sf::Mouse::Left))
+	{
+		SceneManager::GetInstance().TransitionTo(new c_Level_1());
+		return;
+	}
 
 	if (m_logo != 0)
 	{
@@ -100,7 +105,7 @@ void LogoScene::Update(float dt)
 	{
 		if (m_hasFinished)
 		{
-			SceneManager::GetInstance().TransitionTo(new MainMenuScene());
+			SceneManager::GetInstance().TransitionTo(new c_Level_1());
 			return;
 		}
 			
