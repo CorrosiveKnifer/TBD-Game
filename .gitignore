@@ -30,3 +30,5 @@
 *.app
 *.vs/Platformer/v16/*
 *.ipch
+.vs/Platformer/v16/.suo
+*.db
