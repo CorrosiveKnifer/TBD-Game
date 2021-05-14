@@ -85,6 +85,8 @@ C_Player::C_Player(b2World* world,int _playerNumber, b2Vec2 _position) : Entity(
 	MyBox2d.FIX.friction = 1.0f;
 	MyBox2d.FIX.restitution = 0.001f;
 	MyBox2d.FIX.restitutionThreshold = 10.f;
+	MyBox2d.FIX.filter.categoryBits = C_GlobalVariables::GetCategoryFor(PlayerNumber);
+	MyBox2d.FIX.filter.maskBits = C_GlobalVariables::GetLayerMaskFor(PlayerNumber);
 	MyBox2d.BOD = world->CreateBody(&MyBox2d.DEF);
 	MyBox2d.BOD->CreateFixture(&MyBox2d.FIX);
 
@@ -97,6 +99,12 @@ void C_Player::Draw()
 	// draw legs, upperBody, ball.
 	Renderer::GetInstance().Draw(Spr_UpperBody);
 	Renderer::GetInstance().Draw(Spr_Legs);
+
+	if (MyBall != nullptr)
+		MyBall->Draw();
+	else
+		Renderer::GetInstance().Draw(Spr_Ball_overlay);
+
 	// Ball overlay while being held by player
 	if (this->mb_PlayerHasBall == true)
 	{
@@ -106,6 +114,9 @@ void C_Player::Draw()
 
 void C_Player::Process(float dT)
 {
+	if(MyBall != nullptr)
+		MyBall->Process(dT);
+
 	HandleInput(dT);
 
 	this->Spr_Legs.setPosition(this->MyBox2d.BOD->GetPosition().x * C_GlobalVariables::PPM, this->MyBox2d.BOD->GetPosition().y * C_GlobalVariables::PPM);
@@ -249,7 +260,21 @@ void C_Player::HandleInput(float dt)
 		{
 			InputHandler::GetInstance().SwitchCharacter(PlayerNumber);
 		}
-
+		//Spawn Ball
+		if (InputHandler::GetInstance().IsKeyPressed(sf::Keyboard::E) && MyBall == nullptr)
+		{
+			MyBall = new C_Ball(MyBox2d.BOD->GetWorld(), PlayerNumber, Spr_Ball_overlay.getPosition(), b2Vec2(FaceDirection.x, FaceDirection.y));
+		}
+		if (InputHandler::GetInstance().IsKeyPressed(sf::Keyboard::LShift) && MyBall != nullptr)
+		{
+			b2Vec2 direction = MyBox2d.BOD->GetPosition() - MyBall->GetBody()->GetPosition();
+			float distance = direction.LengthSquared();
+			if (sqrtf(distance) < m_playerGrabRange)
+			{
+				delete MyBall;
+				MyBall = nullptr;
+			}
+		}
 		float xAxis = 0.0f;
 		float yAxis = 0.0f;
 		if (InputHandler::GetInstance().IsKeyPressed(sf::Keyboard::D))
@@ -279,7 +304,6 @@ void C_Player::HandleInput(float dt)
 			newFacingDirection.y = -1.0f;
 		}
 		UpdateDirection(newFacingDirection);
-		
 
 		if (InputHandler::GetInstance().IsKeyPressed(sf::Keyboard::Space) && m_isGrounded && !m_hasJumped)
 		{

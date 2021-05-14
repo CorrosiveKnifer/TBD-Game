@@ -1,22 +1,55 @@
-﻿  Player_Entity.cpp
-D:\Programming\CorrosiveEngine\TBD-Game\Platformer\Player_Entity.cpp(267,28): warning C4244: '=': conversion from 'float' to 'T', possible loss of data
+﻿  Level_1.cpp
+  LogoScene.cpp
+D:\Programming\CorrosiveEngine\TBD-Game\Platformer\LogoScene.cpp(32,101): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+D:\Programming\CorrosiveEngine\TBD-Game\Platformer\LogoScene.cpp(32,64): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+D:\Programming\CorrosiveEngine\TBD-Game\Platformer\LogoScene.cpp(115,99): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+D:\Programming\CorrosiveEngine\TBD-Game\Platformer\LogoScene.cpp(115,64): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
+          with
+          [
+              T=float
+          ]
+  Player_Entity.cpp
+D:\Programming\CorrosiveEngine\TBD-Game\Platformer\Player_Entity.cpp(266,132): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
           with
           [
               T=int
           ]
-D:\Programming\CorrosiveEngine\TBD-Game\Platformer\Player_Entity.cpp(271,27): warning C4244: '=': conversion from 'float' to 'T', possible loss of data
+D:\Programming\CorrosiveEngine\TBD-Game\Platformer\Player_Entity.cpp(266,115): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
           with
           [
               T=int
           ]
-D:\Programming\CorrosiveEngine\TBD-Game\Platformer\Player_Entity.cpp(275,27): warning C4244: '=': conversion from 'float' to 'T', possible loss of data
+D:\Programming\CorrosiveEngine\TBD-Game\Platformer\Player_Entity.cpp(292,28): warning C4244: '=': conversion from 'float' to 'T', possible loss of data
           with
           [
               T=int
           ]
-D:\Programming\CorrosiveEngine\TBD-Game\Platformer\Player_Entity.cpp(279,28): warning C4244: '=': conversion from 'float' to 'T', possible loss of data
+D:\Programming\CorrosiveEngine\TBD-Game\Platformer\Player_Entity.cpp(296,27): warning C4244: '=': conversion from 'float' to 'T', possible loss of data
           with
           [
               T=int
           ]
+D:\Programming\CorrosiveEngine\TBD-Game\Platformer\Player_Entity.cpp(300,27): warning C4244: '=': conversion from 'float' to 'T', possible loss of data
+          with
+          [
+              T=int
+          ]
+D:\Programming\CorrosiveEngine\TBD-Game\Platformer\Player_Entity.cpp(304,28): warning C4244: '=': conversion from 'float' to 'T', possible loss of data
+          with
+          [
+              T=int
+          ]
+  Generating Code...
   Platformer.vcxproj -> D:\Programming\CorrosiveEngine\TBD-Game\Debug\Platformer.exe

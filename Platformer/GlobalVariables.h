@@ -19,6 +19,8 @@ public:
 
 	static int maxLives, maxHealth;
 
+	static uint16 GetCategoryFor(unsigned int playerID);
+	static uint16 GetLayerMaskFor(unsigned int playerID);
 private:
 	C_GlobalVariables();
 

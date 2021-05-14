@@ -30,15 +30,16 @@ class C_Player;
 class C_Ball : Entity
 {
 public:
-	C_Ball(b2World* world, C_Player* _ownerOfThisBall, b2Vec2 _worldPosition, b2Vec2 _vectorVelocity);
+	C_Ball(b2World* world, unsigned int playerID, sf::Vector2f _worldPosition, b2Vec2 _vectorVelocity);
 	virtual ~C_Ball();
 
 	//Inheritance functions:
 	virtual void Draw();
 	virtual void Process(float dT);
 
+	const b2Body* GetBody() { return MyBox2d.BOD; };
 private:
-	C_Player* OwnerOfThisBall;
+	unsigned int myPlayerID;
 
 	// the ball graphics
 	sf::Texture Tx_MyBall;
@@ -55,6 +56,7 @@ private:
 		b2FixtureDef FIX;
 		b2Body* BOD;
 	};
+
 	body MyBox2d;
 };
 

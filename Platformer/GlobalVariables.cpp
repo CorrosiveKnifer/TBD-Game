@@ -1,4 +1,3 @@
-
 #include "GlobalVariables.h"
 
 int C_GlobalVariables::ScreenSizeX = 1980;
@@ -16,3 +15,13 @@ float C_GlobalVariables::minimumSpeedForAnimJump = 0.01f;
 float  C_GlobalVariables::timeStep = 1 / 60.0f;
 
 int C_GlobalVariables::maxLives = 3, C_GlobalVariables::maxHealth=100; // <- Michael "should be in player tbh"
+
+uint16 C_GlobalVariables::GetCategoryFor(unsigned int playerID)
+{
+	return uint16(powf(2, playerID)); //Bit representation of the layer
+}
+
+uint16 C_GlobalVariables::GetLayerMaskFor(unsigned int playerID)
+{
+    return ~uint16(powf(2, playerID)); //('~' = Everything except for) the player's bit
+}

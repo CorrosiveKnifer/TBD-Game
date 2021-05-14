@@ -21,7 +21,7 @@
 
 // parent include
 #include "Entity.h"
-
+#include "Ball.h"
 // local includes
 #include "GlobalVariables.h"
 
@@ -62,6 +62,7 @@ private:
 		b2FixtureDef FIX;
 		b2Body* BOD;
 	};
+	C_Ball* MyBall = nullptr;
 	body MyBox2d;
 
 	int PlayerNumber; //1,2,3,4  1=Red, 2=Green, 3= Blue,4=Yellow.
@@ -78,6 +79,7 @@ private:
 	float m_playerSpeed = 500;
 	float m_playerJumpForce = -800;
 	float m_playerFallModifier = 75;
+	float m_playerGrabRange = 2.5f;
 
 	bool mb_IsInvincible = false;
 	bool mb_PlayerHasBall = true;

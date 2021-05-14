@@ -64,7 +64,6 @@ void c_Level_1::Draw()
 	for (auto it : MyPlayers)
 	{
 		it->Draw();
-		o_pRenderer->Draw(it->GetSpriteBall());
 	}
 	
 }
