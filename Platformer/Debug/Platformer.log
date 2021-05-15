@@ -1,6 +1,50 @@
 ﻿  Ball.cpp
-  Entity.cpp
+  GlobalVariables.cpp
+D:\Programming\CorrosiveEngine\TBD-Game\Platformer\GlobalVariables.cpp(21,24): warning C4244: 'argument': conversion from 'unsigned int' to 'float', possible loss of data
+D:\Programming\CorrosiveEngine\TBD-Game\Platformer\GlobalVariables.cpp(26,28): warning C4244: 'argument': conversion from 'unsigned int' to 'float', possible loss of data
+  LevelLoader.cpp
   Level_1.cpp
+  Player_Entity.cpp
+D:\Programming\CorrosiveEngine\TBD-Game\Platformer\Player_Entity.cpp(352,132): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+          with
+          [
+              T=int
+          ]
+D:\Programming\CorrosiveEngine\TBD-Game\Platformer\Player_Entity.cpp(352,115): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+          with
+          [
+              T=int
+          ]
+D:\Programming\CorrosiveEngine\TBD-Game\Platformer\Player_Entity.cpp(378,28): warning C4244: '=': conversion from 'float' to 'T', possible loss of data
+          with
+          [
+              T=int
+          ]
+D:\Programming\CorrosiveEngine\TBD-Game\Platformer\Player_Entity.cpp(382,27): warning C4244: '=': conversion from 'float' to 'T', possible loss of data
+          with
+          [
+              T=int
+          ]
+D:\Programming\CorrosiveEngine\TBD-Game\Platformer\Player_Entity.cpp(386,27): warning C4244: '=': conversion from 'float' to 'T', possible loss of data
+          with
+          [
+              T=int
+          ]
+D:\Programming\CorrosiveEngine\TBD-Game\Platformer\Player_Entity.cpp(390,28): warning C4244: '=': conversion from 'float' to 'T', possible loss of data
+          with
+          [
+              T=int
+          ]
+D:\Programming\CorrosiveEngine\TBD-Game\Platformer\Player_Entity.cpp(419,51): warning C4244: 'argument': conversion from 'float' to 'sf::Uint8', possible loss of data
+D:\Programming\CorrosiveEngine\TBD-Game\Platformer\Player_Entity.cpp(420,46): warning C4244: 'argument': conversion from 'float' to 'sf::Uint8', possible loss of data
+D:\Programming\CorrosiveEngine\TBD-Game\Platformer\Player_Entity.cpp(422,72): warning C4244: 'argument': conversion from 'float' to 'sf::Uint8', possible loss of data
+  Renderer.cpp
+  Button.cpp
+  CheckBox.cpp
+  Entity.cpp
+  iniParser.cpp
+  InputHandler.cpp
+  ListBox.cpp
   LogoScene.cpp
 D:\Programming\CorrosiveEngine\TBD-Game\Platformer\LogoScene.cpp(32,101): warning C4244: 'argument': conversion from 'int' to 'T', possible loss of data
           with
@@ -22,39 +66,15 @@ D:\Programming\CorrosiveEngine\TBD-Game\Platformer\LogoScene.cpp(115,64): warnin
           [
               T=float
           ]
-  Player_Entity.cpp
-D:\Programming\CorrosiveEngine\TBD-Game\Platformer\Player_Entity.cpp(346,132): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
-          with
-          [
-              T=int
-          ]
-D:\Programming\CorrosiveEngine\TBD-Game\Platformer\Player_Entity.cpp(346,115): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
-          with
-          [
-              T=int
-          ]
-D:\Programming\CorrosiveEngine\TBD-Game\Platformer\Player_Entity.cpp(372,28): warning C4244: '=': conversion from 'float' to 'T', possible loss of data
-          with
-          [
-              T=int
-          ]
-D:\Programming\CorrosiveEngine\TBD-Game\Platformer\Player_Entity.cpp(376,27): warning C4244: '=': conversion from 'float' to 'T', possible loss of data
-          with
-          [
-              T=int
-          ]
-D:\Programming\CorrosiveEngine\TBD-Game\Platformer\Player_Entity.cpp(380,27): warning C4244: '=': conversion from 'float' to 'T', possible loss of data
-          with
-          [
-              T=int
-          ]
-D:\Programming\CorrosiveEngine\TBD-Game\Platformer\Player_Entity.cpp(384,28): warning C4244: '=': conversion from 'float' to 'T', possible loss of data
-          with
-          [
-              T=int
-          ]
-D:\Programming\CorrosiveEngine\TBD-Game\Platformer\Player_Entity.cpp(413,51): warning C4244: 'argument': conversion from 'float' to 'sf::Uint8', possible loss of data
-D:\Programming\CorrosiveEngine\TBD-Game\Platformer\Player_Entity.cpp(414,46): warning C4244: 'argument': conversion from 'float' to 'sf::Uint8', possible loss of data
-D:\Programming\CorrosiveEngine\TBD-Game\Platformer\Player_Entity.cpp(416,72): warning C4244: 'argument': conversion from 'float' to 'sf::Uint8', possible loss of data
+  MainMenuScene.cpp
+  ScaleBar.cpp
+  Scene.cpp
+  SceneManager.cpp
+  SoundBuffer.cpp
+  SpriteMap.cpp
+  Widget.cpp
+  Generating Code...
+  Compiling...
+  winmain.cpp
   Generating Code...
   Platformer.vcxproj -> D:\Programming\CorrosiveEngine\TBD-Game\Debug\Platformer.exe
