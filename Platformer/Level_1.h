@@ -29,6 +29,7 @@
 // local includes
 #include "LevelLoader.h"
 #include "Player_Entity.h"
+#include "Powerup.h"
 
 
 class c_Level_1 : public Scene
@@ -44,13 +45,18 @@ public:
 	
 	b2World* world = new b2World(C_GlobalVariables::Gravity);
 
+
 private:
 	// collision info
 	vector<levelMesh*> myLevel1Meshes;
 	std::string path = "Resources/levels/level_1";
 	vector<string> dirList;
-	
-	
+
+	// spawn points
+	std::string pathSpawn = "Resources/levels/level_1_SpawnInfo";
+	vector<b2Vec2> myPlayerSpawnPoints;
+	vector<b2Vec2> myPowerUpSpawnPoints;
+	b2Vec2 myPowerUpWaterfall;
 	
 	// Level Graphics
 	sf::Texture backgroundTex[3];
@@ -59,6 +65,8 @@ private:
 	// Players
 	vector<C_Player*> MyPlayers;
 
+	// powerups
+	vector<C_PowerUp*> myPowerUps;
 
 };
 

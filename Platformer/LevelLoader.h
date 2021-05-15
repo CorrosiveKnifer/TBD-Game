@@ -25,6 +25,7 @@
 
 //Library Includes
 #include <box2d.h>
+#include <SFML/Graphics.hpp>
 
 //local includes
 #include "GlobalVariables.h"
@@ -38,6 +39,7 @@ class levelMesh
 public:
 	levelMesh(string path, b2World& world);
 	~levelMesh() {};
+	static void levelSpawnPoints(string path, vector<b2Vec2>& myPlayerSpawnPoints, vector<b2Vec2>& myPowerUpSpawnPoints, b2Vec2 &_specialPowerUp);
 
 	vector <float*> vertices;
 	vector <int*> Indices;

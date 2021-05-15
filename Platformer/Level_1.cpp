@@ -21,11 +21,6 @@
 
 c_Level_1::c_Level_1() : Scene()
 {
-	// will use spawn point from file for this position info
-	MyPlayers.push_back( new C_Player(world, 1,b2Vec2(540.0f,168.0f))); // 1=red player
-	MyPlayers.push_back(new C_Player(world, 2, b2Vec2(1383.0f, 168.0f))); // player
-	MyPlayers.push_back(new C_Player(world, 3, b2Vec2(405.0f, 660.0f))); // player
-	MyPlayers.push_back(new C_Player(world, 4, b2Vec2(1521.0f, 660.0f))); // player
 
 	// level load for colliders from 3d .obj file
 	for (const auto& entry : fs::directory_iterator(path))
@@ -52,6 +47,32 @@ c_Level_1::c_Level_1() : Scene()
 	backgroundSpr[1].setTexture(backgroundTex[1]);
 	backgroundSpr[2].setTexture(backgroundTex[2]);
 
+
+	// load in spawn points for players and powerups
+
+	for (const auto& entry : fs::directory_iterator(pathSpawn))
+	{
+		std::string fName = entry.path().string();
+		cout << fName << endl;
+		levelMesh::levelSpawnPoints(fName, myPlayerSpawnPoints , myPowerUpSpawnPoints, myPowerUpWaterfall);
+		
+	}
+	// update for how many players playing ---------------------------------------<<<<<<<
+	MyPlayers.push_back(new C_Player(world, 1, myPlayerSpawnPoints[0])); // player
+	MyPlayers.push_back(new C_Player(world, 2, myPlayerSpawnPoints[1])); // player
+	MyPlayers.push_back(new C_Player(world, 3, myPlayerSpawnPoints[2])); // player
+	MyPlayers.push_back(new C_Player(world, 4, myPlayerSpawnPoints[3])); // player
+
+	// create powerups
+	for (unsigned int i = 0; i < 4; i++)
+	{
+		myPowerUps.push_back(new C_PowerUp(world, myPowerUpSpawnPoints[i],i+1));
+	}
+	myPowerUps.push_back(new C_PowerUp(world, myPowerUpWaterfall, 5));
+	for (unsigned int i = 4; i < myPowerUpSpawnPoints.size(); i++)
+	{
+		myPowerUps.push_back(new C_PowerUp(world, myPowerUpSpawnPoints[i], 4));
+	}
 }
 
 
@@ -62,6 +83,10 @@ void c_Level_1::Draw()
 	o_pRenderer->Draw(backgroundSpr[2]);
 
 	for (auto it : MyPlayers)
+	{
+		it->Draw();
+	}
+	for (auto it : myPowerUps)
 	{
 		it->Draw();
 	}
@@ -78,7 +103,10 @@ void c_Level_1::Update(float dT)
 	{
 		it->Process(dT);
 	}
-	
+	for (auto it : myPowerUps)
+	{
+		it->Process(dT);
+	}
 }
 
 c_Level_1::~c_Level_1()

@@ -24,6 +24,7 @@
     <ClCompile Include="LevelLoader.cpp" />
     <ClCompile Include="Level_1.cpp" />
     <ClCompile Include="Player_Entity.cpp" />
+    <ClCompile Include="Powerup.cpp" />
     <ClCompile Include="Renderer.cpp" />
     <ClCompile Include="Button.cpp" />
     <ClCompile Include="CheckBox.cpp" />
@@ -47,6 +48,7 @@
     <ClInclude Include="LevelLoader.h" />
     <ClInclude Include="Level_1.h" />
     <ClInclude Include="Player_Entity.h" />
+    <ClInclude Include="Powerup.h" />
     <ClInclude Include="RayCastClass.h" />
     <ClInclude Include="Renderer.h" />
     <ClInclude Include="Button.h" />
