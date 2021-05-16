@@ -23,12 +23,6 @@ c_Level_1::c_Level_1() : Scene()
 {
 	world->SetContactListener(new CollisionListener());
 
-	// will use spawn point from file for this position info
-	MyPlayers.push_back( new C_Player(world, 1,b2Vec2(540.0f,168.0f))); // 1=red player
-	MyPlayers.push_back(new C_Player(world, 2, b2Vec2(1383.0f, 168.0f))); // player
-	MyPlayers.push_back(new C_Player(world, 3, b2Vec2(405.0f, 660.0f))); // player
-	MyPlayers.push_back(new C_Player(world, 4, b2Vec2(1521.0f, 660.0f))); // player
-
 	// level load for colliders from 3d .obj file
 	for (const auto& entry : fs::directory_iterator(path))
 	{
@@ -64,6 +58,7 @@ c_Level_1::c_Level_1() : Scene()
 		levelMesh::levelSpawnPoints(fName, myPlayerSpawnPoints , myPowerUpSpawnPoints, myPowerUpWaterfall);
 		
 	}
+	
 	// update for how many players playing ---------------------------------------<<<<<<<
 	MyPlayers.push_back(new C_Player(world, 1, myPlayerSpawnPoints[0])); // player
 	MyPlayers.push_back(new C_Player(world, 2, myPlayerSpawnPoints[1])); // player
