@@ -21,6 +21,9 @@ public:
 
 	static uint16 GetCategoryFor(unsigned int playerID);
 	static uint16 GetLayerMaskFor(unsigned int playerID);
+
+	static int Player_1_Score, Player_2_Score, Player_3_Score, Player_4_Score;
+
 private:
 	C_GlobalVariables();
 

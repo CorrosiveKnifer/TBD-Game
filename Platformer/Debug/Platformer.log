@@ -1,2 +1,4 @@
-﻿  Level_1.cpp
-  Platformer.vcxproj -> G:\AA_Year_2_half\SW_Engineering\TBD-Game\Debug\Platformer.exe
+﻿  GlobalVariables.cpp
+D:\Users\mds00001z2\Documents\GitHub\TBD-Game\Platformer\GlobalVariables.cpp(21,24): warning C4244: 'argument': conversion from 'unsigned int' to 'float', possible loss of data
+D:\Users\mds00001z2\Documents\GitHub\TBD-Game\Platformer\GlobalVariables.cpp(26,28): warning C4244: 'argument': conversion from 'unsigned int' to 'float', possible loss of data
+  Platformer.vcxproj -> D:\Users\mds00001z2\Documents\GitHub\TBD-Game\Debug\Platformer.exe
