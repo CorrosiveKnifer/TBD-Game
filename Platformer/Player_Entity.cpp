@@ -300,9 +300,9 @@ void C_Player::Process(float dT)
 	}
 }
 
-void C_Player::HandleHit()
+void C_Player::HandleHit(Entity* other)
 {
-	if (!m_isDead)
+	if (!m_isDead && !IsImmune())
 	{
 		m_isDead = true;
 		m_deathTimer = 0.0f;
@@ -322,6 +322,20 @@ void C_Player::Respawn(b2Vec2 position, b2World* world)
 	{
 		delete MyBall;
 		MyBall = nullptr;
+	}
+}
+
+void C_Player::ApplyPowerUp(PowerUpType type)
+{
+	switch (type)
+	{
+	case NONE:
+		break;
+	case SPEED:
+		m_playerSpeed *= 1.1f;
+		break;
+	default:
+		break;
 	}
 }
 
@@ -350,6 +364,7 @@ void C_Player::HandleInput(float dt)
 		if (InputHandler::GetInstance().IsKeyPressed(sf::Keyboard::E) && MyBall == nullptr)
 		{
 			MyBall = new C_Ball(MyBox2d.BOD->GetWorld(), PlayerNumber, Spr_Ball_overlay.getPosition(), b2Vec2(FaceDirection.x, FaceDirection.y));
+			m_immuneTimer = 0.0f;
 		}
 		if (InputHandler::GetInstance().IsKeyPressed(sf::Keyboard::LShift) && MyBall != nullptr)
 		{

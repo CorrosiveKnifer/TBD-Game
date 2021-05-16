@@ -90,7 +90,7 @@ void C_Ball::Process(float dT)
 	}
 }
 
-void C_Ball::HandleHit()
+void C_Ball::HandleHit(Entity* other)
 {
 	MyBox2d.BOD->SetLinearVelocity(b2Vec2(0, 0));
 }

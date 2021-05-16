@@ -3,10 +3,19 @@
 #include <typeinfo>
 #include "Player_Entity.h"
 #include "Ball.h"
+#include "Powerup.h"
 
 class CollisionListener : public b2ContactListener
 {
 public:
+	enum EntityType
+	{
+		NONE	= 0x0000,
+		PLAYER	= 0x0001,
+		BALL	= 0x0002,
+		POWERUP = 0x0004,
+	};
+
 	virtual void BeginContact(b2Contact* contact)
 	{
 		Entity* entityA = reinterpret_cast<Entity*>(contact->GetFixtureA()->GetUserData().pointer);
@@ -14,27 +23,27 @@ public:
 
 		if (entityA == nullptr || entityB == nullptr)
 			return;
-
-		if (typeid(*entityA) == typeid(C_Player) && typeid(*entityB) == typeid(C_Player))
-			return;
-		if (typeid(*entityA) == typeid(C_Ball) && typeid(*entityB) == typeid(C_Ball))
+		if (typeid(*entityA) == typeid(*entityB))
 			return;
 		
-		if (typeid(*entityA) == typeid(C_Player) && typeid(*entityB) == typeid(C_Ball))
+		uint16 caseNo = GetType(entityA) | GetType(entityB);
+
+		if (caseNo == (EntityType::PLAYER | EntityType::BALL))
 		{
-			if (!entityA->IsImmune())
-			{
-				entityA->HandleHit();
-				entityB->HandleHit();
-			}
+			entityA->HandleHit(entityB);
+			entityB->HandleHit(entityA);
 			return;
 		}
-		if (typeid(*entityA) == typeid(C_Ball) && typeid(*entityB) == typeid(C_Player))
+
+		if (caseNo == (EntityType::PLAYER | EntityType::POWERUP))
 		{
-			if (!entityB->IsImmune())
+			if (GetType(entityA) == EntityType::PLAYER)
 			{
-				entityB->HandleHit();
-				entityA->HandleHit();
+				entityB->HandleHit(entityA);
+			}
+			else
+			{
+				entityA->HandleHit(entityB);
 			}
 			return;
 		}
@@ -52,23 +61,14 @@ public:
 
 		if (entityA == nullptr || entityB == nullptr)
 			return;
-
-		if (typeid(*entityA) == typeid(C_Player) && typeid(*entityB) == typeid(C_Player))
-			return;
-		if (typeid(*entityA) == typeid(C_Ball) && typeid(*entityB) == typeid(C_Ball))
+		if (typeid(*entityA) == typeid(*entityB))
 			return;
 
-		if (typeid(*entityA) == typeid(C_Player) && typeid(*entityB) == typeid(C_Ball))
+		uint16 caseNo = GetType(entityA) | GetType(entityB);
+
+		if (caseNo & (EntityType::PLAYER | EntityType::BALL))
 		{
-			if(entityA->IsImmune())
-			{
-				contact->SetEnabled(false);
-			}
-			return;
-		}
-		if (typeid(*entityA) == typeid(C_Ball) && typeid(*entityB) == typeid(C_Player))
-		{
-			if (entityB->IsImmune())
+			if (entityA->IsImmune() || entityB->IsImmune())
 			{
 				contact->SetEnabled(false);
 			}
@@ -79,5 +79,26 @@ public:
 	virtual void PostSolve(b2Contact* contact, const b2ContactImpulse* impulse) 
 	{
 
+	}
+
+	uint16 GetType(Entity* entity)
+	{
+		if (entity == nullptr)
+			return EntityType::NONE;
+
+		if (typeid(*entity) == typeid(C_Player))
+		{
+			return EntityType::PLAYER;
+		}
+		if (typeid(*entity) == typeid(C_Ball))
+		{
+			return EntityType::BALL;
+		}
+		if (typeid(*entity) == typeid(C_PowerUp))
+		{
+			return EntityType::POWERUP;
+		}
+
+		return EntityType::NONE;
 	}
 };

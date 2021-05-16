@@ -1,6 +1,5 @@
-
-
 #include "Powerup.h"
+#include "Player_Entity.h"
 
 C_PowerUp::C_PowerUp(b2World* world, b2Vec2 _worldPosition,unsigned int _PU_typeID)
 {
@@ -52,6 +51,7 @@ C_PowerUp::C_PowerUp(b2World* world, b2Vec2 _worldPosition,unsigned int _PU_type
 	MyBox2d.FIX.friction = 0.5f;
 	MyBox2d.FIX.restitution = 0.9f;
 	MyBox2d.FIX.restitutionThreshold = 0.4f;
+	MyBox2d.FIX.userData.pointer = reinterpret_cast<uintptr_t>(this);
 	//MyBox2d.FIX.filter.categoryBits = C_GlobalVariables::GetCategoryFor(playerID);
 	//MyBox2d.FIX.filter.maskBits = C_GlobalVariables::GetLayerMaskFor(playerID);
 	MyBox2d.BOD = world->CreateBody(&MyBox2d.DEF);
@@ -80,6 +80,11 @@ void C_PowerUp::Process(float dT)
 	}
 	this->myColor.a += this->mi_Powerup_FlashDirection * this->mf_Powerup_FlashingTimer * this->mf_Powerup_Flashing;
 	this->Spr_PowerUp_Top.setColor(this->myColor);
+}
+
+void C_PowerUp::HandleHit(Entity* other)
+{
+	reinterpret_cast<C_Player*>(other)->ApplyPowerUp(PowerUpType::SPEED);
 }
 
 C_PowerUp::~C_PowerUp()

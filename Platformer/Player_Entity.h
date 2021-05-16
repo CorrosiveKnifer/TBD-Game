@@ -22,6 +22,8 @@
 // parent include
 #include "Entity.h"
 #include "Ball.h"
+#include "Powerup.h"
+
 // local includes
 #include "GlobalVariables.h"
 
@@ -34,10 +36,10 @@ public:
 	//Inheritance functions:
 	virtual void Draw();
 	virtual void Process(float dT);
-	virtual void HandleHit();
+	virtual void HandleHit(Entity* other);
 
 	void Respawn(b2Vec2 position, b2World* world);
-	
+	void ApplyPowerUp(PowerUpType type);
 	//sf::Sprite& GetSpriteLegs() { return Spr_Legs; }
 	//sf::Sprite& GetSpr_UpperBody() { return Spr_UpperBody; }
 	sf::Sprite& GetSpriteBall() { return Spr_Ball_overlay; }
