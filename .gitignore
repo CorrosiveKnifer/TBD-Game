@@ -36,3 +36,6 @@
 *.ilk
 *.pdb
 *.idb
+
+*/Debug/*
+*/Release/*
