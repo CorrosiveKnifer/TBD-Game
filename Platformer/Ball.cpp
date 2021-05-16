@@ -35,7 +35,7 @@ C_Ball::C_Ball(b2World* world, unsigned int playerID, sf::Vector2f _worldPositio
 	MyBox2d.FIX.density = 0.5f;
 	MyBox2d.FIX.friction = 0.5f;
 	MyBox2d.FIX.restitution = 0.9f;
-	MyBox2d.FIX.restitutionThreshold = 0.1f;
+	MyBox2d.FIX.restitutionThreshold = 0.4f;
 	MyBox2d.FIX.filter.categoryBits = C_GlobalVariables::GetCategoryFor(playerID);
 	MyBox2d.FIX.filter.maskBits = C_GlobalVariables::GetLayerMaskFor(playerID);
 	MyBox2d.FIX.userData.pointer = reinterpret_cast<uintptr_t>(this);

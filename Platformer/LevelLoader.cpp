@@ -115,3 +115,56 @@ levelMesh::levelMesh(string path, b2World& world)
         myfile.close();
     }
 }
+
+void levelMesh::levelSpawnPoints(string path, vector<b2Vec2>& myPlayerSpawnPoints, vector<b2Vec2>& myPowerUpSpawnPoints, b2Vec2& _specialPowerUp)
+{
+    string line;
+
+    streampos begin, end;
+    ifstream myfile(path);
+
+    if (myfile.is_open())
+    {
+        while (getline(myfile, line))
+        {
+            std::size_t foundSpawn = line.find("spawn");
+
+            if (foundSpawn != string::npos)
+            {
+                foundSpawn = line.find(" ");
+                std::size_t foundComma = line.find(",");
+                string posX = line.substr(foundSpawn+1, foundComma - (foundSpawn+1));
+                foundSpawn = line.find(" ", foundComma);
+                string posY = line.substr(foundComma + 1, foundSpawn - foundComma);
+
+                myPlayerSpawnPoints.push_back(b2Vec2(stoi(posX), stoi(posY)));
+            }
+
+            std::size_t foundPowerUp = line.find("PU");
+
+            if (foundPowerUp != string::npos)
+            {
+                foundPowerUp = line.find(" ");
+                std::size_t foundComma = line.find(",");
+                string posX = line.substr(foundPowerUp + 1, foundComma - (foundPowerUp + 1));
+                foundPowerUp = line.find(" ", foundComma);
+                string posY = line.substr(foundComma + 1, foundPowerUp - foundComma);
+
+                myPowerUpSpawnPoints.push_back(b2Vec2(stoi(posX), stoi(posY)));
+            }
+
+            std::size_t foundSpecial = line.find("SPECIAL");
+
+            if (foundSpecial != string::npos)
+            {
+                foundSpecial = line.find(" ");
+                std::size_t foundComma = line.find(",");
+                string posX = line.substr(foundSpecial + 1, foundComma - (foundSpecial + 1));
+                foundSpecial = line.find(" ", foundComma);
+                string posY = line.substr(foundComma + 1, foundSpecial - foundComma);
+
+                _specialPowerUp = b2Vec2(stoi(posX), stoi(posY));
+            }
+        }
+    }
+}
