@@ -41,7 +41,6 @@ public:
 
 	virtual void Draw();
 	virtual void Update(float dT);
-
 	
 	b2World* world = new b2World(C_GlobalVariables::Gravity);
 

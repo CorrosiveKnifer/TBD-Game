@@ -36,7 +36,7 @@ public:
 	//Inheritance functions:
 	virtual void Draw();
 	virtual void Process(float dT);
-	virtual void HandleHit();
+	virtual void HandleHit(Entity* other);
 
 	const b2Body* GetBody() { return MyBox2d.BOD; };
 private:

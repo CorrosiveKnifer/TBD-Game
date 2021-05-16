@@ -27,6 +27,12 @@
 
 class C_Player;
 
+enum PowerUpType
+{
+	NONE,
+	SPEED,
+};
+
 class C_PowerUp : Entity
 {
 public:
@@ -36,12 +42,12 @@ public:
 	//Inheritance functions:
 	virtual void Draw();
 	virtual void Process(float dT);
-	virtual void HandleHit() {};
+	virtual void HandleHit(Entity* other);
 
 	const b2Body* GetBody() { return MyBox2d.BOD; };
 
 private:
-
+	bool m_hasBeenUsed = false;
 	// the ball graphics
 	sf::Texture Tx_PowerupBottom, Tx_PowerupTop;
 	sf::Sprite Spr_PowerUp_Bottom, Spr_PowerUp_Top;
