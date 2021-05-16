@@ -95,6 +95,7 @@ private:
 	bool m_hasJumped = false;
 	int myHealth = C_GlobalVariables::maxHealth;
 	int myLives = C_GlobalVariables::maxLives;
+	int myScore;
 
 	float m_immuneTimer = 0.0f;
 	float m_immunityFramesSpeed = 2.0f;
@@ -104,8 +105,8 @@ private:
 	float mf_Anim_RunSpeed = 0.15f;
 	float mf_Anim_RunSpeed_Timer = 0.0f;
 	int mi_Current_Leg_Frame = 0;
-	// add powerups
-	// add ball belonging to player (use pointer to this object)
+	
+
 };
 
 #endif
