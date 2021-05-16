@@ -14,7 +14,9 @@ float C_GlobalVariables::minimumSpeedForAnimJump = 0.01f;
 
 float  C_GlobalVariables::timeStep = 1 / 60.0f;
 
-int C_GlobalVariables::maxLives = 3, C_GlobalVariables::maxHealth=100; // <- Michael "should be in player tbh"
+int C_GlobalVariables::maxLives = 3, C_GlobalVariables::maxHealth=100; 
+
+int C_GlobalVariables::Player_1_Score = 0, C_GlobalVariables::Player_2_Score = 0, C_GlobalVariables::Player_3_Score = 0, C_GlobalVariables::Player_4_Score = 0;
 
 uint16 C_GlobalVariables::GetCategoryFor(unsigned int playerID)
 {

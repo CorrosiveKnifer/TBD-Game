@@ -93,6 +93,23 @@ void C_Ball::Process(float dT)
 void C_Ball::HandleHit(Entity* other)
 {
 	MyBox2d.BOD->SetLinearVelocity(b2Vec2(0, 0));
+
+	// player scoring
+	switch (myPlayerID) 
+	{
+	case 1:
+		C_GlobalVariables::Player_1_Score += 100;
+		break;
+	case 2:
+		C_GlobalVariables::Player_2_Score += 100;
+		break;
+	case 3:
+		C_GlobalVariables::Player_3_Score += 100;
+		break;
+	case 4:
+		C_GlobalVariables::Player_4_Score += 100;
+		break;
+	}
 }
 
 C_Ball::~C_Ball()

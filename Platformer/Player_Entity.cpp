@@ -24,21 +24,25 @@ C_Player::C_Player(b2World* world,int _playerNumber, b2Vec2 _position) : Entity(
 	{
 		tempPath = "Resources/images/Characters/Finals_Red_Sized/";
 		myBallColor = sf::Color::Red;
+		myScore = C_GlobalVariables::Player_1_Score;
 	}
 	if (PlayerNumber == 2)
 	{
 		tempPath = "Resources/images/Characters/Finals_GREEN_Sized/";
 		myBallColor = sf::Color::Green;
+		myScore = C_GlobalVariables::Player_2_Score;
 	}
 	if (PlayerNumber == 3)
 	{
 		tempPath = "Resources/images/Characters/Finals_BLUE_Sized/";
 		myBallColor = sf::Color::Blue;
+		myScore = C_GlobalVariables::Player_3_Score;
 	}
 	if (PlayerNumber == 4)
 	{
 		tempPath = "Resources/images/Characters/Finals_YELLOW_sized/";
 		myBallColor = sf::Color::Yellow;
+		myScore = C_GlobalVariables::Player_4_Score;
 	}
 
 	//Renderer can do this for you.
