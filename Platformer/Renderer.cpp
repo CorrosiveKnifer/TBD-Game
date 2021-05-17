@@ -320,7 +320,6 @@ void Renderer::Draw(const sf::Drawable& _object)
 void Renderer::DrawAt(const sf::Drawable& _object, sf::Vector2f _position)
 {
 	sf::Transform trans(1, 0, _position.x, 0, 1, _position.y, 0, 0, 1);
-	
 	PushTransform(trans);
 	m_pWindow->draw(_object, m_transform);
 	PopTransform(trans);

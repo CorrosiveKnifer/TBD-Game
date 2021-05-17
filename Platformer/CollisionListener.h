@@ -21,11 +21,6 @@ public:
 	{
 		Entity* entityA = reinterpret_cast<Entity*>(contact->GetFixtureA()->GetUserData().pointer);
 		Entity* entityB = reinterpret_cast<Entity*>(contact->GetFixtureB()->GetUserData().pointer);
-
-		if (entityA == nullptr || entityB == nullptr)
-			return;
-		if (typeid(*entityA) == typeid(*entityB))
-			return;
 		
 		uint16 caseNo = GetType(entityA) | GetType(entityB);
 
@@ -55,6 +50,18 @@ public:
 			C_Player* entityTempPlayer = reinterpret_cast<C_Player*>(entityA);
 			entityTempPlayer->TakeLife();
 
+			return;
+		}
+		if (caseNo & EntityType::BALL)
+		{
+			if (GetType(entityA) == EntityType::BALL)
+			{
+				entityA->HandleHit(nullptr);
+			}
+			else
+			{
+				entityB->HandleHit(nullptr);
+			}
 			return;
 		}
 	}

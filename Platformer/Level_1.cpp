@@ -116,11 +116,11 @@ c_Level_1::c_Level_1() : Scene()
 	// Str_UI_Player_Stats[4]; -> in Draw
 
 	// powerup textures for playerCollected powerup UI
-	Tx_PowerUps[0].loadFromFile("Resources/images/powerups/pu_fastRun_2.png");
-	Tx_PowerUps[1].loadFromFile("Resources/images/powerups/pu_railShot_2.png");
-	Tx_PowerUps[2].loadFromFile("Resources/images/powerups/pu_shield_2.png");
-	Tx_PowerUps[3].loadFromFile("Resources/images/powerups/pu_tripleShot_2.png");
-	Tx_PowerUps[4].loadFromFile("Resources/images/powerups/pu_NONE.png");
+	Tx_PowerUps[0].loadFromFile("Resources/images/powerups/pu_NONE.png");
+	Tx_PowerUps[1].loadFromFile("Resources/images/powerups/pu_fastRun_2.png");
+	Tx_PowerUps[2].loadFromFile("Resources/images/powerups/pu_tripleShot_2.png");
+	Tx_PowerUps[3].loadFromFile("Resources/images/powerups/pu_shield_2.png");
+	Tx_PowerUps[4].loadFromFile("Resources/images/powerups/pu_railShot_2.png");
 	Tx_PowerUps[5].loadFromFile("Resources/images/powerups/pu_waterfall_1.png");
 	
 	Spr_MyCollectedPowerUp[0].setTexture(Tx_PowerUps[4]);
@@ -175,102 +175,129 @@ void c_Level_1::Update(float dT)
 	for (auto it : MyPlayers)
 	{
 		it->Process(dT);
-		// refactor this code later - below
-		if (it->myPowerupType == SPEED)
-		{
-			if (it->GetPlayerID() == 1)
-			{
-				Spr_MyCollectedPowerUp[0].setTexture(Tx_PowerUps[0]);
-			}
-			if (it->GetPlayerID() == 2)
-			{
-				Spr_MyCollectedPowerUp[1].setTexture(Tx_PowerUps[0]);
-			}
-			if (it->GetPlayerID() == 3)
-			{
-				Spr_MyCollectedPowerUp[2].setTexture(Tx_PowerUps[0]);
-			}
-			if (it->GetPlayerID() == 4)
-			{
-				Spr_MyCollectedPowerUp[3].setTexture(Tx_PowerUps[0]);
-			}
-		}
-		if (it->myPowerupType == RAILSHOT)
-		{
-			if (it->GetPlayerID() == 1)
-			{
-				Spr_MyCollectedPowerUp[0].setTexture(Tx_PowerUps[1]);
-			}
-			if (it->GetPlayerID() == 2)
-			{
-				Spr_MyCollectedPowerUp[1].setTexture(Tx_PowerUps[1]);
-			}
-			if (it->GetPlayerID() == 3)
-			{
-				Spr_MyCollectedPowerUp[2].setTexture(Tx_PowerUps[1]);
-			}
-			if (it->GetPlayerID() == 4)
-			{
-				Spr_MyCollectedPowerUp[3].setTexture(Tx_PowerUps[1]);
-			}
-		}
-		if (it->myPowerupType == SHIELD)
-		{
-			if (it->GetPlayerID() == 1)
-			{
-				Spr_MyCollectedPowerUp[0].setTexture(Tx_PowerUps[2]);
-			}
-			if (it->GetPlayerID() == 2)
-			{
-				Spr_MyCollectedPowerUp[1].setTexture(Tx_PowerUps[2]);
-			}
-			if (it->GetPlayerID() == 3)
-			{
-				Spr_MyCollectedPowerUp[2].setTexture(Tx_PowerUps[2]);
-			}
-			if (it->GetPlayerID() == 4)
-			{
-				Spr_MyCollectedPowerUp[3].setTexture(Tx_PowerUps[2]);
-			}
-		}
-		if (it->myPowerupType == TRIPLESHOT)
-		{
-			if (it->GetPlayerID() == 1)
-			{
-				Spr_MyCollectedPowerUp[0].setTexture(Tx_PowerUps[3]);
-			}
-			if (it->GetPlayerID() == 2)
-			{
-				Spr_MyCollectedPowerUp[1].setTexture(Tx_PowerUps[3]);
-			}
-			if (it->GetPlayerID() == 3)
-			{
-				Spr_MyCollectedPowerUp[2].setTexture(Tx_PowerUps[3]);
-			}
-			if (it->GetPlayerID() == 4)
-			{
-				Spr_MyCollectedPowerUp[3].setTexture(Tx_PowerUps[3]);
-			}
-		}
-		if (it->myPowerupType == WATERFALL)
-		{
-			if (it->GetPlayerID() == 1)
-			{
-				Spr_MyCollectedPowerUp[0].setTexture(Tx_PowerUps[5]);
-			}
-			if (it->GetPlayerID() == 2)
-			{
-				Spr_MyCollectedPowerUp[1].setTexture(Tx_PowerUps[5]);
-			}
-			if (it->GetPlayerID() == 3)
-			{
-				Spr_MyCollectedPowerUp[2].setTexture(Tx_PowerUps[5]);
-			}
-			if (it->GetPlayerID() == 4)
-			{
-				Spr_MyCollectedPowerUp[3].setTexture(Tx_PowerUps[5]);
-			}
-		}
+
+		Spr_MyCollectedPowerUp[it->GetPlayerID() - 1].setTexture(Tx_PowerUps[it->GetPowerUpType()]);
+		//if (it->GetPowerUpType() == NONE)
+		//{
+		//	if (it->GetPlayerID() == 1)
+		//	{
+		//		Spr_MyCollectedPowerUp[0].setTexture(Tx_PowerUps[4]);
+		//	}
+		//	if (it->GetPlayerID() == 2)
+		//	{
+		//		Spr_MyCollectedPowerUp[1].setTexture(Tx_PowerUps[4]);
+		//	}
+		//	if (it->GetPlayerID() == 3)
+		//	{
+		//		Spr_MyCollectedPowerUp[2].setTexture(Tx_PowerUps[4]);
+		//	}
+		//	if (it->GetPlayerID() == 4)
+		//	{
+		//		Spr_MyCollectedPowerUp[3].setTexture(Tx_PowerUps[4]);
+		//	}
+		//	continue;
+		//}
+		//// refactor this code later - below
+		//if (it->GetPowerUpType() == SPEED)
+		//{
+		//	if (it->GetPlayerID() == 1)
+		//	{
+		//		Spr_MyCollectedPowerUp[0].setTexture(Tx_PowerUps[0]);
+		//	}
+		//	if (it->GetPlayerID() == 2)
+		//	{
+		//		Spr_MyCollectedPowerUp[1].setTexture(Tx_PowerUps[0]);
+		//	}
+		//	if (it->GetPlayerID() == 3)
+		//	{
+		//		Spr_MyCollectedPowerUp[2].setTexture(Tx_PowerUps[0]);
+		//	}
+		//	if (it->GetPlayerID() == 4)
+		//	{
+		//		Spr_MyCollectedPowerUp[3].setTexture(Tx_PowerUps[0]);
+		//	}
+		//	continue;
+		//}
+		//if (it->GetPowerUpType() == RAILSHOT)
+		//{
+		//	if (it->GetPlayerID() == 1)
+		//	{
+		//		Spr_MyCollectedPowerUp[0].setTexture(Tx_PowerUps[1]);
+		//	}
+		//	if (it->GetPlayerID() == 2)
+		//	{
+		//		Spr_MyCollectedPowerUp[1].setTexture(Tx_PowerUps[1]);
+		//	}
+		//	if (it->GetPlayerID() == 3)
+		//	{
+		//		Spr_MyCollectedPowerUp[2].setTexture(Tx_PowerUps[1]);
+		//	}
+		//	if (it->GetPlayerID() == 4)
+		//	{
+		//		Spr_MyCollectedPowerUp[3].setTexture(Tx_PowerUps[1]);
+		//	}
+		//	continue;
+		//}
+		//if (it->GetPowerUpType() == SHIELD)
+		//{
+		//	if (it->GetPlayerID() == 1)
+		//	{
+		//		Spr_MyCollectedPowerUp[0].setTexture(Tx_PowerUps[2]);
+		//	}
+		//	if (it->GetPlayerID() == 2)
+		//	{
+		//		Spr_MyCollectedPowerUp[1].setTexture(Tx_PowerUps[2]);
+		//	}
+		//	if (it->GetPlayerID() == 3)
+		//	{
+		//		Spr_MyCollectedPowerUp[2].setTexture(Tx_PowerUps[2]);
+		//	}
+		//	if (it->GetPlayerID() == 4)
+		//	{
+		//		Spr_MyCollectedPowerUp[3].setTexture(Tx_PowerUps[2]);
+		//	}
+		//	continue;
+		//}
+		//if (it->GetPowerUpType() == TRIPLESHOT)
+		//{
+		//	if (it->GetPlayerID() == 1)
+		//	{
+		//		Spr_MyCollectedPowerUp[0].setTexture(Tx_PowerUps[3]);
+		//	}
+		//	if (it->GetPlayerID() == 2)
+		//	{
+		//		Spr_MyCollectedPowerUp[1].setTexture(Tx_PowerUps[3]);
+		//	}
+		//	if (it->GetPlayerID() == 3)
+		//	{
+		//		Spr_MyCollectedPowerUp[2].setTexture(Tx_PowerUps[3]);
+		//	}
+		//	if (it->GetPlayerID() == 4)
+		//	{
+		//		Spr_MyCollectedPowerUp[3].setTexture(Tx_PowerUps[3]);
+		//	}
+		//	continue;
+		//}
+		//if (it->GetPowerUpType() == WATERFALL)
+		//{
+		//	if (it->GetPlayerID() == 1)
+		//	{
+		//		Spr_MyCollectedPowerUp[0].setTexture(Tx_PowerUps[5]);
+		//	}
+		//	if (it->GetPlayerID() == 2)
+		//	{
+		//		Spr_MyCollectedPowerUp[1].setTexture(Tx_PowerUps[5]);
+		//	}
+		//	if (it->GetPlayerID() == 3)
+		//	{
+		//		Spr_MyCollectedPowerUp[2].setTexture(Tx_PowerUps[5]);
+		//	}
+		//	if (it->GetPlayerID() == 4)
+		//	{
+		//		Spr_MyCollectedPowerUp[3].setTexture(Tx_PowerUps[5]);
+		//	}
+		//	continue;
+		//}
 	}
 	for (auto it : MyPlayers)
 	{
