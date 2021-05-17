@@ -12,7 +12,7 @@ C_Ball::C_Ball(b2World* world, unsigned int playerID, sf::Vector2f _worldPositio
 	myPlayerID = playerID;
 	if (myPlayerID == 1) { Spr_Ball.setColor(sf::Color::Red); }
 	if (myPlayerID == 2) { Spr_Ball.setColor(sf::Color::Green); }
-	if (myPlayerID == 3) { Spr_Ball.setColor(sf::Color::Blue); }
+	if (myPlayerID == 3) { Spr_Ball.setColor(sf::Color(0, 150, 255, 255)); }
 	if (myPlayerID == 4) { Spr_Ball.setColor(sf::Color::Yellow); }
 
 	// create a position ahead of the overlay ball for creation.
@@ -23,12 +23,13 @@ C_Ball::C_Ball(b2World* world, unsigned int playerID, sf::Vector2f _worldPositio
 
 	_vectorVelocity.Normalize();
 
+	// place the ball out infront to avoid instantiating inside walls.
 	_worldPosition.x += 20.0f * _vectorVelocity.x;
 	_worldPosition.y += 20.0f * _vectorVelocity.y;
 
 	//box2d setup
 	MyBox2d.DEF.type = b2_dynamicBody;
-	MyBox2d.DEF.position.Set(_worldPosition.x / C_GlobalVariables::PPM, _worldPosition.y / C_GlobalVariables::PPM);  // use spawn points for this.
+	MyBox2d.DEF.position.Set(_worldPosition.x / C_GlobalVariables::PPM, _worldPosition.y / C_GlobalVariables::PPM);
 	MyBox2d.DEF.bullet = true;
 	MyBox2d.SHAPE.m_radius = (Tx_MyBall.getSize().x / 2.0f) / C_GlobalVariables::PPM;
 	MyBox2d.FIX.shape = &MyBox2d.SHAPE;
@@ -46,6 +47,7 @@ C_Ball::C_Ball(b2World* world, unsigned int playerID, sf::Vector2f _worldPositio
 	_vectorVelocity.x += _vectorVelocity.x * mf_SpeedModifier;
 	_vectorVelocity.y += -_vectorVelocity.y * mf_SpeedModifier;
 
+	m_bounceCount = m_bounceMax;
 	MyBox2d.BOD->SetLinearVelocity(_vectorVelocity);
 }
 
@@ -73,6 +75,11 @@ void C_Ball::Draw()
 	this->Spr_Ball.setScale(1.0f, 1.0f);
 	this->Spr_Ball.setColor(tempColor);
 	Renderer::GetInstance().Draw(this->Spr_Ball);
+
+	Renderer::GetInstance().SetFontSize(25);
+	Renderer::GetInstance().SetColour(sf::Color(255, 255, 255));
+	Renderer::GetInstance().SetFontAlign(Align::Centre);
+	Renderer::GetInstance().DrawTextToWorld(std::to_string(m_bounceCount), Spr_Ball.getPosition().x - 5, Spr_Ball.getPosition().y - 17.5);
 }
 
 void C_Ball::Process(float dT)
@@ -88,11 +95,42 @@ void C_Ball::Process(float dT)
 	{
 		this->MyBox2d.BOD->SetTransform(b2Vec2(this->MyBox2d.BOD->GetPosition().x, C_GlobalVariables::ScreenSizeY / C_GlobalVariables::PPM), 0);
 	}
+	if (m_bounceCount == 0)
+	{
+		b2Vec2 velBefore = MyBox2d.BOD->GetLinearVelocity();
+		MyBox2d.BOD->SetLinearVelocity(b2Vec2(0, velBefore.y));
+	}
 }
 
 void C_Ball::HandleHit(Entity* other)
 {
-	MyBox2d.BOD->SetLinearVelocity(b2Vec2(0, 0));
+	if (other != nullptr)
+	{
+		// player scoring
+		switch (myPlayerID)
+		{
+		case 1:
+			C_GlobalVariables::Player_1_Score += 100;
+			break;
+		case 2:
+			C_GlobalVariables::Player_2_Score += 100;
+			break;
+		case 3:
+			C_GlobalVariables::Player_3_Score += 100;
+			break;
+		case 4:
+			C_GlobalVariables::Player_4_Score += 100;
+			break;
+		}
+	}
+
+	if (m_bounceCount > 0)
+	{
+		m_bounceCount--;
+		float ratio = (float)(m_bounceCount+1) / (m_bounceMax+1);
+		b2Vec2 velBefore = MyBox2d.BOD->GetLinearVelocity();
+		MyBox2d.BOD->SetLinearVelocity(b2Vec2(velBefore.x * ratio, velBefore.y * ratio));
+	}	
 }
 
 C_Ball::~C_Ball()

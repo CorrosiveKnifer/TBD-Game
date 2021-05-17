@@ -41,7 +41,9 @@ public:
 
 	virtual void Draw();
 	virtual void Update(float dT);
-	
+	virtual void DestroyEntity(Entity* entity);
+
+	void PostUpdate();
 	b2World* world = new b2World(C_GlobalVariables::Gravity);
 
 
@@ -60,13 +62,21 @@ private:
 	// Level Graphics
 	sf::Texture backgroundTex[3];
 	sf::Sprite backgroundSpr[3];
+	sf::Font myFont;
 
 	// Players
 	vector<C_Player*> MyPlayers;
+	// player UI icons
+	sf::Texture TX_UI_Player_Icons[4];
+	sf::Sprite  SPR_UI_Player_Icons[4];
+	sf::Text Text_UI_Player_Stats[4];
+	sf::String Str_UI_Player_Stats[4];
+	sf::Texture Tx_PowerUps[6];
+	sf::Sprite Spr_MyCollectedPowerUp[4];
 
 	// powerups
 	vector<C_PowerUp*> myPowerUps;
-
+	vector<Entity*> m_toRemove;
 };
 
 #endif // !_LEVEL_1_

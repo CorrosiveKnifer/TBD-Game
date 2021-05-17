@@ -24,21 +24,25 @@ C_Player::C_Player(b2World* world,int _playerNumber, b2Vec2 _position) : Entity(
 	{
 		tempPath = "Resources/images/Characters/Finals_Red_Sized/";
 		myBallColor = sf::Color::Red;
+		myScore = C_GlobalVariables::Player_1_Score;
 	}
 	if (PlayerNumber == 2)
 	{
 		tempPath = "Resources/images/Characters/Finals_GREEN_Sized/";
 		myBallColor = sf::Color::Green;
+		myScore = C_GlobalVariables::Player_2_Score;
 	}
 	if (PlayerNumber == 3)
 	{
 		tempPath = "Resources/images/Characters/Finals_BLUE_Sized/";
-		myBallColor = sf::Color::Blue;
+		myBallColor = sf::Color(0, 150, 255, 255);
+		myScore = C_GlobalVariables::Player_3_Score;
 	}
 	if (PlayerNumber == 4)
 	{
 		tempPath = "Resources/images/Characters/Finals_YELLOW_sized/";
 		myBallColor = sf::Color::Yellow;
+		myScore = C_GlobalVariables::Player_4_Score;
 	}
 
 	//Renderer can do this for you.
@@ -81,7 +85,7 @@ C_Player::C_Player(b2World* world,int _playerNumber, b2Vec2 _position) : Entity(
 	MyBox2d.DEF.position.Set(_position.x / C_GlobalVariables::PPM, _position.y / C_GlobalVariables::PPM);  // use spawn points for this.
 	MyBox2d.SHAPE.SetAsBox(15 / C_GlobalVariables::PPM, 50 / C_GlobalVariables::PPM);
 	MyBox2d.FIX.shape = &MyBox2d.SHAPE;
-	MyBox2d.FIX.density = 1.0f;
+	MyBox2d.FIX.density = 1.5f;
 	MyBox2d.FIX.friction = 1.0f;
 	MyBox2d.FIX.restitution = 0.001f;
 	MyBox2d.FIX.userData.pointer = reinterpret_cast<uintptr_t>(this);
@@ -95,6 +99,8 @@ C_Player::C_Player(b2World* world,int _playerNumber, b2Vec2 _position) : Entity(
 	MyMovingDirection = moving_none;
 
 	m_immuneTimer = 2.0f;
+
+	myPowerupType = NONE;
 }
 
 void C_Player::Draw()
@@ -103,6 +109,28 @@ void C_Player::Draw()
 	{
 		return;
 	}
+
+	//Movement speed blurr
+	if (m_playerSpeedMod > 1.0f)
+	{
+		Spr_UpperBody.setColor(sf::Color(255, 255, 255, 127.5));
+		Spr_Legs.setColor(sf::Color(255, 255, 255, 127.5));
+
+		sf::Transform t;
+		t.translate(sf::Vector2f(2.5f, 0.0f));
+		Renderer::GetInstance().PushTransform(t);
+		Renderer::GetInstance().Draw(Spr_UpperBody);
+		Renderer::GetInstance().Draw(Spr_Legs);
+		Renderer::GetInstance().PushTransform(t);
+		Renderer::GetInstance().Draw(Spr_UpperBody);
+		Renderer::GetInstance().Draw(Spr_Legs);
+		Renderer::GetInstance().PopTransform(t);
+		Renderer::GetInstance().PopTransform(t);
+
+		Spr_UpperBody.setColor(sf::Color(255, 255, 255, 255));
+		Spr_Legs.setColor(sf::Color(255, 255, 255, 255));
+	}
+
 	// draw legs, upperBody, ball.
 	Renderer::GetInstance().Draw(Spr_UpperBody);
 	Renderer::GetInstance().Draw(Spr_Legs);
@@ -116,7 +144,6 @@ void C_Player::Draw()
 		
 		Renderer::GetInstance().Draw(Spr_Ball_overlay);
 	}
-		
 
 	// Ball overlay while being held by player
 	if (this->mb_PlayerHasBall == true)
@@ -127,6 +154,34 @@ void C_Player::Draw()
 
 void C_Player::Process(float dT)
 {
+	// grab any score accumulated on global variables (from ball collisions hits) will sort multi level later.
+	switch (PlayerNumber)
+	{
+	case 1:
+		myScore += C_GlobalVariables::Player_1_Score;
+		C_GlobalVariables::Player_1_Score = 0; // reset this during level play, set at end of level for next if points accumulating
+		break;
+	case 2:
+		myScore += C_GlobalVariables::Player_2_Score;
+		C_GlobalVariables::Player_2_Score = 0; // reset this during level play, set at end of level for next if points accumulating
+		break;
+	case 3:
+		myScore += C_GlobalVariables::Player_3_Score;
+		C_GlobalVariables::Player_3_Score = 0; // reset this during level play, set at end of level for next if points accumulating
+		break;
+	case 4:
+		myScore += C_GlobalVariables::Player_4_Score;
+		C_GlobalVariables::Player_4_Score = 0; // reset this during level play, set at end of level for next if points accumulating
+		break;
+	}
+	if (m_powerUpTimer > 0)
+		m_powerUpTimer = std::clamp(m_powerUpTimer - dT, 0.0f, m_powerUpTimer);
+
+	if (m_playerSpeedMod >= 1.0f)
+	{
+		m_playerSpeedMod = 1.0f + 1.0f * (m_powerUpTimer / m_powerUpTimerMax);
+	}
+
 	if(MyBall != nullptr)
 		MyBall->Process(dT);
 
@@ -332,7 +387,19 @@ void C_Player::ApplyPowerUp(PowerUpType type)
 	case NONE:
 		break;
 	case SPEED:
-		m_playerSpeed *= 1.1f;
+		myPowerupType = SPEED;
+		break;
+	case TRIPLESHOT:
+		myPowerupType = TRIPLESHOT;
+		break;
+	case SHIELD:
+		myPowerupType = SHIELD;
+		break;
+	case RAILSHOT:
+		myPowerupType = RAILSHOT;
+		break;
+	case WATERFALL:
+		myPowerupType = WATERFALL;
 		break;
 	default:
 		break;
@@ -360,21 +427,31 @@ void C_Player::HandleInput(float dt)
 		{
 			InputHandler::GetInstance().SwitchCharacter(PlayerNumber);
 		}
-		//Spawn Ball
-		if (InputHandler::GetInstance().IsKeyPressed(sf::Keyboard::E) && MyBall == nullptr)
+
+		//Spawn Ball/Grab ball
+		if (InputHandler::GetInstance().IsKeyPressed(sf::Keyboard::E))
 		{
-			MyBall = new C_Ball(MyBox2d.BOD->GetWorld(), PlayerNumber, Spr_Ball_overlay.getPosition(), b2Vec2(FaceDirection.x, FaceDirection.y));
-			m_immuneTimer = 0.0f;
-		}
-		if (InputHandler::GetInstance().IsKeyPressed(sf::Keyboard::LShift) && MyBall != nullptr)
-		{
-			b2Vec2 direction = MyBox2d.BOD->GetPosition() - MyBall->GetBody()->GetPosition();
-			float distance = direction.LengthSquared();
-			if (sqrtf(distance) < m_playerGrabRange)
+			if (!m_hasThrown && MyBall == nullptr)
 			{
-				delete MyBall;
-				MyBall = nullptr;
+				m_hasThrown = true;
+				MyBall = new C_Ball(MyBox2d.BOD->GetWorld(), PlayerNumber, Spr_Ball_overlay.getPosition(), b2Vec2(FaceDirection.x, FaceDirection.y));
+				m_immuneTimer = 0.0f;
 			}
+			else if (!m_hasThrown && MyBall != nullptr)
+			{
+				b2Vec2 direction = MyBox2d.BOD->GetPosition() - MyBall->GetBody()->GetPosition();
+				float distance = direction.LengthSquared();
+				if (sqrtf(distance) < m_playerGrabRange)
+				{
+					delete MyBall;
+					MyBall = nullptr;
+					m_hasThrown = true;
+				}
+			}
+		}
+		else if (m_hasThrown)
+		{
+			m_hasThrown = false;
 		}
 		float xAxis = 0.0f;
 		float yAxis = 0.0f;
@@ -408,19 +485,37 @@ void C_Player::HandleInput(float dt)
 
 		if (InputHandler::GetInstance().IsKeyPressed(sf::Keyboard::Space) && m_isGrounded && !m_hasJumped)
 		{
-			yAxis += m_playerJumpForce;
+			yAxis += 1.0f;
 			m_hasJumped = true;
 		}
 		else if(m_isGrounded)
 		{
 			m_hasJumped = false;
 		}
-		MyBox2d.BOD->ApplyLinearImpulseToCenter(b2Vec2(xAxis * m_playerSpeed * dt, yAxis * dt), true);
-		std::cout << "< "<<MyBox2d.BOD->GetPosition().x << ", "<< MyBox2d.BOD->GetPosition().y << " >" << std::endl;
-
-		if (yVelocity > 0)
+		//MovePlayer
+		b2Vec2 prevVelocity = MyBox2d.BOD->GetLinearVelocity();
+		if (yAxis != 0.0f)
 		{
-			MyBox2d.BOD->ApplyLinearImpulseToCenter(b2Vec2(0, m_playerFallModifier * dt), true);
+			prevVelocity.y += m_playerJumpForce * dt;
+		}
+
+		if (xAxis == 0.0f)
+		{
+			MyBox2d.BOD->SetLinearVelocity(b2Vec2(prevVelocity.x * 0.98f, prevVelocity.y));
+		}
+		else
+		{
+			MyBox2d.BOD->SetLinearVelocity(b2Vec2(xAxis * m_playerSpeed * m_playerSpeedMod * dt, prevVelocity.y));
+		}
+
+		if (yVelocity > -2.5f)
+		{
+			MyBox2d.BOD->ApplyForceToCenter(b2Vec2(0, m_playerFallModifier), true);
+		}
+		//Use Power Up
+		if (InputHandler::GetInstance().IsKeyPressed(sf::Keyboard::Q))
+		{
+			UsePowerUp();
 		}
 	}
 }
@@ -494,6 +589,34 @@ void C_Player::UpdateDirection(sf::Vector2i newFacingDirection)
 			MyDirection = Direction::facing_right;
 		}
 	}
+}
+
+void C_Player::UsePowerUp()
+{
+	if (myPowerupType == PowerUpType::NONE)
+		return;
+
+	switch (myPowerupType)
+	{
+	case NONE:
+		break;
+	case SPEED:
+		m_playerSpeedMod = 2.0f;
+		break;
+	case TRIPLESHOT:
+		break;
+	case SHIELD:
+		break;
+	case RAILSHOT:
+		break;
+	case WATERFALL:
+		//Sonja's job
+		break;
+	default:
+		break;
+	}
+	m_powerUpTimer = m_powerUpTimerMax;
+	myPowerupType = PowerUpType::NONE;
 }
 
 C_Player::~C_Player()

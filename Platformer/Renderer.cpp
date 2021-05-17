@@ -52,7 +52,8 @@ Renderer::Renderer()
 	, m_GlobalColour(sf::Color::Black)
 	, m_isFullScreen(false)
 {
-	m_pWindow = new sf::RenderWindow(sf::VideoMode(m_width, m_height), sm_windowName,sf::Style::Fullscreen);
+	//m_pWindow = new sf::RenderWindow(sf::VideoMode(m_width, m_height), sm_windowName,sf::Style::Fullscreen);
+	m_pWindow = new sf::RenderWindow(sf::VideoMode(m_width, m_height), sm_windowName);
 	m_pWindow->setFramerateLimit(60);
 	//m_pWindow->setVerticalSyncEnabled(true); // Sonja - vertical sysnc will override framelimit of 60 on monitors with higher refresh rate.
 	m_pTextureMap = new std::map<std::string, sf::Texture*>();
@@ -319,7 +320,6 @@ void Renderer::Draw(const sf::Drawable& _object)
 void Renderer::DrawAt(const sf::Drawable& _object, sf::Vector2f _position)
 {
 	sf::Transform trans(1, 0, _position.x, 0, 1, _position.y, 0, 0, 1);
-	
 	PushTransform(trans);
 	m_pWindow->draw(_object, m_transform);
 	PopTransform(trans);

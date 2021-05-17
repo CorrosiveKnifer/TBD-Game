@@ -27,6 +27,16 @@
 // local includes
 #include "GlobalVariables.h"
 
+//enum PowerUpType
+//{
+//	NONE,
+//	SPEED,
+//	TRIPLESHOT,
+//	SHIELD,
+//	RAILSHOT,
+//	WATERFALL,
+//};
+
 class C_Player : Entity
 {
 public:
@@ -45,17 +55,29 @@ public:
 	sf::Sprite& GetSpriteBall() { return Spr_Ball_overlay; }
 	bool IsDead(float& outTimer) { outTimer = m_deathTimer; return m_isDead; };
 	virtual bool IsImmune() { return m_immuneTimer > 0; };
+
+	int GetLives() { return this->myLives; }
+	void TakeLife() { this->myLives--; }
+	int GetScore() { return this->myScore; }
+	void SetScore(int _score) { this->myScore += _score; }
+	int GetPlayerID() { return PlayerNumber; }
+
+	PowerUpType GetPowerUpType() { return myPowerupType; };
+
 private: 
 	void HandleInput(float dt);
 	void ProcessImmuneFrames(float dt);
 	void UpdateDirection(sf::Vector2i newFacingDirection);
+	void UsePowerUp();
 private:
+	PowerUpType myPowerupType;
 	// textures and sprites 
 	sf::Texture Tx_LegsIdle, Tx_LegsJump, Tx_LegsRun[4];
 	sf::Texture Tx_UB_ThrowUp1, Tx_UB_ThrowUp2, Tx_UB_ThrowDown1, Tx_UB_ThrowDown2, Tx_UB_ThrowSide1, Tx_UB_ThrowSide2, Tx_UB_ThrowDiagUp1, Tx_UB_ThrowDiagUp2;
 	sf::Texture Tx_UB_ThrowDiagDown1, Tx_UB_ThrowDiagDown2, Tx_UB_Shield, Tx_UB_Victory;
-	
+
 	sf::Sprite Spr_Legs, Spr_UpperBody;
+	
 
 	// the ball being held - is not a box2d object, simply a temporary overlay
 	sf::Texture Tx_MyBall_Overlay;
@@ -85,22 +107,27 @@ private:
 
 	//Player Settings
 	float m_playerSpeed = 500;
-	float m_playerJumpForce = -800;
-	float m_playerFallModifier = 75;
+	float m_playerJumpForce = -210;
+	float m_playerFallModifier = 125;
 	float m_playerGrabRange = 2.5f;
 
 	bool m_isDead = false;
 	float m_deathTimer = 0.0f;
+
 	bool mb_IsInvincible = false;
 	bool mb_PlayerHasBall = true;
 	bool m_isGrounded = false;
 	bool m_hasJumped = false;
+	bool m_hasThrown = false;
 	int myHealth = C_GlobalVariables::maxHealth;
 	int myLives = C_GlobalVariables::maxLives;
-	int myScore;
+	int myScore = 0;
 
 	float m_immuneTimer = 0.0f;
 	float m_immunityFramesSpeed = 2.0f;
+	float m_playerSpeedMod = 1.0f;
+	float m_powerUpTimer = 0.0f;
+	float m_powerUpTimerMax = 3.0f;
 
 	float mf_Anim_ThrowTime = 0.2f;
 	float mf_Anim_ThrowTime_Timer = 0.0f;

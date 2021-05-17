@@ -35,6 +35,7 @@ public:
 	//virtual bool DoWindowLoop();
 	virtual void Draw();
 	virtual void Update(float dT);
+	virtual void DestroyEntity(Entity* entity) {};
 
 	//Button functions:
 	void Play();

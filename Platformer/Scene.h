@@ -2,7 +2,7 @@
 #define _SCENE_H_
 
 #include "Renderer.h"
-
+#include "Entity.h"
 class Scene
 {
 	//Member function
@@ -12,6 +12,7 @@ public:
 
 	virtual void Draw() = 0;
 	virtual void Update(float dt) = 0;
+	virtual void DestroyEntity(Entity* entity) = 0;
 private:
 
 protected:
