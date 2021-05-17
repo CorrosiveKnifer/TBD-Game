@@ -106,13 +106,13 @@ c_Level_1::c_Level_1() : Scene()
 
 	Text_UI_Player_Stats[0].setFillColor(sf::Color::Red);
 	Text_UI_Player_Stats[1].setFillColor(sf::Color::Green);
-	Text_UI_Player_Stats[2].setFillColor(sf::Color::Blue);
+	Text_UI_Player_Stats[2].setFillColor(sf::Color(0,150,255,255));
 	Text_UI_Player_Stats[3].setFillColor(sf::Color::Yellow);
 	
 	Text_UI_Player_Stats[0].setPosition(15.0f, 160.0f);
 	Text_UI_Player_Stats[1].setPosition(1717.0f, 160.0f);
-	Text_UI_Player_Stats[2].setPosition(15.0f, 966.0f);
-	Text_UI_Player_Stats[3].setPosition(1717.0f, 966.0f);
+	Text_UI_Player_Stats[2].setPosition(15.0f, 960.0f);
+	Text_UI_Player_Stats[3].setPosition(1717.0f, 960.0f);
 	// Str_UI_Player_Stats[4]; -> in Draw
 
 	// powerup textures for playerCollected powerup UI
@@ -121,16 +121,17 @@ c_Level_1::c_Level_1() : Scene()
 	Tx_PowerUps[2].loadFromFile("Resources/images/powerups/pu_shield_2.png");
 	Tx_PowerUps[3].loadFromFile("Resources/images/powerups/pu_tripleShot_2.png");
 	Tx_PowerUps[4].loadFromFile("Resources/images/powerups/pu_NONE.png");
+	Tx_PowerUps[5].loadFromFile("Resources/images/powerups/pu_waterfall_1.png");
 	
 	Spr_MyCollectedPowerUp[0].setTexture(Tx_PowerUps[4]);
 	Spr_MyCollectedPowerUp[1].setTexture(Tx_PowerUps[4]);
 	Spr_MyCollectedPowerUp[2].setTexture(Tx_PowerUps[4]);
 	Spr_MyCollectedPowerUp[3].setTexture(Tx_PowerUps[4]);
 
-	Spr_MyCollectedPowerUp[0].setPosition(15.0f, 230.0f);
-	Spr_MyCollectedPowerUp[1].setPosition(1717.0f, 230.0f);
-	Spr_MyCollectedPowerUp[2].setPosition(15.0f, 1036.0f);
-	Spr_MyCollectedPowerUp[3].setPosition(1717.0f, 1036.0f);
+	Spr_MyCollectedPowerUp[0].setPosition(174.0f, 170.0f);
+	Spr_MyCollectedPowerUp[1].setPosition(1863.0f, 170.0f);
+	Spr_MyCollectedPowerUp[2].setPosition(174.0f, 970.0f);
+	Spr_MyCollectedPowerUp[3].setPosition(1863.0f, 970.0f);
 }
 
 
@@ -174,6 +175,7 @@ void c_Level_1::Update(float dT)
 	for (auto it : MyPlayers)
 	{
 		it->Process(dT);
+		// refactor this code later - below
 		if (it->myPowerupType == SPEED)
 		{
 			if (it->GetPlayerID() == 1)
@@ -210,6 +212,63 @@ void c_Level_1::Update(float dT)
 			if (it->GetPlayerID() == 4)
 			{
 				Spr_MyCollectedPowerUp[3].setTexture(Tx_PowerUps[1]);
+			}
+		}
+		if (it->myPowerupType == SHIELD)
+		{
+			if (it->GetPlayerID() == 1)
+			{
+				Spr_MyCollectedPowerUp[0].setTexture(Tx_PowerUps[2]);
+			}
+			if (it->GetPlayerID() == 2)
+			{
+				Spr_MyCollectedPowerUp[1].setTexture(Tx_PowerUps[2]);
+			}
+			if (it->GetPlayerID() == 3)
+			{
+				Spr_MyCollectedPowerUp[2].setTexture(Tx_PowerUps[2]);
+			}
+			if (it->GetPlayerID() == 4)
+			{
+				Spr_MyCollectedPowerUp[3].setTexture(Tx_PowerUps[2]);
+			}
+		}
+		if (it->myPowerupType == TRIPLESHOT)
+		{
+			if (it->GetPlayerID() == 1)
+			{
+				Spr_MyCollectedPowerUp[0].setTexture(Tx_PowerUps[3]);
+			}
+			if (it->GetPlayerID() == 2)
+			{
+				Spr_MyCollectedPowerUp[1].setTexture(Tx_PowerUps[3]);
+			}
+			if (it->GetPlayerID() == 3)
+			{
+				Spr_MyCollectedPowerUp[2].setTexture(Tx_PowerUps[3]);
+			}
+			if (it->GetPlayerID() == 4)
+			{
+				Spr_MyCollectedPowerUp[3].setTexture(Tx_PowerUps[3]);
+			}
+		}
+		if (it->myPowerupType == WATERFALL)
+		{
+			if (it->GetPlayerID() == 1)
+			{
+				Spr_MyCollectedPowerUp[0].setTexture(Tx_PowerUps[5]);
+			}
+			if (it->GetPlayerID() == 2)
+			{
+				Spr_MyCollectedPowerUp[1].setTexture(Tx_PowerUps[5]);
+			}
+			if (it->GetPlayerID() == 3)
+			{
+				Spr_MyCollectedPowerUp[2].setTexture(Tx_PowerUps[5]);
+			}
+			if (it->GetPlayerID() == 4)
+			{
+				Spr_MyCollectedPowerUp[3].setTexture(Tx_PowerUps[5]);
 			}
 		}
 	}

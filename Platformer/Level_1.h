@@ -69,7 +69,7 @@ private:
 	sf::Sprite  SPR_UI_Player_Icons[4];
 	sf::Text Text_UI_Player_Stats[4];
 	sf::String Str_UI_Player_Stats[4];
-	sf::Texture Tx_PowerUps[5];
+	sf::Texture Tx_PowerUps[6];
 	sf::Sprite Spr_MyCollectedPowerUp[4];
 
 	// powerups
