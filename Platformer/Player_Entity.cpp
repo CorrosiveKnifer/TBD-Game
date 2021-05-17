@@ -99,6 +99,8 @@ C_Player::C_Player(b2World* world,int _playerNumber, b2Vec2 _position) : Entity(
 	MyMovingDirection = moving_none;
 
 	m_immuneTimer = 2.0f;
+
+	myPowerupType = NONE;
 }
 
 void C_Player::Draw()
@@ -131,6 +133,29 @@ void C_Player::Draw()
 
 void C_Player::Process(float dT)
 {
+	// grab any score accumulated on global variables (from ball collisions hits) will sort multi level later.
+	switch (PlayerNumber)
+	{
+	case 1:
+		myScore += C_GlobalVariables::Player_1_Score;
+		C_GlobalVariables::Player_1_Score = 0; // reset this during level play, set at end of level for next if points accumulating
+		break;
+	case 2:
+		myScore += C_GlobalVariables::Player_2_Score;
+		C_GlobalVariables::Player_2_Score = 0; // reset this during level play, set at end of level for next if points accumulating
+		break;
+	case 3:
+		myScore += C_GlobalVariables::Player_3_Score;
+		C_GlobalVariables::Player_3_Score = 0; // reset this during level play, set at end of level for next if points accumulating
+		break;
+	case 4:
+		myScore += C_GlobalVariables::Player_4_Score;
+		C_GlobalVariables::Player_4_Score = 0; // reset this during level play, set at end of level for next if points accumulating
+		break;
+	}
+
+	
+
 	if(MyBall != nullptr)
 		MyBall->Process(dT);
 
@@ -337,7 +362,18 @@ void C_Player::ApplyPowerUp(PowerUpType type)
 		break;
 	case SPEED:
 		m_playerSpeed *= 1.1f;
+		myPowerupType = SPEED;
 		break;
+	case TRIPLESHOT:
+		myPowerupType = TRIPLESHOT;
+		break;
+	case SHIELD:
+		myPowerupType = SHIELD;
+		break;
+	case RAILSHOT:
+		myPowerupType = RAILSHOT;
+		break;
+
 	default:
 		break;
 	}
@@ -420,7 +456,7 @@ void C_Player::HandleInput(float dt)
 			m_hasJumped = false;
 		}
 		MyBox2d.BOD->ApplyLinearImpulseToCenter(b2Vec2(xAxis * m_playerSpeed * dt, yAxis * dt), true);
-		std::cout << "< "<<MyBox2d.BOD->GetPosition().x << ", "<< MyBox2d.BOD->GetPosition().y << " >" << std::endl;
+		//std::cout << "< "<<MyBox2d.BOD->GetPosition().x << ", "<< MyBox2d.BOD->GetPosition().y << " >" << std::endl;
 
 		if (yVelocity > 0)
 		{

@@ -9,22 +9,27 @@ C_PowerUp::C_PowerUp(b2World* world, b2Vec2 _worldPosition,unsigned int _PU_type
 	case  1:
 		bottom = "Resources/images/powerups/pu_fastRun_1.png";
 		top = "Resources/images/powerups/pu_fastRun_2.png";
+		myPowerupType = SPEED;
 	break;
 	case  2:
 		bottom = "Resources/images/powerups/pu_railShot_1.png";
 		top = "Resources/images/powerups/pu_railShot_2.png";
+		myPowerupType = RAILSHOT;
 		break;
 	case  3:
 		bottom = "Resources/images/powerups/pu_shield_1.png";
 		top = "Resources/images/powerups/pu_shield_2.png";
+		myPowerupType = SHIELD;
 		break;
 	case  4:
 		bottom = "Resources/images/powerups/pu_tripleShot_1.png";
 		top = "Resources/images/powerups/pu_tripleShot_2.png";
+		myPowerupType = TRIPLESHOT;
 		break;
 	case  5:
 		bottom = "Resources/images/powerups/pu_waterfall_1.png";
 		top = "Resources/images/powerups/pu_waterfall_2.png";
+		myPowerupType = WATERFALL;
 		break;
 	default:
 		break;
@@ -84,7 +89,7 @@ void C_PowerUp::Process(float dT)
 
 void C_PowerUp::HandleHit(Entity* other)
 {
-	reinterpret_cast<C_Player*>(other)->ApplyPowerUp(PowerUpType::SPEED);
+	reinterpret_cast<C_Player*>(other)->ApplyPowerUp(this->myPowerupType);
 }
 
 C_PowerUp::~C_PowerUp()

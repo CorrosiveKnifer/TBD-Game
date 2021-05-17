@@ -75,6 +75,62 @@ c_Level_1::c_Level_1() : Scene()
 	{
 		myPowerUps.push_back(new C_PowerUp(world, myPowerUpSpawnPoints[i], 4));
 	}
+
+	// player UI Icons and stats
+	TX_UI_Player_Icons[0].loadFromFile("Resources/images/UI_Icons/Red_Rudy.png");
+	TX_UI_Player_Icons[1].loadFromFile("Resources/images/UI_Icons/Green_Gordon.png");
+	TX_UI_Player_Icons[2].loadFromFile("Resources/images/UI_Icons/Blue_Bailey.png");
+	TX_UI_Player_Icons[3].loadFromFile("Resources/images/UI_Icons/Yellow_Yara.png");
+
+	SPR_UI_Player_Icons[0].setTexture(TX_UI_Player_Icons[0]);
+	SPR_UI_Player_Icons[1].setTexture(TX_UI_Player_Icons[1]);
+	SPR_UI_Player_Icons[2].setTexture(TX_UI_Player_Icons[2]);
+	SPR_UI_Player_Icons[3].setTexture(TX_UI_Player_Icons[3]);
+
+	SPR_UI_Player_Icons[0].setPosition(0.0f, 0.0f);
+	SPR_UI_Player_Icons[1].setPosition(1671.0f, 0.0f);
+	SPR_UI_Player_Icons[2].setPosition(0.0f, 801.0f);
+	SPR_UI_Player_Icons[3].setPosition(1697.0f, 801.0f);
+
+	myFont.loadFromFile("Resources/fonts/ariblk.ttf");
+
+	Text_UI_Player_Stats[0].setFont(myFont);
+	Text_UI_Player_Stats[1].setFont(myFont);
+	Text_UI_Player_Stats[2].setFont(myFont);
+	Text_UI_Player_Stats[3].setFont(myFont);
+
+	Text_UI_Player_Stats[0].setCharacterSize(24);
+	Text_UI_Player_Stats[1].setCharacterSize(24);
+	Text_UI_Player_Stats[2].setCharacterSize(24);
+	Text_UI_Player_Stats[3].setCharacterSize(24);
+
+	Text_UI_Player_Stats[0].setFillColor(sf::Color::Red);
+	Text_UI_Player_Stats[1].setFillColor(sf::Color::Green);
+	Text_UI_Player_Stats[2].setFillColor(sf::Color::Blue);
+	Text_UI_Player_Stats[3].setFillColor(sf::Color::Yellow);
+	
+	Text_UI_Player_Stats[0].setPosition(15.0f, 160.0f);
+	Text_UI_Player_Stats[1].setPosition(1717.0f, 160.0f);
+	Text_UI_Player_Stats[2].setPosition(15.0f, 966.0f);
+	Text_UI_Player_Stats[3].setPosition(1717.0f, 966.0f);
+	// Str_UI_Player_Stats[4]; -> in Draw
+
+	// powerup textures for playerCollected powerup UI
+	Tx_PowerUps[0].loadFromFile("Resources/images/powerups/pu_fastRun_2.png");
+	Tx_PowerUps[1].loadFromFile("Resources/images/powerups/pu_railShot_2.png");
+	Tx_PowerUps[2].loadFromFile("Resources/images/powerups/pu_shield_2.png");
+	Tx_PowerUps[3].loadFromFile("Resources/images/powerups/pu_tripleShot_2.png");
+	Tx_PowerUps[4].loadFromFile("Resources/images/powerups/pu_NONE.png");
+	
+	Spr_MyCollectedPowerUp[0].setTexture(Tx_PowerUps[4]);
+	Spr_MyCollectedPowerUp[1].setTexture(Tx_PowerUps[4]);
+	Spr_MyCollectedPowerUp[2].setTexture(Tx_PowerUps[4]);
+	Spr_MyCollectedPowerUp[3].setTexture(Tx_PowerUps[4]);
+
+	Spr_MyCollectedPowerUp[0].setPosition(15.0f, 230.0f);
+	Spr_MyCollectedPowerUp[1].setPosition(1717.0f, 230.0f);
+	Spr_MyCollectedPowerUp[2].setPosition(15.0f, 1036.0f);
+	Spr_MyCollectedPowerUp[3].setPosition(1717.0f, 1036.0f);
 }
 
 
@@ -92,6 +148,20 @@ void c_Level_1::Draw()
 	{
 		it->Draw();
 	}
+
+	// draw player UI icons and stats
+	for (unsigned int i = 0; i < MyPlayers.size(); i++)
+	{
+		//string tempLives = to_string( MyPlayers[i]->GetLives());
+
+		Str_UI_Player_Stats[i] = "Lives  " + to_string(MyPlayers[i]->GetLives());;
+		Str_UI_Player_Stats[i] += "\nScore  " + to_string(MyPlayers[i]->GetScore());
+		Text_UI_Player_Stats[i].setString(Str_UI_Player_Stats[i]);
+		o_pRenderer->Draw(SPR_UI_Player_Icons[i]);
+		o_pRenderer->Draw(Text_UI_Player_Stats[i]);
+		o_pRenderer->Draw(Spr_MyCollectedPowerUp[i]);
+	}
+	
 	
 }
 
@@ -104,6 +174,44 @@ void c_Level_1::Update(float dT)
 	for (auto it : MyPlayers)
 	{
 		it->Process(dT);
+		if (it->myPowerupType == SPEED)
+		{
+			if (it->GetPlayerID() == 1)
+			{
+				Spr_MyCollectedPowerUp[0].setTexture(Tx_PowerUps[0]);
+			}
+			if (it->GetPlayerID() == 2)
+			{
+				Spr_MyCollectedPowerUp[1].setTexture(Tx_PowerUps[0]);
+			}
+			if (it->GetPlayerID() == 3)
+			{
+				Spr_MyCollectedPowerUp[2].setTexture(Tx_PowerUps[0]);
+			}
+			if (it->GetPlayerID() == 4)
+			{
+				Spr_MyCollectedPowerUp[3].setTexture(Tx_PowerUps[0]);
+			}
+		}
+		if (it->myPowerupType == RAILSHOT)
+		{
+			if (it->GetPlayerID() == 1)
+			{
+				Spr_MyCollectedPowerUp[0].setTexture(Tx_PowerUps[1]);
+			}
+			if (it->GetPlayerID() == 2)
+			{
+				Spr_MyCollectedPowerUp[1].setTexture(Tx_PowerUps[1]);
+			}
+			if (it->GetPlayerID() == 3)
+			{
+				Spr_MyCollectedPowerUp[2].setTexture(Tx_PowerUps[1]);
+			}
+			if (it->GetPlayerID() == 4)
+			{
+				Spr_MyCollectedPowerUp[3].setTexture(Tx_PowerUps[1]);
+			}
+		}
 	}
 	for (auto it : MyPlayers)
 	{
@@ -120,6 +228,8 @@ void c_Level_1::Update(float dT)
 	{
 		it->Process(dT);
 	}
+
+	
 }
 
 c_Level_1::~c_Level_1()
