@@ -12,7 +12,7 @@ C_Ball::C_Ball(b2World* world, unsigned int playerID, sf::Vector2f _worldPositio
 	myPlayerID = playerID;
 	if (myPlayerID == 1) { Spr_Ball.setColor(sf::Color::Red); }
 	if (myPlayerID == 2) { Spr_Ball.setColor(sf::Color::Green); }
-	if (myPlayerID == 3) { Spr_Ball.setColor(sf::Color::Blue); }
+	if (myPlayerID == 3) { Spr_Ball.setColor(sf::Color(0, 150, 255, 255)); }
 	if (myPlayerID == 4) { Spr_Ball.setColor(sf::Color::Yellow); }
 
 	// create a position ahead of the overlay ball for creation.

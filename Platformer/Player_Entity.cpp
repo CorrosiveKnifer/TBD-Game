@@ -35,7 +35,7 @@ C_Player::C_Player(b2World* world,int _playerNumber, b2Vec2 _position) : Entity(
 	if (PlayerNumber == 3)
 	{
 		tempPath = "Resources/images/Characters/Finals_BLUE_Sized/";
-		myBallColor = sf::Color::Blue;
+		myBallColor = sf::Color(0, 150, 255, 255);
 		myScore = C_GlobalVariables::Player_3_Score;
 	}
 	if (PlayerNumber == 4)
@@ -361,7 +361,7 @@ void C_Player::ApplyPowerUp(PowerUpType type)
 	case NONE:
 		break;
 	case SPEED:
-		m_playerSpeed *= 1.1f;
+		m_playerSpeed = 1.1f;
 		myPowerupType = SPEED;
 		break;
 	case TRIPLESHOT:
@@ -373,7 +373,9 @@ void C_Player::ApplyPowerUp(PowerUpType type)
 	case RAILSHOT:
 		myPowerupType = RAILSHOT;
 		break;
-
+	case WATERFALL:
+		myPowerupType = WATERFALL;
+		break;
 	default:
 		break;
 	}
