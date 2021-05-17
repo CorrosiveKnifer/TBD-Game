@@ -41,7 +41,9 @@ public:
 
 	virtual void Draw();
 	virtual void Update(float dT);
-	
+	virtual void DestroyEntity(Entity* entity);
+
+	void PostUpdate();
 	b2World* world = new b2World(C_GlobalVariables::Gravity);
 
 
@@ -74,7 +76,7 @@ private:
 
 	// powerups
 	vector<C_PowerUp*> myPowerUps;
-
+	vector<Entity*> m_toRemove;
 };
 
 #endif // !_LEVEL_1_

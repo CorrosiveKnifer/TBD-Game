@@ -56,7 +56,8 @@ private:
 	bool m_hasBeenUsed = false;
 	// the ball graphics
 	sf::Texture Tx_PowerupBottom, Tx_PowerupTop;
-	sf::Sprite Spr_PowerUp_Bottom, Spr_PowerUp_Top;
+	sf::Sprite* Spr_PowerUp_Bottom;
+	sf::Sprite* Spr_PowerUp_Top;
 
 	float mf_Powerup_FlashingTimer = 0.f;
 	float mf_Powerup_Flashing = 2.0f;

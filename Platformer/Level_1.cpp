@@ -228,8 +228,38 @@ void c_Level_1::Update(float dT)
 	{
 		it->Process(dT);
 	}
-
 	
+	PostUpdate();
+}
+
+void c_Level_1::DestroyEntity(Entity* entity)
+{
+	C_PowerUp* testCase = reinterpret_cast<C_PowerUp*>(entity);
+	if (testCase == nullptr)
+		return;
+
+	std::vector<C_PowerUp*>::iterator iter = myPowerUps.begin();
+	while (iter != myPowerUps.end())
+	{
+		if ((*iter) == &(*testCase))
+		{
+			m_toRemove.push_back(entity);
+			myPowerUps.erase(iter);
+			return;
+		}
+		iter++;
+	}
+}
+
+void c_Level_1::PostUpdate()
+{
+	std::vector<Entity*>::iterator iter = m_toRemove.begin();
+	while (iter != m_toRemove.end())
+	{
+		delete* iter;
+		iter = m_toRemove.erase(iter);
+	}
+	m_toRemove.clear();
 }
 
 c_Level_1::~c_Level_1()

@@ -67,6 +67,11 @@ SceneManager::~SceneManager()
 
 }
 
+void SceneManager::DestroyEntity(Entity* entity)
+{
+	m_topScene->DestroyEntity(entity);
+}
+
 // Name: DoSceneLoop
 // Author: Michael Jordan
 // Description: Starts the game loop which is contained within it's own while loop.

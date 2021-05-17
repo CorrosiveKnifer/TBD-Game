@@ -14,7 +14,7 @@
 // 
 
 #include <SFML/Graphics.hpp>
-
+#include "Entity.h"
 class Scene;
 
 class SceneManager
@@ -24,6 +24,7 @@ public:
 	static SceneManager& GetInstance();
 	static void DestroyInstance();
 
+	void DestroyEntity(Entity* entity);
 	void DoSceneLoop();
 
 	void TransitionTo(Scene* _nextScene) { m_nextScene = _nextScene; };

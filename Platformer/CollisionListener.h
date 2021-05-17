@@ -57,19 +57,6 @@ public:
 
 			return;
 		}
-
-		if (caseNo == (EntityType::PLAYER | EntityType::POWERUP))
-		{
-			if (GetType(entityA) == EntityType::PLAYER)
-			{
-				entityB->HandleHit(entityA);
-			}
-			else
-			{
-				entityA->HandleHit(entityB);
-			}
-			return;
-		}
 	}
 
 	virtual void EndContact(b2Contact* contact)
@@ -89,12 +76,25 @@ public:
 
 		uint16 caseNo = GetType(entityA) | GetType(entityB);
 
-		if (caseNo & (EntityType::PLAYER | EntityType::BALL))
+		if (caseNo == (EntityType::PLAYER | EntityType::BALL))
 		{
 			if (entityA->IsImmune() || entityB->IsImmune())
 			{
 				contact->SetEnabled(false);
 			}
+			return;
+		}
+		if (caseNo == (EntityType::PLAYER | EntityType::POWERUP))
+		{
+			if (GetType(entityA) == EntityType::PLAYER)
+			{
+				entityB->HandleHit(entityA);
+			}
+			else
+			{
+				entityA->HandleHit(entityB);
+			}
+			contact->SetEnabled(false);
 			return;
 		}
 	}
