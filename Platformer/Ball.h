@@ -39,6 +39,7 @@ public:
 	virtual void HandleHit(Entity* other);
 
 	const b2Body* GetBody() { return MyBox2d.BOD; };
+	int GetPlayerID() { return this->myPlayerID; }
 private:
 	unsigned int myPlayerID;
 

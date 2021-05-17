@@ -27,6 +27,16 @@
 // local includes
 #include "GlobalVariables.h"
 
+//enum PowerUpType
+//{
+//	NONE,
+//	SPEED,
+//	TRIPLESHOT,
+//	SHIELD,
+//	RAILSHOT,
+//	WATERFALL,
+//};
+
 class C_Player : Entity
 {
 public:
@@ -45,6 +55,15 @@ public:
 	sf::Sprite& GetSpriteBall() { return Spr_Ball_overlay; }
 	bool IsDead(float& outTimer) { outTimer = m_deathTimer; return m_isDead; };
 	virtual bool IsImmune() { return m_immuneTimer > 0; };
+
+	int GetLives() { return this->myLives; }
+	void TakeLife() { this->myLives--; }
+	int GetScore() { return this->myScore; }
+	void SetScore(int _score) { this->myScore += _score; }
+	int GetPlayerID() { return PlayerNumber; }
+
+	PowerUpType myPowerupType;
+
 private: 
 	void HandleInput(float dt);
 	void ProcessImmuneFrames(float dt);
@@ -54,8 +73,9 @@ private:
 	sf::Texture Tx_LegsIdle, Tx_LegsJump, Tx_LegsRun[4];
 	sf::Texture Tx_UB_ThrowUp1, Tx_UB_ThrowUp2, Tx_UB_ThrowDown1, Tx_UB_ThrowDown2, Tx_UB_ThrowSide1, Tx_UB_ThrowSide2, Tx_UB_ThrowDiagUp1, Tx_UB_ThrowDiagUp2;
 	sf::Texture Tx_UB_ThrowDiagDown1, Tx_UB_ThrowDiagDown2, Tx_UB_Shield, Tx_UB_Victory;
-	
+
 	sf::Sprite Spr_Legs, Spr_UpperBody;
+	
 
 	// the ball being held - is not a box2d object, simply a temporary overlay
 	sf::Texture Tx_MyBall_Overlay;
@@ -97,7 +117,7 @@ private:
 	bool m_hasJumped = false;
 	int myHealth = C_GlobalVariables::maxHealth;
 	int myLives = C_GlobalVariables::maxLives;
-	int myScore;
+	int myScore = 0;
 
 	float m_immuneTimer = 0.0f;
 	float m_immunityFramesSpeed = 2.0f;

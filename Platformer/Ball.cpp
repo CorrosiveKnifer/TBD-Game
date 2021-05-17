@@ -23,12 +23,13 @@ C_Ball::C_Ball(b2World* world, unsigned int playerID, sf::Vector2f _worldPositio
 
 	_vectorVelocity.Normalize();
 
+	// place the ball out infront to avoid instantiating inside walls.
 	_worldPosition.x += 20.0f * _vectorVelocity.x;
 	_worldPosition.y += 20.0f * _vectorVelocity.y;
 
 	//box2d setup
 	MyBox2d.DEF.type = b2_dynamicBody;
-	MyBox2d.DEF.position.Set(_worldPosition.x / C_GlobalVariables::PPM, _worldPosition.y / C_GlobalVariables::PPM);  // use spawn points for this.
+	MyBox2d.DEF.position.Set(_worldPosition.x / C_GlobalVariables::PPM, _worldPosition.y / C_GlobalVariables::PPM);
 	MyBox2d.DEF.bullet = true;
 	MyBox2d.SHAPE.m_radius = (Tx_MyBall.getSize().x / 2.0f) / C_GlobalVariables::PPM;
 	MyBox2d.FIX.shape = &MyBox2d.SHAPE;
@@ -93,6 +94,7 @@ void C_Ball::Process(float dT)
 void C_Ball::HandleHit(Entity* other)
 {
 	MyBox2d.BOD->SetLinearVelocity(b2Vec2(0, 0));
+	
 }
 
 C_Ball::~C_Ball()

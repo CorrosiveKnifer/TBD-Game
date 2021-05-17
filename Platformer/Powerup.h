@@ -31,6 +31,10 @@ enum PowerUpType
 {
 	NONE,
 	SPEED,
+	TRIPLESHOT,
+	SHIELD,
+	RAILSHOT,
+	WATERFALL,
 };
 
 class C_PowerUp : Entity
@@ -46,6 +50,8 @@ public:
 
 	const b2Body* GetBody() { return MyBox2d.BOD; };
 
+	PowerUpType myPowerupType;
+	
 private:
 	bool m_hasBeenUsed = false;
 	// the ball graphics

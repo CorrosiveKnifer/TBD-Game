@@ -4,6 +4,7 @@
 #include "Player_Entity.h"
 #include "Ball.h"
 #include "Powerup.h"
+#include "GlobalVariables.h"
 
 class CollisionListener : public b2ContactListener
 {
@@ -32,6 +33,28 @@ public:
 		{
 			entityA->HandleHit(entityB);
 			entityB->HandleHit(entityA);
+
+			// send score to owner of this ball
+			C_Ball* entityTempBall = reinterpret_cast<C_Ball*>(entityB);
+			switch (entityTempBall->GetPlayerID())
+			{
+				case  1:
+					C_GlobalVariables::Player_1_Score += 10;
+				break;
+				case  2:
+					C_GlobalVariables::Player_2_Score += 10;
+				break;
+				case  3:
+					C_GlobalVariables::Player_3_Score += 10;
+				break;
+				case  4:
+					C_GlobalVariables::Player_4_Score += 10;
+				break;
+			}
+			// take life from this player that got hit
+			C_Player* entityTempPlayer = reinterpret_cast<C_Player*>(entityA);
+			entityTempPlayer->TakeLife();
+
 			return;
 		}
 
