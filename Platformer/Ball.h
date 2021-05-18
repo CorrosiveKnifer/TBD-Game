@@ -40,6 +40,7 @@ public:
 
 	const b2Body* GetBody() { return MyBox2d.BOD; };
 	int GetPlayerID() { return this->myPlayerID; }
+	virtual bool IsImmune() { return m_bounceCount == 0; };
 private:
 	unsigned int myPlayerID;
 
@@ -47,6 +48,7 @@ private:
 	sf::Texture Tx_MyBall;
 	sf::Sprite Spr_Ball;
 	sf::Color myBallColor;
+	sf::Color m_immuneColor;
 
 	float mf_SpeedModifier = 50.0f;
 	unsigned int m_bounceCount = 0;

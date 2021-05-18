@@ -79,6 +79,10 @@ C_Player::C_Player(b2World* world,int _playerNumber, b2Vec2 _position) : Entity(
 	Spr_Ball_overlay.setOrigin(Tx_MyBall_Overlay.getSize().x / 2.0f, Tx_MyBall_Overlay.getSize().y / 2.0f);
 	Spr_Ball_overlay.setColor(myBallColor);
 
+ 	Spr_Emote = Renderer::GetInstance().CreateSprite("images/Emotes/Emote3.png");
+	Spr_Emote->setOrigin(Spr_Emote->getTexture()->getSize().x / 2.0f, Spr_Emote->getTexture()->getSize().y / 2.0f);
+	Spr_Emote->setScale(0.45, 0.45);
+
 	//box2d setup
 	MyBox2d.DEF.type = b2_dynamicBody;
 	MyBox2d.DEF.fixedRotation = true;
@@ -100,7 +104,12 @@ C_Player::C_Player(b2World* world,int _playerNumber, b2Vec2 _position) : Entity(
 
 	m_immuneTimer = 2.0f;
 
-	myPowerupType = NONE;
+	//myPowerupType = NONE;
+	Tx_Emotes = new sf::Texture[4];
+	Tx_Emotes[0] = *Renderer::GetInstance().CreateTexture("images/Emotes/Emote1.png");
+	Tx_Emotes[1] = *Renderer::GetInstance().CreateTexture("images/Emotes/Emote2.png");
+	Tx_Emotes[2] = *Renderer::GetInstance().CreateTexture("images/Emotes/Emote3.png");
+	Tx_Emotes[3] = *Renderer::GetInstance().CreateTexture("images/Emotes/Emote4.png");
 }
 
 void C_Player::Draw()
@@ -145,6 +154,21 @@ void C_Player::Draw()
 		Renderer::GetInstance().Draw(Spr_Ball_overlay);
 	}
 
+	if (m_emoteTimer > 0)
+	{
+		float ratio = 1.0f;
+		if (m_emoteTimer >= 1.0f)
+		{
+			ratio = 1.0f - (m_emoteTimer - 1.0f) / 0.5f;
+		}
+		if (m_emoteTimer <= 0.5f)
+		{
+			ratio = m_emoteTimer / 0.5f;
+		}
+		Spr_Emote->setColor(sf::Color(255, 255, 255, 255 * ratio));
+		Renderer::GetInstance().Draw(*Spr_Emote);
+	}
+
 	// Ball overlay while being held by player
 	if (this->mb_PlayerHasBall == true)
 	{
@@ -177,6 +201,9 @@ void C_Player::Process(float dT)
 	if (m_powerUpTimer > 0)
 		m_powerUpTimer = std::clamp(m_powerUpTimer - dT, 0.0f, m_powerUpTimer);
 
+	if (m_emoteTimer > 0)
+		m_emoteTimer = std::clamp(m_emoteTimer - dT, 0.0f, m_emoteTimer);
+
 	if (m_playerSpeedMod >= 1.0f)
 	{
 		m_playerSpeedMod = 1.0f + 1.0f * (m_powerUpTimer / m_powerUpTimerMax);
@@ -207,7 +234,8 @@ void C_Player::Process(float dT)
 	
 	this->Spr_Legs.setPosition(this->MyBox2d.BOD->GetPosition().x * C_GlobalVariables::PPM, this->MyBox2d.BOD->GetPosition().y * C_GlobalVariables::PPM);
 	this->Spr_UpperBody.setPosition(this->MyBox2d.BOD->GetPosition().x * C_GlobalVariables::PPM, this->MyBox2d.BOD->GetPosition().y * C_GlobalVariables::PPM);
-
+	Spr_Emote->setPosition(this->MyBox2d.BOD->GetPosition().x * C_GlobalVariables::PPM, this->MyBox2d.BOD->GetPosition().y * C_GlobalVariables::PPM - 100);
+	
 	RayCastClass RayResult;
 	MyBox2d.BOD->GetWorld()->RayCast(&RayResult, MyBox2d.BOD->GetPosition(), MyBox2d.BOD->GetPosition() + b2Vec2(0, 2));
 	m_isGrounded = RayResult.rayHits.size() > 0;
@@ -357,10 +385,11 @@ void C_Player::Process(float dT)
 
 void C_Player::HandleHit(Entity* other)
 {
-	if (!m_isDead && !IsImmune())
+	if (!m_isDead && !IsImmune() && !other->IsImmune())
 	{
 		m_isDead = true;
 		m_deathTimer = 0.0f;
+		this->myLives--;
 	}
 }
 
@@ -517,14 +546,59 @@ void C_Player::HandleInput(float dt)
 		{
 			UsePowerUp();
 		}
+
+		if (InputHandler::GetInstance().IsKeyPressed(sf::Keyboard::Num1))
+		{
+			Spr_Emote->setTexture(Tx_Emotes[0]);
+			if (m_emoteTimer <= 1.0f)
+			{
+				m_emoteTimer = 1.0f;
+			}
+			if (m_emoteTimer <= 0.0f)
+				m_emoteTimer = 1.5f;
+			return;
+		}
+		if (InputHandler::GetInstance().IsKeyPressed(sf::Keyboard::Num2))
+		{
+			Spr_Emote->setTexture(Tx_Emotes[1]);
+			if (m_emoteTimer <= 1.0f)
+			{
+				m_emoteTimer = 1.0f;
+			}
+			if (m_emoteTimer <= 0.0f)
+				m_emoteTimer = 1.5f;
+			return;
+		}
+		if (InputHandler::GetInstance().IsKeyPressed(sf::Keyboard::Num3))
+		{
+			Spr_Emote->setTexture(Tx_Emotes[2]);
+			if (m_emoteTimer <= 1.0f)
+			{
+				m_emoteTimer = 1.0f;
+			}
+			if (m_emoteTimer <= 0.0f)
+				m_emoteTimer = 1.5f;
+			return;
+		}
+		if (InputHandler::GetInstance().IsKeyPressed(sf::Keyboard::Num4))
+		{
+			Spr_Emote->setTexture(Tx_Emotes[3]);
+			if (m_emoteTimer <= 1.0f)
+			{
+				m_emoteTimer = 1.0f;
+			}
+			if (m_emoteTimer <= 0.0f)
+				m_emoteTimer = 1.5f;
+			return;
+		}
 	}
 }
 
 void C_Player::ProcessImmuneFrames(float dt)
 {
-	if (m_immuneTimer > 0)
+	if (m_immuneTimer > 0.0f)
 	{
-		m_immuneTimer -= dt;
+		m_immuneTimer = std::clamp(m_immuneTimer - dt, 0.0f, m_immuneTimer);
 		float alpha = std::abs(std::sin(m_immuneTimer * m_immunityFramesSpeed)) * 255;
 		Spr_UpperBody.setColor(sf::Color(255, 255, 255, alpha));
 		Spr_Legs.setColor(sf::Color(255, 255, 255, alpha));
