@@ -16,6 +16,7 @@
 //
 //Library Includes
 #include <SFML/Graphics.hpp>
+#include <list>
 
 //Forward Declaration
 class BackBuffer;
@@ -38,24 +39,38 @@ public:
 	sf::Keyboard::Key IsAnyKeyPressed();
 	sf::Vector2i GetMousePosition();
 
+//	enum ButtonType {
+//		SHOOT,
+//		JUMP,
+//		SHOW_BALL,
+//		POWER_UP,
+//		DODGE,
+//		PAUSE
+//	};
+
 	enum ButtonType {
-		JUMP,
-		SHOW_BALL,
-		POWER_UP,
-		DODGE,
-		PAUSE
+		BUTTON_A = 0,
+		BUTTON_B = 1,
+		BUTTON_X = 2,
+		BUTTON_Y = 3,
+		BUTTON_LB = 4,
+		BUTTON_RB = 5,
+		BUTTON_BACK = 6,
+		BUTTON_START = 7,
+		BUTTON_L3 = 8,
+		BUTTON_R3 = 9
 	};
 
-	int GetAnyJoystickInput();
-
-	sf::Vector2i GetAimInput(int joystickID);
-	sf::Vector2i GetMovementInput(int joystickID);
-	float GetShootInput(int joystickID);
-	int GetEmoteInput(int joystickID);
-	
 	int GetJoystickCount();
 
-	std::initializer_list<ButtonType> GetButtonInput(int joystickID);
+	//sf::Vector2i GetAimInput(int joystickID, sf::Joystick::Axis axis, float pos);
+	//sf::Vector2i GetMovementInput(int joystickID, sf::Joystick::Axis axis, float pos);
+	//float GetShootInput(int joystickID, int button);
+	//int GetEmoteInput(int joystickID, sf::Joystick::Axis axis, float pos);
+	
+
+	void GetAnyJoystickInput(int joystickID, sf::Joystick::Axis axis, float pos);
+	void GetButtonInput(int joystickID, int button);
 
 
 private:
