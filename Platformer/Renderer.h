@@ -20,6 +20,10 @@
 #include <string>
 #include <map>
 
+// local includes
+#include "GlobalVariables.h"
+
+
 //Forward Declaration
 class SpriteTrack;
 

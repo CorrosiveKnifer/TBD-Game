@@ -28,5 +28,16 @@
 *.exe
 *.out
 *.app
-*.vs/Platformer/v16/*
 *.ipch
+*.db
+*.log
+*.suo
+*.db
+*.ilk
+*.pdb
+*.idb
+
+*/Debug/*
+*/Release/*
+.vs/Platformer/v16/Browse.VC.opendb
+.vs/Platformer/v16/.suo

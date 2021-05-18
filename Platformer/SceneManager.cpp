@@ -13,6 +13,7 @@
 #include "SceneManager.h"
 #include "Scene.h"
 #include "InputHandler.h"
+#include "GlobalVariables.h"
 
 #include <iostream>
 
@@ -66,6 +67,11 @@ SceneManager::~SceneManager()
 
 }
 
+void SceneManager::DestroyEntity(Entity* entity)
+{
+	m_topScene->DestroyEntity(entity);
+}
+
 // Name: DoSceneLoop
 // Author: Michael Jordan
 // Description: Starts the game loop which is contained within it's own while loop.
@@ -85,6 +91,8 @@ void SceneManager::DoSceneLoop()
 		do {
 			//Calculate time since last loop
 			float deltaTime = m_clock.getElapsedTime().asSeconds();
+			C_GlobalVariables::DeltaTime = deltaTime; // Sonja
+
 			m_clock.restart();
 
 			InputHandler::GetInstance().Update();

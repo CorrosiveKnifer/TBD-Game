@@ -64,6 +64,11 @@ void InputHandler::Update()
 			GetAnyJoystickInput(joyID, joyAxis, joyPos);
 		}
 	}
+
+	if (!IsKeyPressed(sf::Keyboard::Tab))
+	{
+		m_playerInControl = m_playerNext;
+	}
 }
 
 sf::Keyboard::Key InputHandler::IsAnyKeyPressed()
@@ -82,6 +87,16 @@ sf::Keyboard::Key InputHandler::IsAnyKeyPressed()
 sf::Vector2i InputHandler::GetMousePosition()
 {
 	return sf::Mouse::getPosition(*Renderer::GetInstance().GetWindow());
+}
+
+void InputHandler::SwitchCharacter(int current)
+{
+	if (current == m_playerInControl)
+	{
+		m_playerNext = current + 1;
+		if (current == 4)
+			m_playerNext = 1;
+	}
 }
 
 //Constructor

@@ -1,5 +1,6 @@
 #include "SceneManager.h"
 #include "LogoScene.h"
+#include "GlobalVariables.h"
 
 int main()
 {

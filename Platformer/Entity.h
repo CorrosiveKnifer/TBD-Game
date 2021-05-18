@@ -19,15 +19,13 @@
 
 //Local Includes
 #include "Renderer.h"
+#include "InputHandler.h"
 
 //Implementation
 class Entity
 {
 	//Member Functions
 public:
-
-	//Platform Collision:
-	enum ColliderType { NONE, NORTH, EAST, WEST, SOUTH};
 
 	Entity();
 	virtual ~Entity();
@@ -38,12 +36,8 @@ public:
 	//Inheritance functions:
 	virtual void Draw() = 0;
 	virtual void Process(float dT) = 0;
-	virtual void ApplyGravity(float _grav) = 0;
-	virtual bool IsCollidingWith(const sf::IntRect& otherDiment) const = 0;
-	virtual ColliderType GetCollider(const sf::IntRect& otherDiment);
-	virtual bool IsBelowOf(const sf::IntRect& otherDiment) const = 0;
-	virtual const sf::IntRect GetHitBox() const = 0;
-	virtual const sf::Vector2f GetSize() const = 0;
+	virtual void HandleHit(Entity* other) = 0;
+	virtual bool IsImmune() { return false; };
 
 	const sf::Vector2f GetWorldPosition() const;
 	const sf::Vector2f GetVelocity() const;
