@@ -17,6 +17,7 @@
 //Library Includes
 #include <SFML/Graphics.hpp>
 #include <list>
+#include "Player_Entity.h"
 
 //Forward Declaration
 class BackBuffer;
@@ -72,6 +73,12 @@ public:
 	void GetAnyJoystickInput(int joystickID, sf::Joystick::Axis axis, float pos);
 	void GetButtonInput(int joystickID, int button);
 
+	void SwitchCharacter(int current);
+
+	C_Player* player;
+
+	int m_playerInControl;
+	int m_playerNext;
 
 private:
 	InputHandler();

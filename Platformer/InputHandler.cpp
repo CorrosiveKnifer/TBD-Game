@@ -21,6 +21,7 @@
 //Static variables
 InputHandler* InputHandler::sm_pInstance = nullptr;
 
+
 InputHandler& InputHandler::GetInstance()
 {
 	if (sm_pInstance == nullptr)
@@ -185,7 +186,7 @@ void InputHandler::GetButtonInput(int joystickID, int button)
 	{
 	case BUTTON_A:
 		// JUMP
-
+		
 		break;
 	case BUTTON_B:
 		// DODGE
