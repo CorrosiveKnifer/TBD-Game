@@ -27,15 +27,14 @@
 // local includes
 #include "GlobalVariables.h"
 
-//enum PowerUpType
-//{
-//	NONE,
-//	SPEED,
-//	TRIPLESHOT,
-//	SHIELD,
-//	RAILSHOT,
-//	WATERFALL,
-//};
+enum EmoteType
+{
+	NO_EMOTE,
+	THUMBS_UP,
+	LAUGH,
+	MAD,
+	SHOW_OFF,
+};
 
 class C_Player : Entity
 {
@@ -57,7 +56,6 @@ public:
 	virtual bool IsImmune() { return m_immuneTimer > 0; };
 
 	int GetLives() { return this->myLives; }
-	void TakeLife() { this->myLives--; }
 	int GetScore() { return this->myScore; }
 	void SetScore(int _score) { this->myScore += _score; }
 	int GetPlayerID() { return PlayerNumber; }
@@ -77,7 +75,9 @@ private:
 	sf::Texture Tx_UB_ThrowDiagDown1, Tx_UB_ThrowDiagDown2, Tx_UB_Shield, Tx_UB_Victory;
 
 	sf::Sprite Spr_Legs, Spr_UpperBody;
-	
+	sf::Sprite* Spr_Emote;
+
+	sf::Texture* Tx_Emotes;
 
 	// the ball being held - is not a box2d object, simply a temporary overlay
 	sf::Texture Tx_MyBall_Overlay;
@@ -135,7 +135,7 @@ private:
 	float mf_Anim_RunSpeed_Timer = 0.0f;
 	int mi_Current_Leg_Frame = 0;
 	
-
+	float m_emoteTimer = 0.0f;
 };
 
 #endif

@@ -14,7 +14,8 @@ C_Ball::C_Ball(b2World* world, unsigned int playerID, sf::Vector2f _worldPositio
 	if (myPlayerID == 2) { Spr_Ball.setColor(sf::Color::Green); }
 	if (myPlayerID == 3) { Spr_Ball.setColor(sf::Color(0, 150, 255, 255)); }
 	if (myPlayerID == 4) { Spr_Ball.setColor(sf::Color::Yellow); }
-
+	myBallColor = Spr_Ball.getColor();
+	m_immuneColor = sf::Color(myBallColor.r * 0.75f, myBallColor.g * 0.75f, myBallColor.b * 0.75f, myBallColor.a * 0.85f);
 	// create a position ahead of the overlay ball for creation.
 	// _worldPosition = the position of the overlay ball sprite.
 	// _vectorVelocity the normalised direction vector the ball should go, IE Up,Right vector = (1.0f, -1.0f)
@@ -53,7 +54,12 @@ C_Ball::C_Ball(b2World* world, unsigned int playerID, sf::Vector2f _worldPositio
 
 void C_Ball::Draw()
 {
-	sf::Color tempColor = this->Spr_Ball.getColor();
+	if (IsImmune())
+		Spr_Ball.setColor(m_immuneColor);
+	else
+		Spr_Ball.setColor(myBallColor);
+
+	sf::Color tempColor = Spr_Ball.getColor();
 	float spacing = 1.1f;
 	b2Vec2 trailVelocity = this->MyBox2d.BOD->GetLinearVelocity();
 	sf::Vector2f originalPos = this->Spr_Ball.getPosition();
@@ -104,29 +110,29 @@ void C_Ball::Process(float dT)
 
 void C_Ball::HandleHit(Entity* other)
 {
-	if (other != nullptr)
+	if (other != nullptr && !IsImmune() && !other->IsImmune())
 	{
 		// player scoring
 		switch (myPlayerID)
 		{
 		case 1:
-			C_GlobalVariables::Player_1_Score += 100;
+			C_GlobalVariables::Player_1_Score += 10;
 			break;
 		case 2:
-			C_GlobalVariables::Player_2_Score += 100;
+			C_GlobalVariables::Player_2_Score += 10;
 			break;
 		case 3:
-			C_GlobalVariables::Player_3_Score += 100;
+			C_GlobalVariables::Player_3_Score += 10;
 			break;
 		case 4:
-			C_GlobalVariables::Player_4_Score += 100;
+			C_GlobalVariables::Player_4_Score += 10;
 			break;
 		}
 	}
 
 	if (m_bounceCount > 0)
 	{
-		m_bounceCount--;
+		m_bounceCount = std::clamp(m_bounceCount - 1, (unsigned int) 0, m_bounceCount);
 		float ratio = (float)(m_bounceCount+1) / (m_bounceMax+1);
 		b2Vec2 velBefore = MyBox2d.BOD->GetLinearVelocity();
 		MyBox2d.BOD->SetLinearVelocity(b2Vec2(velBefore.x * ratio, velBefore.y * ratio));
