@@ -18,7 +18,6 @@
 // Library Includes
 #include <Box2D.h>
 #include <SFML/Graphics.hpp>
-#include <SFML/Audio.hpp>
 
 // parent include
 #include "Entity.h"
@@ -86,11 +85,6 @@ private:
 	sf::Sprite Spr_Ball_overlay;
 	sf::Color myBallColor;
 
-	// sounds
-	sf::SoundBuffer SB_powerupCollected, SB_powerupUsed, SB_die, SB_WaterFall;
-	sf::Sound S_powerupCollected, S_powerupUsed, S_die, S_WaterFall;
-
-
 	struct body
 	{
 		b2BodyDef DEF;
@@ -100,7 +94,6 @@ private:
 	};
 
 	C_Ball* MyBall = nullptr;
-	std::vector<C_Ball*> MyBall_WaterFall;
 	body MyBox2d;
 
 	int PlayerNumber; //1,2,3,4  1=Red, 2=Green, 3= Blue,4=Yellow.
@@ -145,10 +138,6 @@ private:
 	int mi_Current_Leg_Frame = 0;
 	
 	float m_emoteTimer = 0.0f;
-	int mi_WaterFall_Count = 25; // 25 balls created for waterfall
-	int mi_WaterFall_Count_Orig = 25;
-	float mf_WaterFall_Timer = 0.0f;
-
 };
 
 #endif

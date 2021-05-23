@@ -1,17 +1,10 @@
 #pragma once
-// system includes
-#include <typeinfo>
-
-// Library Includes
 #include <Box2D.h>
-
-
-// local includes
+#include <typeinfo>
 #include "Player_Entity.h"
 #include "Ball.h"
 #include "Powerup.h"
 #include "GlobalVariables.h"
-#include "SoundBuffer.h"
 
 class CollisionListener : public b2ContactListener
 {
@@ -33,7 +26,6 @@ public:
 
 		if (caseNo == (EntityType::PLAYER | EntityType::BALL))
 		{
-
 			entityA->HandleHit(entityB);
 			entityB->HandleHit(entityA);
 			return;

@@ -110,17 +110,6 @@ C_Player::C_Player(b2World* world,int _playerNumber, b2Vec2 _position) : Entity(
 	Tx_Emotes[1] = *Renderer::GetInstance().CreateTexture("images/Emotes/Emote2.png");
 	Tx_Emotes[2] = *Renderer::GetInstance().CreateTexture("images/Emotes/Emote3.png");
 	Tx_Emotes[3] = *Renderer::GetInstance().CreateTexture("images/Emotes/Emote4.png");
-
-	// sounds
-	SB_powerupCollected.loadFromFile("Resources/sounds/powerup_collect1.wav");
-	SB_powerupUsed.loadFromFile("Resources/sounds/powerup.wav");
-	SB_die.loadFromFile("Resources/sounds/big_buzz.wav");
-	SB_WaterFall.loadFromFile("Resources/sounds/big_dong.wav");
-
-	S_powerupCollected.setBuffer(SB_powerupCollected);
-	S_powerupUsed.setBuffer(SB_powerupUsed);
-	S_die.setBuffer(SB_die);
-	S_WaterFall.setBuffer(SB_WaterFall);
 }
 
 void C_Player::Draw()
@@ -165,37 +154,6 @@ void C_Player::Draw()
 		Renderer::GetInstance().Draw(Spr_Ball_overlay);
 	}
 
-	if (MyBall_WaterFall.size() > 0)
-	{
-		for (auto it : MyBall_WaterFall)
-		{
-			it->Draw();
-		}
-	}
-	if (MyBall_WaterFall.size() > 0)
-	{
-		for (unsigned int i = 0; i < MyBall_WaterFall.size();i++)
-		{
-			if (MyBall_WaterFall[i]->GetBounceCount() <= 0)
-			{
-				delete MyBall_WaterFall[i];
-				MyBall_WaterFall[i] = nullptr;
-			}
-		}
-	}
-	for (unsigned int i = 0; i < MyBall_WaterFall.size();)
-	{
-		if (MyBall_WaterFall[i] == nullptr)
-		{
-			MyBall_WaterFall.erase(MyBall_WaterFall.begin()+i);
-		}
-		else
-		{
-			i++;
-		}
-	}
-
-
 	if (m_emoteTimer > 0)
 	{
 		float ratio = 1.0f;
@@ -218,21 +176,8 @@ void C_Player::Draw()
 	}
 }
 
-
-// ------------------------------------------------- Process -----------------------------------------------------------------
 void C_Player::Process(float dT)
 {
-	// process waterfall effect
-	if (MyBall_WaterFall.size() > 0)
-	{
-		for (auto it : MyBall_WaterFall)
-		{
-			// update sprite pos.
-			it->Process(dT);
-		}
-	}
-
-
 	// grab any score accumulated on global variables (from ball collisions hits) will sort multi level later.
 	switch (PlayerNumber)
 	{
@@ -266,23 +211,6 @@ void C_Player::Process(float dT)
 
 	if(MyBall != nullptr)
 		MyBall->Process(dT);
-
-	// Make the WATERFALL!!!
-	if (myPowerupType == WATERFALL && mi_WaterFall_Count > 0)
-	{
-		mf_WaterFall_Timer += dT;
-		if (mf_WaterFall_Timer > 0.2f)
-		{
-			mf_WaterFall_Timer = 0.0f;
-			mi_WaterFall_Count--;
-			MyBall_WaterFall.push_back(new C_Ball(MyBox2d.BOD->GetWorld(), PlayerNumber,sf::Vector2f(790.0f, 5.0f),b2Vec2(-0.5f - ((float)(mi_WaterFall_Count)/100.0f),-0.5f),true));
-		}
-	}
-	if (myPowerupType == WATERFALL && mi_WaterFall_Count <= 0)
-	{
-		myPowerupType = NONE;
-		mi_WaterFall_Count = mi_WaterFall_Count_Orig;
-	}
 
 	if (m_isDead )
 	{
@@ -462,8 +390,6 @@ void C_Player::HandleHit(Entity* other)
 		m_isDead = true;
 		m_deathTimer = 0.0f;
 		this->myLives--;
-
-		S_die.play();
 	}
 }
 
@@ -485,32 +411,24 @@ void C_Player::Respawn(b2Vec2 position, b2World* world)
 
 void C_Player::ApplyPowerUp(PowerUpType type)
 {
-	
-
 	switch (type)
 	{
 	case NONE:
 		break;
 	case SPEED:
 		myPowerupType = SPEED;
-		S_powerupCollected.play();
 		break;
 	case TRIPLESHOT:
 		myPowerupType = TRIPLESHOT;
-		S_powerupCollected.play();
 		break;
 	case SHIELD:
 		myPowerupType = SHIELD;
-		S_powerupCollected.play();
 		break;
 	case RAILSHOT:
 		myPowerupType = RAILSHOT;
-		S_powerupCollected.play();
 		break;
 	case WATERFALL:
 		myPowerupType = WATERFALL;
-		mi_WaterFall_Count = mi_WaterFall_Count_Orig;
-		S_WaterFall.play(); // <----different sound FX
 		break;
 	default:
 		break;
@@ -752,9 +670,6 @@ void C_Player::UsePowerUp()
 	if (myPowerupType == PowerUpType::NONE)
 		return;
 
-	// play use sound
-	S_powerupUsed.play();
-
 	switch (myPowerupType)
 	{
 	case NONE:
@@ -769,7 +684,6 @@ void C_Player::UsePowerUp()
 	case RAILSHOT:
 		break;
 	case WATERFALL:
-
 		//Sonja's job
 		break;
 	default:

@@ -2,7 +2,7 @@
 
 #include "Ball.h"
 
-C_Ball::C_Ball(b2World* world, unsigned int playerID, sf::Vector2f _worldPosition, b2Vec2 _vectorVelocity, bool isTemporary) : Entity()
+C_Ball::C_Ball(b2World* world, unsigned int playerID, sf::Vector2f _worldPosition, b2Vec2 _vectorVelocity) : Entity()
 {
 	Tx_MyBall.loadFromFile("Resources/images/Ball/Ball.png");
 
@@ -25,8 +25,8 @@ C_Ball::C_Ball(b2World* world, unsigned int playerID, sf::Vector2f _worldPositio
 	_vectorVelocity.Normalize();
 
 	// place the ball out infront to avoid instantiating inside walls.
-	_worldPosition.x += 30.0f * _vectorVelocity.x;
-	_worldPosition.y += 30.0f * _vectorVelocity.y;
+	_worldPosition.x += 20.0f * _vectorVelocity.x;
+	_worldPosition.y += 20.0f * _vectorVelocity.y;
 
 	//box2d setup
 	MyBox2d.DEF.type = b2_dynamicBody;
@@ -50,10 +50,6 @@ C_Ball::C_Ball(b2World* world, unsigned int playerID, sf::Vector2f _worldPositio
 
 	m_bounceCount = m_bounceMax;
 	MyBox2d.BOD->SetLinearVelocity(_vectorVelocity);
-
-	SB_ball_Hit.loadFromFile("Resources/sounds/ball_hit.wav");
-	S_ball_Hit.setBuffer(SB_ball_Hit);
-	S_ball_Hit.setVolume(40.0f);
 }
 
 void C_Ball::Draw()
@@ -103,8 +99,7 @@ void C_Ball::Process(float dT)
 	}
 	else if (this->MyBox2d.BOD->GetPosition().y * C_GlobalVariables::PPM < 0)
 	{
-		// disabled for waterfall effect - Sonja
-		//this->MyBox2d.BOD->SetTransform(b2Vec2(this->MyBox2d.BOD->GetPosition().x, C_GlobalVariables::ScreenSizeY / C_GlobalVariables::PPM), 0);
+		this->MyBox2d.BOD->SetTransform(b2Vec2(this->MyBox2d.BOD->GetPosition().x, C_GlobalVariables::ScreenSizeY / C_GlobalVariables::PPM), 0);
 	}
 	if (m_bounceCount == 0)
 	{
@@ -115,8 +110,6 @@ void C_Ball::Process(float dT)
 
 void C_Ball::HandleHit(Entity* other)
 {
-	
-
 	if (other != nullptr && !IsImmune() && !other->IsImmune())
 	{
 		// player scoring
@@ -139,9 +132,6 @@ void C_Ball::HandleHit(Entity* other)
 
 	if (m_bounceCount > 0)
 	{
-		// play sound, Sonja.
-		S_ball_Hit.play();
-
 		m_bounceCount = std::clamp(m_bounceCount - 1, (unsigned int) 0, m_bounceCount);
 		float ratio = (float)(m_bounceCount+1) / (m_bounceMax+1);
 		b2Vec2 velBefore = MyBox2d.BOD->GetLinearVelocity();
