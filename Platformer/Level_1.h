@@ -30,7 +30,7 @@
 #include "LevelLoader.h"
 #include "Player_Entity.h"
 #include "Powerup.h"
-
+#include "SoundBuffer.h"
 
 class c_Level_1 : public Scene
 

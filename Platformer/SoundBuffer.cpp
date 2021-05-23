@@ -47,8 +47,8 @@ SoundBuffer::SoundBuffer()
 	}
 	else
 	{
-		m_backgroundVol = 1.0f;
-		m_soundVol = 1.0f;
+		m_backgroundVol = 35.0f;
+		m_soundVol = 100.0f;
 	}
 }
 

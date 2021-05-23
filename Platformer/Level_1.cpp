@@ -132,6 +132,8 @@ c_Level_1::c_Level_1() : Scene()
 	Spr_MyCollectedPowerUp[1].setPosition(1863.0f, 170.0f);
 	Spr_MyCollectedPowerUp[2].setPosition(174.0f, 970.0f);
 	Spr_MyCollectedPowerUp[3].setPosition(1863.0f, 970.0f);
+
+
 }
 
 
