@@ -55,7 +55,7 @@ void InputHandler::Update()
 			int joyID = event.joystickButton.joystickId;
 			int joyBtn = event.joystickButton.button;
 
-			GetButtonInput(joyID, joyBtn);
+			//GetButtonInput(joyID, joyBtn);
 		}
 		if (event.type == sf::Event::JoystickMoved)
 		{
@@ -63,7 +63,7 @@ void InputHandler::Update()
 			sf::Joystick::Axis joyAxis = event.joystickMove.axis;
 			float joyPos = event.joystickMove.position;
 
-			GetAnyJoystickInput(joyID, joyAxis, joyPos);
+			//GetAnyJoystickInput(joyID, joyAxis, joyPos);
 		}
 	}
 
@@ -114,120 +114,137 @@ InputHandler::~InputHandler()
 }
 
 //// Get the aiming direction input from the joystick
-//sf::Vector2i InputHandler::GetAimInput(int joystickID, sf::Joystick::Axis axis, float pos)
-//{
-//	return sf::Vector2i();
-//}
-//
-//// Get the movement direction input from the joystick
-//sf::Vector2i InputHandler::GetMovementInput(int joystickID, sf::Joystick::Axis axis, float pos)
-//{
-//	return sf::Vector2i();
-//}
-//
-//// Get the shoot input from the joystick
-//float InputHandler::GetShootInput(int joystickID, int button)
-//{
-//	return 0.0f;
-//}
-//
-//// Get the emote input from the joystick
-//int InputHandler::GetEmoteInput(int joystickID, sf::Joystick::Axis axis, float pos)
-//{
-//	return 0;
-//}
+sf::Vector2f InputHandler::GetAimInput(int joystickID)
+{
+	return sf::Vector2f(sf::Joystick::getAxisPosition(joystickID, sf::Joystick::Axis::U), sf::Joystick::getAxisPosition(joystickID, sf::Joystick::Axis::V));
+}
+
+// Get the movement direction input from the joystick
+sf::Vector2f InputHandler::GetMovementInput(int joystickID)
+{	
+	return sf::Vector2f(sf::Joystick::getAxisPosition(joystickID, sf::Joystick::Axis::X), sf::Joystick::getAxisPosition(joystickID, sf::Joystick::Axis::Y));
+}
+
+// Get the shoot input from the joystick
+float InputHandler::GetShootInput(int joystickID)
+{
+	return sf::Joystick::getAxisPosition(joystickID, sf::Joystick::Axis::Z);
+}
+
+// Get the emote input from the joystick
+sf::Vector2f InputHandler::GetEmoteInput(int joystickID)
+{
+	return sf::Vector2f(sf::Joystick::getAxisPosition(joystickID, sf::Joystick::Axis::PovX), sf::Joystick::getAxisPosition(joystickID, sf::Joystick::Axis::PovY));
+}
 
 // Return the amount of joysticks connected
 int InputHandler::GetJoystickCount()
 {
-
-	return 0;
-}
-
-// Get Any Input from a Joystick
-void InputHandler::GetAnyJoystickInput(int joystickID, sf::Joystick::Axis axis, float pos)
-{
-	switch (axis)
+	for (int i = 0; i < 8; i++)
 	{
-	case sf::Joystick::X:
-		// MOVEMENT - LEFT JOYSTICK - LEFT (-X) AND RIGHT (X)
-
-		break;
-	case sf::Joystick::Y:
-		// MOVEMENT - LEFT JOYSTICK - UP (-Y) AND DOWN (Y)
-
-		break;
-	case sf::Joystick::R:
-		// AIM - RIGHT JOYSTICK - UP (-R) AND DOWN (R)
-
-		break;
-	case sf::Joystick::U:
-		// AIM - RIGHT JOYSTICK - LEFT (-U) AND RIGHT (U)
-
-		break;
-	case sf::Joystick::PovX:
-		// EMOTE - DPAD - LEFT (-PovX) AND RIGHT (PovX)
-
-		break;
-	case sf::Joystick::PovY:
-		// EMOTE - DPAD - UP (PovY) AND DOWN (-PovY)
-		break;
-	case sf::Joystick::Z:
-		// SHOOT - LEFT TRIGGER (Z) AND RIGHT TRIGGER (-Z)
-
-		break;
-	default:
-		break;
+		bool connected = sf::Joystick::isConnected(i);
+		sf::Joystick::Identification controllerID = sf::Joystick::getIdentification(i);
+		if (connected)
+		{
+			std::cout << "Controller Detected" << std::endl;
+			std::cout << "\nVendor ID: " << controllerID.vendorId << "\nProduct ID: " << controllerID.productId << std::endl << std::endl;
+		}
 	}
+	return sf::Joystick::Count;
 }
 
-void InputHandler::GetButtonInput(int joystickID, int button)
+std::list<InputHandler::ButtonType> InputHandler::getButton(int joystickID)
 {
-	switch (button)
-	{
-	case BUTTON_A:
-		// JUMP
-		
-		break;
-	case BUTTON_B:
-		// DODGE
 
-		break;
-	case BUTTON_X:
-		// SHOW BALL
-
-		break;
-	case BUTTON_Y:
-		// POWER UP
-
-		break;
-	case BUTTON_LB:
-		// DODGE
-
-		break;
-	case BUTTON_RB:
-		// JUMP
-		break;
-	case BUTTON_BACK:
-		// NOTHING
-
-		break;
-	case BUTTON_START:
-		// PAUSE
-
-		break;
-	case BUTTON_L3:
-		// NOTHING
-
-		break;
-	case BUTTON_R3:
-		// NOTHING
-
-		break;
-	default:
-		break;
-	}
+	return std::list<ButtonType>();
 }
+
+//OLD ATTEMPT AT INPUTS
+
+//// Get Any Input from a Joystick
+//void InputHandler::GetAnyJoystickInput(int joystickID, sf::Joystick::Axis axis, float pos)
+//{
+//	switch (axis)
+//	{
+//	case sf::Joystick::X:
+//		// MOVEMENT - LEFT JOYSTICK - LEFT (-X) AND RIGHT (X)
+//
+//		break;
+//	case sf::Joystick::Y:
+//		// MOVEMENT - LEFT JOYSTICK - UP (-Y) AND DOWN (Y)
+//
+//		break;
+//	case sf::Joystick::R:
+//		// AIM - RIGHT JOYSTICK - UP (-R) AND DOWN (R)
+//
+//		break;
+//	case sf::Joystick::U:
+//		// AIM - RIGHT JOYSTICK - LEFT (-U) AND RIGHT (U)
+//
+//		break;
+//	case sf::Joystick::PovX:
+//		// EMOTE - DPAD - LEFT (-PovX) AND RIGHT (PovX)
+//
+//		break;
+//	case sf::Joystick::PovY:
+//		// EMOTE - DPAD - UP (PovY) AND DOWN (-PovY)
+//		break;
+//	case sf::Joystick::Z:
+//		// SHOOT - LEFT TRIGGER (Z) AND RIGHT TRIGGER (-Z)
+//
+//		break;
+//	default:
+//		break;
+//	}
+//}
+//
+//void InputHandler::GetButtonInput(int joystickID, int button)
+//{
+//	switch (button)
+//	{
+//	case BUTTON_A:
+//		// JUMP
+//		
+//		break;
+//	case BUTTON_B:
+//		// DODGE
+//
+//		break;
+//	case BUTTON_X:
+//		// SHOW BALL
+//
+//		break;
+//	case BUTTON_Y:
+//		// POWER UP
+//
+//		break;
+//	case BUTTON_LB:
+//		// DODGE
+//
+//		break;
+//	case BUTTON_RB:
+//		// JUMP
+//		break;
+//	case BUTTON_BACK:
+//		// NOTHING
+//
+//		break;
+//	case BUTTON_START:
+//		// PAUSE
+//
+//		break;
+//	case BUTTON_L3:
+//		// NOTHING
+//
+//		break;
+//	case BUTTON_R3:
+//		// NOTHING
+//
+//		break;
+//	default:
+//		break;
+//	}
+//}
 
 
 // INITIALISE AND INFORMATION

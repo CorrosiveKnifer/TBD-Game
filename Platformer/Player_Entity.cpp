@@ -18,6 +18,7 @@
 C_Player::C_Player(b2World* world,int _playerNumber, b2Vec2 _position) : Entity()
 {
 	PlayerNumber = _playerNumber;
+	controlJoystickID = _playerNumber - 1;
 	std::string tempPath = "";
 	//1,2,3,4  1=Red, 2=Green, 3= Blue,4=Yellow.
 	if (PlayerNumber == 1)
@@ -531,16 +532,22 @@ void C_Player::HandleInput(float dt)
 	}
 	MyBox2d.BOD->SetLinearVelocity(b2Vec2(xVelocity, yVelocity));
 
-	if (PlayerNumber == InputHandler::GetInstance().m_playerInControl) //Lock only one character to move for now
-	{
+	//if (PlayerNumber == InputHandler::GetInstance().m_playerInControl) //Lock only one character to move for now
+	//{
+		//Controller Switch Player
+		if (sf::Joystick::isButtonPressed(controlJoystickID, InputHandler::GetInstance().BUTTON_BACK))
+		{
+			InputHandler::GetInstance().SwitchCharacter(PlayerNumber);
+		}
+
 		//Switch active player
 		if (InputHandler::GetInstance().IsKeyPressed(sf::Keyboard::Tab))
 		{
 			InputHandler::GetInstance().SwitchCharacter(PlayerNumber);
 		}
 
-		//Spawn Ball/Grab ball
-		if (InputHandler::GetInstance().IsKeyPressed(sf::Keyboard::E))
+		//Controller Shoot input
+		if (InputHandler::GetInstance().GetShootInput(controlJoystickID) < -20 || InputHandler::GetInstance().GetShootInput(controlJoystickID) > 20)
 		{
 			if (!m_hasThrown && MyBall == nullptr)
 			{
@@ -575,25 +582,121 @@ void C_Player::HandleInput(float dt)
 			xAxis -= 1.0f;
 		}
 
-		sf::Vector2i newFacingDirection;
-		if (InputHandler::GetInstance().IsKeyPressed(sf::Keyboard::Left))
+		//Spawn Ball/Grab ball
+		if (InputHandler::GetInstance().IsKeyPressed(sf::Keyboard::E))
 		{
-			newFacingDirection.x = -1.0f;
+			if (!m_hasThrown && MyBall == nullptr)
+			{
+				m_hasThrown = true;
+				MyBall = new C_Ball(MyBox2d.BOD->GetWorld(), PlayerNumber, Spr_Ball_overlay.getPosition(), b2Vec2(FaceDirection.x, FaceDirection.y));
+				m_immuneTimer = 0.0f;
+			}
+			else if (!m_hasThrown && MyBall != nullptr)
+			{
+				b2Vec2 direction = MyBox2d.BOD->GetPosition() - MyBall->GetBody()->GetPosition();
+				float distance = direction.LengthSquared();
+				if (sqrtf(distance) < m_playerGrabRange)
+				{
+					delete MyBall;
+					MyBall = nullptr;
+					m_hasThrown = true;
+				}
+			}
 		}
-		if (InputHandler::GetInstance().IsKeyPressed(sf::Keyboard::Right))
+		else if (m_hasThrown)
 		{
-			newFacingDirection.x = 1.0f;
+			m_hasThrown = false;
 		}
-		if (InputHandler::GetInstance().IsKeyPressed(sf::Keyboard::Up))
+		//float xAxis = 0.0f;
+		//float yAxis = 0.0f;
+		
+		//Controller Movement
+		if (InputHandler::GetInstance().GetMovementInput(controlJoystickID).x != 0)
 		{
-			newFacingDirection.y = 1.0f;
+			//Left
+			if (InputHandler::GetInstance().GetMovementInput(controlJoystickID).x <= -20)
+			{
+				xAxis -= 1.0f;
+			}
+			//Right
+			if (InputHandler::GetInstance().GetMovementInput(controlJoystickID).x >= 20)
+			{
+				xAxis += 1.0f;
+			}
 		}
-		if (InputHandler::GetInstance().IsKeyPressed(sf::Keyboard::Down))
-		{
-			newFacingDirection.y = -1.0f;
-		}
-		UpdateDirection(newFacingDirection);
 
+		if (InputHandler::GetInstance().IsKeyPressed(sf::Keyboard::D))
+		{
+			xAxis += 1.0f;
+		}
+		if (InputHandler::GetInstance().IsKeyPressed(sf::Keyboard::A))
+		{
+			xAxis -= 1.0f;
+		}
+
+		sf::Vector2i newFacingDirection;
+		//Controller Aiming
+		if (InputHandler::GetInstance().GetAimInput(controlJoystickID).x <= -20 || 
+			InputHandler::GetInstance().GetAimInput(controlJoystickID).x >= 20 || 
+			InputHandler::GetInstance().GetAimInput(controlJoystickID).y <= -20 ||
+			InputHandler::GetInstance().GetAimInput(controlJoystickID).y >= 20)
+		{
+			//Left
+			if (InputHandler::GetInstance().GetAimInput(controlJoystickID).x <= -20)
+			{
+				newFacingDirection.x = -1.0f;
+			}
+			//Right
+			if (InputHandler::GetInstance().GetAimInput(controlJoystickID).x >= 20)
+			{
+				newFacingDirection.x = 1.0f;
+			}
+			//Up
+			if (InputHandler::GetInstance().GetAimInput(controlJoystickID).y <= -20)
+			{
+				newFacingDirection.y = 1.0f;
+			}
+			//Down
+			if (InputHandler::GetInstance().GetAimInput(controlJoystickID).y >= 20)
+			{
+				newFacingDirection.y = -1.0f;
+			}
+			UpdateDirection(newFacingDirection);
+		}
+
+		////Keyboard Aiming
+		////sf::Vector2i newFacingDirection;
+		//if (InputHandler::GetInstance().IsKeyPressed(sf::Keyboard::Left))
+		//{
+		//	newFacingDirection.x = -1.0f;
+		//}
+		//if (InputHandler::GetInstance().IsKeyPressed(sf::Keyboard::Right))
+		//{
+		//	newFacingDirection.x = 1.0f;
+		//}
+		//if (InputHandler::GetInstance().IsKeyPressed(sf::Keyboard::Up))
+		//{
+		//	newFacingDirection.y = 1.0f;
+		//}
+		//if (InputHandler::GetInstance().IsKeyPressed(sf::Keyboard::Down))
+		//{
+		//	newFacingDirection.y = -1.0f;
+		//}
+		//UpdateDirection(newFacingDirection);
+
+
+		//Controller Jump
+		if (sf::Joystick::isButtonPressed(controlJoystickID, InputHandler::GetInstance().BUTTON_A) && m_isGrounded && !m_hasJumped || sf::Joystick::isButtonPressed(controlJoystickID, InputHandler::GetInstance().BUTTON_RB) && m_isGrounded && !m_hasJumped)
+		{
+			yAxis += 1.0f;
+			m_hasJumped = true;
+		}
+		else if (m_isGrounded)
+		{
+			m_hasJumped = false;
+		}
+
+		//Keyboard Jump
 		if (InputHandler::GetInstance().IsKeyPressed(sf::Keyboard::Space) && m_isGrounded && !m_hasJumped)
 		{
 			yAxis += 1.0f;
@@ -603,6 +706,27 @@ void C_Player::HandleInput(float dt)
 		{
 			m_hasJumped = false;
 		}
+
+		//Controller Dodge
+		if (sf::Joystick::isButtonPressed(controlJoystickID, InputHandler::GetInstance().BUTTON_B) || sf::Joystick::isButtonPressed(controlJoystickID, InputHandler::GetInstance().BUTTON_LB))
+		{
+			//DODGE
+
+		}
+
+		//Controller Pause
+		if (sf::Joystick::isButtonPressed(controlJoystickID, InputHandler::GetInstance().BUTTON_START))
+		{
+
+		}
+
+		//Controller Show Ball (Radar)
+		if (sf::Joystick::isButtonPressed(controlJoystickID, InputHandler::GetInstance().BUTTON_X))
+		{
+			//Show Ball
+
+		}
+
 		//MovePlayer
 		b2Vec2 prevVelocity = MyBox2d.BOD->GetLinearVelocity();
 		if (yAxis != 0.0f)
@@ -623,12 +747,73 @@ void C_Player::HandleInput(float dt)
 		{
 			MyBox2d.BOD->ApplyForceToCenter(b2Vec2(0, m_playerFallModifier), true);
 		}
-		//Use Power Up
+
+		//Controller Use PowerUp
+		if (sf::Joystick::isButtonPressed(controlJoystickID, InputHandler::GetInstance().BUTTON_Y))
+		{
+			UsePowerUp();
+		}
+
+		//Keyboard Use Power Up
 		if (InputHandler::GetInstance().IsKeyPressed(sf::Keyboard::Q))
 		{
 			UsePowerUp();
 		}
 
+		//Controller Emotes
+		if (InputHandler::GetInstance().GetEmoteInput(controlJoystickID).x != 0 || InputHandler::GetInstance().GetEmoteInput(controlJoystickID).y != 0)
+		{
+			//Dpad Up
+			if (InputHandler::InputHandler::GetInstance().GetEmoteInput(controlJoystickID).y >= 20)
+			{
+				Spr_Emote->setTexture(Tx_Emotes[0]);
+				if (m_emoteTimer <= 1.0f)
+				{
+					m_emoteTimer = 1.0f;
+				}
+				if (m_emoteTimer <= 0.0f)
+					m_emoteTimer = 1.5f;
+				return;
+			}
+			//Dpad Left
+			if (InputHandler::InputHandler::GetInstance().GetEmoteInput(controlJoystickID).x <= 20)
+			{
+				Spr_Emote->setTexture(Tx_Emotes[1]);
+				if (m_emoteTimer <= 1.0f)
+				{
+					m_emoteTimer = 1.0f;
+				}
+				if (m_emoteTimer <= 0.0f)
+					m_emoteTimer = 1.5f;
+				return;
+			}
+			//Dpad Down
+			if (InputHandler::InputHandler::GetInstance().GetEmoteInput(controlJoystickID).y <= 20)
+			{
+				Spr_Emote->setTexture(Tx_Emotes[2]);
+				if (m_emoteTimer <= 1.0f)
+				{
+					m_emoteTimer = 1.0f;
+				}
+				if (m_emoteTimer <= 0.0f)
+					m_emoteTimer = 1.5f;
+				return;
+			}
+			//Dpad Right
+			if (InputHandler::InputHandler::GetInstance().GetEmoteInput(controlJoystickID).x >= 20)
+			{
+				Spr_Emote->setTexture(Tx_Emotes[3]);
+				if (m_emoteTimer <= 1.0f)
+				{
+					m_emoteTimer = 1.0f;
+				}
+				if (m_emoteTimer <= 0.0f)
+					m_emoteTimer = 1.5f;
+				return;
+			}
+		}
+
+		//Keyboard Emotes
 		if (InputHandler::GetInstance().IsKeyPressed(sf::Keyboard::Num1))
 		{
 			Spr_Emote->setTexture(Tx_Emotes[0]);
@@ -673,7 +858,7 @@ void C_Player::HandleInput(float dt)
 				m_emoteTimer = 1.5f;
 			return;
 		}
-	}
+	//}
 }
 
 void C_Player::ProcessImmuneFrames(float dt)
