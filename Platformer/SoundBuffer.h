@@ -33,10 +33,10 @@ class SoundBuffer
 {
 	//Member function
 public:
-	SoundBuffer();
-	~SoundBuffer();
+	static SoundBuffer& GetInstance();
+	static void DestroyInstance();
 
-	bool Initialise();
+	~SoundBuffer();
 
 	void Process(sf::Vector2f playerLoc);
 
@@ -59,6 +59,8 @@ public:
 	unsigned int GetSEVolume();
 
 private:
+	SoundBuffer();
+
 	void DumpSounds();
 	float CalculateVol(sf::Vector2f loc);
 protected:
@@ -67,7 +69,7 @@ protected:
 public:
 
 private:
-
+	static SoundBuffer* sm_pInstance;
 protected:
 	float m_backgroundVol, m_soundVol, m_localDistance;
 	float m_volModifier;

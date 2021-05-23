@@ -17,12 +17,39 @@
 //Local Includes
 #include "IniParser.h"
 
+SoundBuffer* SoundBuffer::sm_pInstance = nullptr;
+
+SoundBuffer& SoundBuffer::GetInstance()
+{
+	if (sm_pInstance == nullptr)
+		sm_pInstance = new SoundBuffer();
+
+	return *sm_pInstance;
+}
+
+void SoundBuffer::DestroyInstance()
+{
+	if (sm_pInstance != nullptr)
+		delete sm_pInstance;
+
+	sm_pInstance = nullptr;
+}
+
 //Constructor
 SoundBuffer::SoundBuffer()
 	: m_backgroundVol(0), m_soundVol(0), m_playerHearing(0, 0), m_localDistance(400)
 	, m_volModifier(1.0)
 {
-
+	if (IniParser::GetInstance().LoadIniFile("assets/settings.ini"))
+	{
+		m_backgroundVol = IniParser::GetInstance().GetValueAsFloat("Settings", "BGMusic");
+		m_soundVol = IniParser::GetInstance().GetValueAsFloat("Settings", "SEMusic");
+	}
+	else
+	{
+		m_backgroundVol = 1.0f;
+		m_soundVol = 1.0f;
+	}
 }
 
 //Deconstructor
@@ -45,27 +72,6 @@ SoundBuffer::~SoundBuffer()
 		delete m_heldMusic;
 		m_heldMusic = 0;
 	}
-}
-
-// Initialise( )
-//
-// Description:	Sets up the sound buffer's values for use. This function MUST
-//				be called before using any of the other functions.
-//
-// @param	n/a
-//
-// @return	bool	Status of the initialisation.
-//
-bool SoundBuffer::Initialise()
-{
-	if (IniParser::GetInstance().LoadIniFile("assets/settings.ini"))
-	{
-		m_backgroundVol = IniParser::GetInstance().GetValueAsFloat("Settings", "BGMusic");
-		m_soundVol = IniParser::GetInstance().GetValueAsFloat("Settings", "SEMusic");
-		
-		return true;
-	}
-	return false;
 }
 
 // Process( sf::Vector2f )
