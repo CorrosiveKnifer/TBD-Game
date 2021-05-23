@@ -37,11 +37,8 @@ LogoScene::LogoScene()
 	m_timePassed = 0.0f;
 	m_hasFinished = false;
 
-	SoundBuffer* myMusic1;
-	myMusic1 = new SoundBuffer();
-	myMusic1->Initialise();
-	myMusic1->LoadBackgroundMusic("Resources/music/Music1.wav");
-	myMusic1->PlayBackgroundMusic();
+	SoundBuffer::GetInstance().LoadBackgroundMusic("Resources/music/Music1.wav");
+	SoundBuffer::GetInstance().PlayBackgroundMusic();
 }
 
 //Destructor
