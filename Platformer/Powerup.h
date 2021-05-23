@@ -11,13 +11,16 @@
 // Author         	: Sonja Fowler
 // Mail         	: sonja@alp.co.nz
 //
-// 
-// parent include
-#include "Entity.h"
+
+#ifndef _POWERUP_ENTITY_
+#define _POWERUP_ENTITY_
 
 // Library Includes
 #include <Box2D.h>
 #include <SFML/Graphics.hpp>
+
+// parent include
+#include "Entity.h"
 
 // local includes
 #include "GlobalVariables.h"
@@ -34,7 +37,7 @@ enum PowerUpType
 	WATERFALL,
 };
 
-class C_PowerUp : public Entity
+class C_PowerUp : Entity
 {
 public:
 	C_PowerUp(b2World* world,b2Vec2 _worldPosition, unsigned int _PU_typeID);
@@ -72,3 +75,5 @@ private:
 
 	body MyBox2d;
 };
+
+#endif

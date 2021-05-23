@@ -11,21 +11,24 @@
 // Author         	: Sonja Fowler
 // Mail         	: sonja@alp.co.nz
 //
-// 
-// parent include
-#include "Entity.h"
+
+#ifndef _BALL_ENTITY_
+#define _BALL_ENTITY_
 
 // Library Includes
 #include <Box2D.h>
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 
+// parent include
+#include "Entity.h"
+
 // local includes
 #include "GlobalVariables.h"
 
 class Entity;
 
-class C_Ball : public Entity
+class C_Ball : Entity
 {
 public:
 	C_Ball(b2World* world, unsigned int playerID, sf::Vector2f _worldPosition, b2Vec2 _vectorVelocity,bool isTemporary = false);
@@ -37,8 +40,8 @@ public:
 	virtual void HandleHit(Entity* other);
 
 	const b2Body* GetBody() { return MyBox2d.BOD; };
-	int GetPlayerID() { return this->myPlayerID; };
-	int GetBounceCount() { return this->m_bounceCount; };
+	int GetPlayerID() { return this->myPlayerID; }
+	int GetBounceCount() { return this->m_bounceCount; }
 	virtual bool IsImmune() { return m_bounceCount == 0; };
 private:
 	unsigned int myPlayerID;
@@ -67,3 +70,5 @@ private:
 
 	body MyBox2d;
 };
+
+#endif

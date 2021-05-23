@@ -17,6 +17,7 @@
 //Local Includes
 #include "SceneManager.h"
 #include "Renderer.h"
+#include "Player_Entity.h"
 
 //Static variables
 InputHandler* InputHandler::sm_pInstance = nullptr;
