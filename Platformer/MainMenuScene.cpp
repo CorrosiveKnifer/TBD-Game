@@ -34,32 +34,31 @@ MainMenuScene::MainMenuScene()
 	, m_pPlayBtn(0), m_pSelectBtn(0), m_pSettingBtn(0), m_pQuitBtn(0)
 	, keypressed(-1)
 {	 
-	m_pMenuTitle = new sf::Image();
 	m_pPlayBtn = new Button();
 	m_pSelectBtn = new Button();
 	m_pSettingBtn = new Button();
 	m_pQuitBtn = new Button();
 
 	//Play button:
-	sf::Sprite* temp = o_pRenderer->CreateSprite("images/Titles/play_button.jpg");
+	sf::Sprite* temp = o_pRenderer->CreateSprite("playButton.png");
 	temp->setScale(0.8f, 0.7f);
 	temp->setPosition(70, static_cast<float>(o_pRenderer->GetWindowSize().y * 3 / 7));
 	m_pPlayBtn->Initialise(temp, std::bind(&MainMenuScene::Play, this));
 
 	//Select button:
-	temp = o_pRenderer->CreateSprite("images/Titles/playerSelect.jpg");
+	temp = o_pRenderer->CreateSprite("selectButton.png");
 	temp->setScale(0.8f, 0.7f);
 	temp->setPosition(70, static_cast<float>(o_pRenderer->GetWindowSize().y * 4 / 7));
 	m_pSelectBtn->Initialise(temp, std::bind(&MainMenuScene::Select, this));
 
 	//Setting button:
-	temp = o_pRenderer->CreateSprite("images/Titles/controls.jpg");
+	temp = o_pRenderer->CreateSprite("settingButton.png");
 	temp->setScale(0.8f, 0.7f);
 	temp->setPosition(70, static_cast<float>(o_pRenderer->GetWindowSize().y * 5 / 7));
 	m_pSettingBtn->Initialise(temp, std::bind(&MainMenuScene::Settings, this));
 
 	//Quit button:
-	temp = o_pRenderer->CreateSprite("images/Titles/quit.jpg");
+	temp = o_pRenderer->CreateSprite("quitButton.png");
 	temp->setScale(0.8f, 0.7f);
 	temp->setPosition(70, static_cast<float>(o_pRenderer->GetWindowSize().y * 6 / 7));
 	m_pQuitBtn->Initialise(temp, std::bind(&MainMenuScene::Quit, this));
