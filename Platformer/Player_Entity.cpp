@@ -81,7 +81,7 @@ C_Player::C_Player(b2World* world,int _playerNumber, b2Vec2 _position) : Entity(
 
  	Spr_Emote = Renderer::GetInstance().CreateSprite("images/Emotes/Emote3.png");
 	Spr_Emote->setOrigin(Spr_Emote->getTexture()->getSize().x / 2.0f, Spr_Emote->getTexture()->getSize().y / 2.0f);
-	Spr_Emote->setScale(0.45, 0.45);
+	Spr_Emote->setScale(0.45f, 0.45f);
 
 	//box2d setup
 	MyBox2d.DEF.type = b2_dynamicBody;

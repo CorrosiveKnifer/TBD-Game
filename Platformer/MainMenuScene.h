@@ -54,6 +54,8 @@ protected:
 	sf::Vector2f m_mousePos;
 	sf::Vector2f* m_mousePressPos;
 
+	sf::Image* m_pMenuTitle;
+
 	Button* m_pPlayBtn;
 	Button* m_pSelectBtn;
 	Button* m_pSettingBtn;
