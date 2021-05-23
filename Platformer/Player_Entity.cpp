@@ -7,7 +7,7 @@
 //
 // File Name     	: Player_Entity.cpp
 // Description   	: Player Class for any player.
-// Author         	: Sonja Fowler
+// Author         	: Sonja Fowler, Michael Jordan, Bailey Johnson 
 // Mail         	: sonja@alp.co.nz
 //
 

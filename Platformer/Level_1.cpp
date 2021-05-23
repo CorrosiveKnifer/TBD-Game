@@ -179,17 +179,29 @@ void c_Level_1::Update(float dT)
 		Spr_MyCollectedPowerUp[it->GetPlayerID() - 1].setTexture(Tx_PowerUps[it->GetPowerUpType()]);
 
 	}
+	unsigned int playersRemaining = 0;
 	for (auto it : MyPlayers)
 	{
 		float timer;
-		if (it->IsDead(timer))
+		if (it->IsDead(timer) && it->GetLives() > 0)
 		{
 			if (timer >= 3.0f)
 			{
 				RespawnPlayer(it);
 			}
 		}
+
+		if (it->GetLives() > 0)
+		{
+			playersRemaining++;
+		}
 	}
+
+	if (playersRemaining <= 1)
+	{
+		//SOMEONE HAS WON
+	}
+
 	for (auto it : myPowerUps)
 	{
 		it->Process(dT);
@@ -219,7 +231,7 @@ void c_Level_1::DestroyEntity(Entity* entity)
 
 void c_Level_1::RespawnPlayer(C_Player* player)
 {
-	b2Vec2 averagePos;
+	b2Vec2 averagePos(0, 0);
 	unsigned int playerCount = 0;
 
 	for (C_Player* currPlayer : MyPlayers)
@@ -235,21 +247,25 @@ void c_Level_1::RespawnPlayer(C_Player* player)
 	if (playerCount == 0)
 	{
 		int select = rand() % myPlayerSpawnPoints.size();
-		player->Respawn(myPlayerSpawnPoints.at(select), world);
+		b2Vec2 pos = myPlayerSpawnPoints.at(select);
+		pos.y += 1;
+		player->Respawn(pos, world);
 		return;
 	}
 
 	averagePos = b2Vec2(averagePos.x / playerCount, averagePos.y / playerCount);
 
-	float minDist = 10000;
+	float maxDist = -10000;
 	b2Vec2 respawnPos;
 	for (b2Vec2 pos : myPlayerSpawnPoints)
 	{
-		float dist = std::sqrt(std::powf(pos.x - averagePos.x, 2) + std::powf(pos.y - averagePos.y, 2));
-		if (dist < minDist)
+		b2Vec2 spawnPos(pos.x / C_GlobalVariables::PPM, pos.y / C_GlobalVariables::PPM);
+		float dist = std::sqrt(std::powf(spawnPos.x - averagePos.x, 2) + std::powf(spawnPos.y - averagePos.y, 2));
+		if (dist > maxDist)
 		{
-			minDist = dist;
-			respawnPos = pos;
+			maxDist = dist;
+			respawnPos = spawnPos;
+			respawnPos.y += 0.5f;
 		}
 	}
 
