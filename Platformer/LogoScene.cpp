@@ -21,6 +21,7 @@
 #include "SceneManager.h"
 #include "MainMenuScene.h"
 #include "Level_1.h"
+#include "SoundBuffer.h"
 
 //Constructor
 LogoScene::LogoScene()
@@ -35,6 +36,12 @@ LogoScene::LogoScene()
 	m_renderTime = 2.5f;
 	m_timePassed = 0.0f;
 	m_hasFinished = false;
+
+	SoundBuffer* myMusic1;
+	myMusic1 = new SoundBuffer();
+	myMusic1->Initialise();
+	myMusic1->LoadBackgroundMusic("Resources/music/Music1.wav");
+	myMusic1->PlayBackgroundMusic();
 }
 
 //Destructor
