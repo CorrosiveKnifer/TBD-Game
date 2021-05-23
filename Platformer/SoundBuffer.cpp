@@ -63,8 +63,13 @@ bool SoundBuffer::Initialise()
 		m_backgroundVol = IniParser::GetInstance().GetValueAsFloat("Settings", "BGMusic");
 		m_soundVol = IniParser::GetInstance().GetValueAsFloat("Settings", "SEMusic");
 		
+
+
 		return true;
+
 	}
+	m_backgroundVol = 1.0;
+	m_soundVol = 1.0;
 	return false;
 }
 
