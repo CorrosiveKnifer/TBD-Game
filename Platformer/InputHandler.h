@@ -17,11 +17,13 @@
 //Library Includes
 #include <SFML/Graphics.hpp>
 #include <list>
-#include "Player_Entity.h"
+#include <iostream>
+//#include "Player_Entity.h"
 
 //Forward Declaration
 class BackBuffer;
 class LogoScene;
+class C_Player;
 
 //Implementation
 class InputHandler
@@ -38,15 +40,6 @@ public:
 	sf::Keyboard::Key IsAnyKeyPressed();
 	sf::Vector2i GetMousePosition();
 
-//	enum ButtonType {
-//		SHOOT,
-//		JUMP,
-//		SHOW_BALL,
-//		POWER_UP,
-//		DODGE,
-//		PAUSE
-//	};
-
 	enum ButtonType {
 		BUTTON_A = 0,
 		BUTTON_B = 1,
@@ -62,21 +55,24 @@ public:
 
 	int GetJoystickCount();
 
-	//sf::Vector2i GetAimInput(int joystickID, sf::Joystick::Axis axis, float pos);
-	//sf::Vector2i GetMovementInput(int joystickID, sf::Joystick::Axis axis, float pos);
-	//float GetShootInput(int joystickID, int button);
-	//int GetEmoteInput(int joystickID, sf::Joystick::Axis axis, float pos);
-	
+	sf::Vector2f GetAimInput(int joystickID);
+	sf::Vector2f GetMovementInput(int joystickID);
+	float GetShootInput(int joystickID);
+	sf::Vector2f GetEmoteInput(int joystickID);
 
-	void GetAnyJoystickInput(int joystickID, sf::Joystick::Axis axis, float pos);
-	void GetButtonInput(int joystickID, int button);
+	std::list<ButtonType> getButton(int joystickID);
+	
+	//void GetAnyJoystickInput(int joystickID, sf::Joystick::Axis axis, float pos);
+	//void GetButtonInput(int joystickID, int button);
 
 	void SwitchCharacter(int current);
 
-	C_Player* player;
+	//C_Player* player;
 
 	int m_playerInControl;
 	int m_playerNext;
+
+	int m_pConnectedControllers;
 
 private:
 	InputHandler();

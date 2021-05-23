@@ -61,7 +61,6 @@ public:
 
 	PowerUpType GetPowerUpType() { return myPowerupType; };
 
-	int controlJoystickID [4];
 private: 
 	void HandleInput(float dt);
 	void ProcessImmuneFrames(float dt);
@@ -102,7 +101,7 @@ private:
 	body MyBox2d;
 
 	int PlayerNumber; //1,2,3,4  1=Red, 2=Green, 3= Blue,4=Yellow.
-
+	int controlJoystickID;
 
 	enum Direction{facing_right, facing_upRight, facing_up, facing_upLeft, facing_left, facing_downLeft, facing_down, facing_downRight};
 	Direction MyDirection;
