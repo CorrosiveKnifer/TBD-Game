@@ -36,13 +36,13 @@ class c_Level_1 : public Scene
 
 {
 public:
-	c_Level_1();
+	c_Level_1(unsigned int players = 4);
 	virtual ~c_Level_1();
 
 	virtual void Draw();
 	virtual void Update(float dT);
 	virtual void DestroyEntity(Entity* entity);
-
+	void RespawnPlayer(C_Player* player);
 	void PostUpdate();
 	b2World* world = new b2World(C_GlobalVariables::Gravity);
 

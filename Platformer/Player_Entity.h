@@ -50,6 +50,8 @@ public:
 	void ApplyPowerUp(PowerUpType type);
 	//sf::Sprite& GetSpriteLegs() { return Spr_Legs; }
 	//sf::Sprite& GetSpr_UpperBody() { return Spr_UpperBody; }
+	b2Vec2 GetPosition() { return MyBox2d.BOD->GetPosition(); };
+
 	sf::Sprite& GetSpriteBall() { return Spr_Ball_overlay; };
 	bool IsDead(float& outTimer) { outTimer = m_deathTimer; return m_isDead; };
 	virtual bool IsImmune() { return m_immuneTimer > 0; };

@@ -19,7 +19,7 @@
 #include "SceneManager.h"
 #include "CollisionListener.h"
 
-c_Level_1::c_Level_1() : Scene()
+c_Level_1::c_Level_1(unsigned int players) : Scene()
 {
 	world->SetContactListener(new CollisionListener());
 
@@ -58,13 +58,13 @@ c_Level_1::c_Level_1() : Scene()
 		levelMesh::levelSpawnPoints(fName, myPlayerSpawnPoints , myPowerUpSpawnPoints, myPowerUpWaterfall);
 		
 	}
-	
-	// update for how many players playing ---------------------------------------<<<<<<<
-	MyPlayers.push_back(new C_Player(world, 1, myPlayerSpawnPoints[0])); // player
-	MyPlayers.push_back(new C_Player(world, 2, myPlayerSpawnPoints[1])); // player
-	MyPlayers.push_back(new C_Player(world, 3, myPlayerSpawnPoints[2])); // player
-	MyPlayers.push_back(new C_Player(world, 4, myPlayerSpawnPoints[3])); // player
 
+	// update for how many players playing ---------------------------------------<<<<<<<
+	for (unsigned int i = 0; i < players; i++)
+	{
+		MyPlayers.push_back(new C_Player(world, i + 1, myPlayerSpawnPoints[i])); // player
+	}
+	
 	// create powerups
 	for (unsigned int i = 0; i < 4; i++)
 	{
@@ -186,7 +186,7 @@ void c_Level_1::Update(float dT)
 		{
 			if (timer >= 3.0f)
 			{
-				it->Respawn(b2Vec2(10, 10), world);
+				RespawnPlayer(it);
 			}
 		}
 	}
@@ -215,6 +215,45 @@ void c_Level_1::DestroyEntity(Entity* entity)
 		}
 		iter++;
 	}
+}
+
+void c_Level_1::RespawnPlayer(C_Player* player)
+{
+	b2Vec2 averagePos;
+	unsigned int playerCount = 0;
+
+	for (C_Player* currPlayer : MyPlayers)
+	{
+		float time;
+		if (!currPlayer->IsDead(time))
+		{
+			averagePos += currPlayer->GetPosition();
+			playerCount++;
+		}
+	}
+
+	if (playerCount == 0)
+	{
+		int select = rand() % myPlayerSpawnPoints.size();
+		player->Respawn(myPlayerSpawnPoints.at(select), world);
+		return;
+	}
+
+	averagePos = b2Vec2(averagePos.x / playerCount, averagePos.y / playerCount);
+
+	float minDist = 10000;
+	b2Vec2 respawnPos;
+	for (b2Vec2 pos : myPlayerSpawnPoints)
+	{
+		float dist = std::sqrt(std::powf(pos.x - averagePos.x, 2) + std::powf(pos.y - averagePos.y, 2));
+		if (dist < minDist)
+		{
+			minDist = dist;
+			respawnPos = pos;
+		}
+	}
+
+	player->Respawn(respawnPos, world);
 }
 
 void c_Level_1::PostUpdate()
