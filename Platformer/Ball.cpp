@@ -16,6 +16,9 @@ C_Ball::C_Ball(b2World* world, unsigned int playerID, sf::Vector2f _worldPositio
 	if (myPlayerID == 4) { Spr_Ball.setColor(sf::Color::Yellow); }
 	myBallColor = Spr_Ball.getColor();
 	m_immuneColor = sf::Color(myBallColor.r * 0.75f, myBallColor.g * 0.75f, myBallColor.b * 0.75f, myBallColor.a * 0.85f);
+
+	if(isTemporary)
+		myBallColor = sf::Color(myBallColor.r * 0.85f, myBallColor.g * 0.85f, myBallColor.b * 0.85f, myBallColor.a * 0.50f);
 	// create a position ahead of the overlay ball for creation.
 	// _worldPosition = the position of the overlay ball sprite.
 	// _vectorVelocity the normalised direction vector the ball should go, IE Up,Right vector = (1.0f, -1.0f)

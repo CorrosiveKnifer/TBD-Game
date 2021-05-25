@@ -68,14 +68,17 @@ private:
 	void ProcessImmuneFrames(float dt);
 	void UpdateDirection(sf::Vector2i newFacingDirection);
 	void UsePowerUp();
+	void ThrowBall();
 private:
 	PowerUpType myPowerupType;
+	PowerUpType myBallPowerUp;
 	// textures and sprites 
 	sf::Texture Tx_LegsIdle, Tx_LegsJump, Tx_LegsRun[4];
 	sf::Texture Tx_UB_ThrowUp1, Tx_UB_ThrowUp2, Tx_UB_ThrowDown1, Tx_UB_ThrowDown2, Tx_UB_ThrowSide1, Tx_UB_ThrowSide2, Tx_UB_ThrowDiagUp1, Tx_UB_ThrowDiagUp2;
 	sf::Texture Tx_UB_ThrowDiagDown1, Tx_UB_ThrowDiagDown2, Tx_UB_Shield, Tx_UB_Victory;
 
 	sf::Sprite Spr_Legs, Spr_UpperBody;
+	sf::Sprite* Spr_PowerUp;
 	sf::Sprite* Spr_Emote;
 
 	sf::Texture* Tx_Emotes;
