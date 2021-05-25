@@ -22,6 +22,8 @@
 #include "ListBox.h"
 #include "Iniparser.h"
 #include "LogoScene.h"
+#include "ControlsScene.h"
+#include "PlayerSelectScene.h"
 
 //Library includes
 #include <windows.h>
@@ -31,37 +33,34 @@ MainMenuScene::MainMenuScene()
 	: Scene()
 	, m_hasMouseClicked(false)
 	, m_mousePos(0, 0), m_mousePressPos(0)
-	, m_pPlayBtn(0), m_pSelectBtn(0), m_pSettingBtn(0), m_pQuitBtn(0)
+	, m_pPlayerSelectBtn(0), m_pControlsBtn(0), m_pQuitBtn(0)
 	, keypressed(-1)
 {	 
-	m_pMenuTitle = new sf::Image();
-	m_pPlayBtn = new Button();
-	m_pSelectBtn = new Button();
-	m_pSettingBtn = new Button();
+
+
+	menuBackgroundTex.loadFromFile("Resources/images/Titles/Menu_Screen_blank.jpg");
+	menuBackgroundSpr.setTexture(menuBackgroundTex);
+	
+	m_pPlayerSelectBtn = new Button();
+	m_pControlsBtn = new Button();
 	m_pQuitBtn = new Button();
 
-	//Play button:
-	sf::Sprite* temp = o_pRenderer->CreateSprite("images/Titles/play_button.jpg");
+	//Player Select button:
+	sf::Sprite* temp = o_pRenderer->CreateSprite("images/Titles/PlayerSelect.jpg");
 	temp->setScale(0.8f, 0.7f);
-	temp->setPosition(70, static_cast<float>(o_pRenderer->GetWindowSize().y * 3 / 7));
-	m_pPlayBtn->Initialise(temp, std::bind(&MainMenuScene::Play, this));
+	temp->setPosition(static_cast<float>(o_pRenderer->GetWindowSize().x / 2) - (temp->getGlobalBounds().width / 4), static_cast<float>(o_pRenderer->GetWindowSize().y * 3 / 7));
+	m_pPlayerSelectBtn->Initialise(temp, std::bind(&MainMenuScene::PlayerSelect, this));
 
-	//Select button:
-	temp = o_pRenderer->CreateSprite("images/Titles/playerSelect.jpg");
-	temp->setScale(0.8f, 0.7f);
-	temp->setPosition(70, static_cast<float>(o_pRenderer->GetWindowSize().y * 4 / 7));
-	m_pSelectBtn->Initialise(temp, std::bind(&MainMenuScene::Select, this));
-
-	//Setting button:
+	//Controls button:
 	temp = o_pRenderer->CreateSprite("images/Titles/controls.jpg");
 	temp->setScale(0.8f, 0.7f);
-	temp->setPosition(70, static_cast<float>(o_pRenderer->GetWindowSize().y * 5 / 7));
-	m_pSettingBtn->Initialise(temp, std::bind(&MainMenuScene::Settings, this));
+	temp->setPosition(static_cast<float>(o_pRenderer->GetWindowSize().x / 2) - (temp->getGlobalBounds().width / 4), static_cast<float>(o_pRenderer->GetWindowSize().y * 4 / 7));
+	m_pControlsBtn->Initialise(temp, std::bind(&MainMenuScene::Settings, this));
 
 	//Quit button:
 	temp = o_pRenderer->CreateSprite("images/Titles/quit.jpg");
 	temp->setScale(0.8f, 0.7f);
-	temp->setPosition(70, static_cast<float>(o_pRenderer->GetWindowSize().y * 6 / 7));
+	temp->setPosition(static_cast<float>(o_pRenderer->GetWindowSize().x / 2) - (temp->getGlobalBounds().width / 4), static_cast<float>(o_pRenderer->GetWindowSize().y * 5 / 7));
 	m_pQuitBtn->Initialise(temp, std::bind(&MainMenuScene::Quit, this));
 }	
 
@@ -74,22 +73,16 @@ MainMenuScene::~MainMenuScene()
 		m_mousePressPos = 0;
 	}
 
-	if (m_pPlayBtn != 0)
+	if (m_pPlayerSelectBtn != 0)
 	{
-		delete m_pPlayBtn;
-		m_pPlayBtn = 0;
+		delete m_pPlayerSelectBtn;
+		m_pPlayerSelectBtn = 0;
 	}
 
-	if (m_pSelectBtn != 0)
+	if (m_pControlsBtn != 0)
 	{
-		delete m_pSelectBtn;
-		m_pSelectBtn = 0;
-	}
-
-	if (m_pSettingBtn != 0)
-	{
-		delete m_pSettingBtn;
-		m_pSettingBtn = 0;
+		delete m_pControlsBtn;
+		m_pControlsBtn = 0;
 	}
 
 	if (m_pQuitBtn != 0)
@@ -109,10 +102,11 @@ MainMenuScene::~MainMenuScene()
 //
 void MainMenuScene::Draw()
 {
+	o_pRenderer->Draw(menuBackgroundSpr);
+
 	//Buttons:
-	m_pPlayBtn->Draw();
-	m_pSelectBtn->Draw();
-	m_pSettingBtn->Draw();
+	m_pPlayerSelectBtn->Draw();
+	m_pControlsBtn->Draw();
 	m_pQuitBtn->Draw();
 
 	//"Level Select"
@@ -122,7 +116,7 @@ void MainMenuScene::Draw()
 	o_pRenderer->SetColour(sf::Color::White);
 
 	o_pRenderer->SetFontSize(50);
-	o_pRenderer->DrawTextToView("Main Menu:"+ std::to_string(keypressed), 75, 100);
+	//o_pRenderer->DrawTextToView("Main Menu:"+ std::to_string(keypressed), 75, 100);
 	
 	o_pRenderer->SetColour(sf::Color::Black);
 }
@@ -138,25 +132,19 @@ void MainMenuScene::Update(float dT)
 {
 	keypressed = InputHandler::GetInstance().IsAnyKeyPressed();
 
-	m_pPlayBtn->Update();
-	m_pSelectBtn->Update();
-	m_pSettingBtn->Update();
+	m_pPlayerSelectBtn->Update();
+	m_pControlsBtn->Update();
 	m_pQuitBtn->Update();
 }
 
-void MainMenuScene::Play()
+void MainMenuScene::PlayerSelect()
 {
-
-}
-
-void MainMenuScene::Select()
-{
-
+	SceneManager::GetInstance().TransitionTo(new PlayerSelectScene());
 }
 
 void MainMenuScene::Settings()
 {
-	
+	SceneManager::GetInstance().TransitionTo(new ControlsScene());
 }
 
 void MainMenuScene::Quit()

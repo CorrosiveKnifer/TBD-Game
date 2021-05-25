@@ -14,14 +14,12 @@
 #ifndef _LEVEL_1_
 #define _LEVEL_1_
 
-
 // system includes
 #include <vector>
 
 // Library Includes
 #include <Box2D.h>
 #include <SFML/Graphics.hpp>
-
 
 // Parent Include
 #include "Scene.h"

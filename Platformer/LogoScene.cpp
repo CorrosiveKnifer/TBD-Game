@@ -20,7 +20,6 @@
 #include "InputHandler.h"
 #include "SceneManager.h"
 #include "MainMenuScene.h"
-#include "Level_1.h"
 #include "SoundBuffer.h"
 
 //Constructor
@@ -78,9 +77,9 @@ void LogoScene::Draw()
 void LogoScene::Update(float dt)
 {
 	m_timePassed += dt;
-	if (InputHandler::GetInstance().IsMousePressed(sf::Mouse::Left))
+	if (InputHandler::GetInstance().IsMousePressed(sf::Mouse::Left) || sf::Joystick::isButtonPressed(0, InputHandler::GetInstance().BUTTON_A) || sf::Joystick::isButtonPressed(1, InputHandler::GetInstance().BUTTON_A))
 	{
-		SceneManager::GetInstance().TransitionTo(new c_Level_1());
+		SceneManager::GetInstance().TransitionTo(new MainMenuScene());
 		return;
 	}
 
@@ -109,7 +108,7 @@ void LogoScene::Update(float dt)
 	{
 		if (m_hasFinished)
 		{
-			SceneManager::GetInstance().TransitionTo(new c_Level_1());
+			SceneManager::GetInstance().TransitionTo(new MainMenuScene());
 			return;
 		}
 			

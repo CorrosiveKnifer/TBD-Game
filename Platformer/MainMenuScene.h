@@ -38,8 +38,7 @@ public:
 	virtual void DestroyEntity(Entity* entity) {};
 
 	//Button functions:
-	void Play();
-	void Select();
+	void PlayerSelect();
 	void Settings();
 	void Quit();
 private:
@@ -54,11 +53,11 @@ protected:
 	sf::Vector2f m_mousePos;
 	sf::Vector2f* m_mousePressPos;
 
-	sf::Image* m_pMenuTitle;
+	sf::Texture menuBackgroundTex;
+	sf::Sprite menuBackgroundSpr;
 
-	Button* m_pPlayBtn;
-	Button* m_pSelectBtn;
-	Button* m_pSettingBtn;
+	Button* m_pPlayerSelectBtn;
+	Button* m_pControlsBtn;
 	Button* m_pQuitBtn;
 
 	bool m_hasMouseClicked;

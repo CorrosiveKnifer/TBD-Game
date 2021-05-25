@@ -547,7 +547,7 @@ void C_Player::HandleInput(float dt)
 		}
 
 		//Controller Shoot input
-		if (InputHandler::GetInstance().GetShootInput(controlJoystickID) < -20 || InputHandler::GetInstance().GetShootInput(controlJoystickID) > 20)
+		if (sf::Joystick::isButtonPressed(controlJoystickID, InputHandler::GetInstance().BUTTON_LB) || sf::Joystick::isButtonPressed(controlJoystickID, InputHandler::GetInstance().BUTTON_RB))
 		{
 			if (!m_hasThrown && MyBall == nullptr)
 			{
@@ -686,7 +686,7 @@ void C_Player::HandleInput(float dt)
 
 
 		//Controller Jump
-		if (sf::Joystick::isButtonPressed(controlJoystickID, InputHandler::GetInstance().BUTTON_A) && m_isGrounded && !m_hasJumped || sf::Joystick::isButtonPressed(controlJoystickID, InputHandler::GetInstance().BUTTON_RB) && m_isGrounded && !m_hasJumped)
+		if (sf::Joystick::isButtonPressed(controlJoystickID, InputHandler::GetInstance().BUTTON_A) && m_isGrounded && !m_hasJumped)
 		{
 			yAxis += 1.0f;
 			m_hasJumped = true;
@@ -708,7 +708,7 @@ void C_Player::HandleInput(float dt)
 		}
 
 		//Controller Dodge
-		if (sf::Joystick::isButtonPressed(controlJoystickID, InputHandler::GetInstance().BUTTON_B) || sf::Joystick::isButtonPressed(controlJoystickID, InputHandler::GetInstance().BUTTON_LB))
+		if (sf::Joystick::isButtonPressed(controlJoystickID, InputHandler::GetInstance().BUTTON_B))
 		{
 			//DODGE
 
