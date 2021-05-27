@@ -22,6 +22,7 @@
 
 #include "Ball.h"
 #include "Powerup.h"
+#include "Shield.h"
 
 // local includes
 #include "GlobalVariables.h"
@@ -71,6 +72,7 @@ private:
 	void ThrowBall();
 	void Dash(float xAxis);
 private:
+	Shield* myShield;
 	PowerUpType myPowerupType;
 	PowerUpType myBallPowerUp;
 	// textures and sprites 

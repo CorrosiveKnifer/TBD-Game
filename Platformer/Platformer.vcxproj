@@ -38,6 +38,7 @@
     <ClCompile Include="ScaleBar.cpp" />
     <ClCompile Include="Scene.cpp" />
     <ClCompile Include="SceneManager.cpp" />
+    <ClCompile Include="Shield.cpp" />
     <ClCompile Include="SoundBuffer.cpp" />
     <ClCompile Include="SpriteMap.cpp" />
     <ClCompile Include="Widget.cpp" />
@@ -66,6 +67,7 @@
     <ClInclude Include="ScaleBar.h" />
     <ClInclude Include="Scene.h" />
     <ClInclude Include="SceneManager.h" />
+    <ClInclude Include="Shield.h" />
     <ClInclude Include="SoundBuffer.h" />
     <ClInclude Include="SpriteMap.h" />
     <ClInclude Include="Widget.h" />

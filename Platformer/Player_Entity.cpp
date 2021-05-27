@@ -219,12 +219,23 @@ void C_Player::Draw()
 	{
 		// draw ball being held
 	}
+
+	if (myShield != nullptr)
+	{
+		myShield->Draw();
+	}
 }
 
 
 // ------------------------------------------------- Process -----------------------------------------------------------------
 void C_Player::Process(float dT)
 {
+	if (myShield != nullptr)
+	{
+		myShield->SetPosition(MyBox2d.BOD->GetPosition());
+		myShield->Process(dT);
+	}
+
 	// process waterfall effect
 	if (MyBall_WaterFall.size() > 0)
 	{
@@ -313,6 +324,8 @@ void C_Player::Process(float dT)
 	
 	RayCastClass RayResult;
 	MyBox2d.BOD->GetWorld()->RayCast(&RayResult, MyBox2d.BOD->GetPosition(), MyBox2d.BOD->GetPosition() + b2Vec2(0, 2));
+	MyBox2d.BOD->GetWorld()->RayCast(&RayResult, MyBox2d.BOD->GetPosition(), MyBox2d.BOD->GetPosition() + b2Vec2(1, 2));
+	MyBox2d.BOD->GetWorld()->RayCast(&RayResult, MyBox2d.BOD->GetPosition(), MyBox2d.BOD->GetPosition() + b2Vec2(-1, 2));
 	m_isGrounded = RayResult.rayHits.size() > 0;
 
 	//Wrap arround
@@ -941,7 +954,8 @@ void C_Player::UsePowerUp()
 		myBallPowerUp = myPowerupType;
 		break;
 	case SHIELD:
-
+		if(myShield == nullptr)
+			myShield = new Shield(MyBox2d.BOD->GetWorld(), PlayerNumber, MyBox2d.BOD->GetPosition());
 		break;
 	case RAILSHOT:
 		if (Spr_PowerUp == nullptr)
