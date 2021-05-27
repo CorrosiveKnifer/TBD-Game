@@ -69,6 +69,7 @@ private:
 	void UpdateDirection(sf::Vector2i newFacingDirection);
 	void UsePowerUp();
 	void ThrowBall();
+	void Dash(float xAxis);
 private:
 	PowerUpType myPowerupType;
 	PowerUpType myBallPowerUp;

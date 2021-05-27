@@ -622,11 +622,13 @@ void C_Player::HandleInput(float dt)
 			if (InputHandler::GetInstance().GetMovementInput(controlJoystickID).x <= -20)
 			{
 				xAxis -= 1.0f;
+				MoveDirection.x = -1.0f;
 			}
 			//Right
 			if (InputHandler::GetInstance().GetMovementInput(controlJoystickID).x >= 20)
 			{
 				xAxis += 1.0f;
+				MoveDirection.x = 1.0f;
 			}
 		}
 
@@ -638,7 +640,6 @@ void C_Player::HandleInput(float dt)
 		{
 			xAxis -= 1.0f;
 		}
-
 		sf::Vector2i newFacingDirection;
 		//Controller Aiming
 		if (InputHandler::GetInstance().GetAimInput(controlJoystickID).x <= -20 || 
@@ -694,8 +695,7 @@ void C_Player::HandleInput(float dt)
 		//Controller Dodge
 		if (sf::Joystick::isButtonPressed(controlJoystickID, InputHandler::GetInstance().BUTTON_B) || sf::Joystick::isButtonPressed(controlJoystickID, InputHandler::GetInstance().BUTTON_LB))
 		{
-			//DODGE
-
+			Dash(MoveDirection.x);
 		}
 
 		//Controller Pause
@@ -993,6 +993,12 @@ void C_Player::ThrowBall()
 
 	m_hasThrown = true;
 	m_immuneTimer = 0.0f;
+}
+
+void C_Player::Dash(float xAxis)
+{
+	MyBox2d.BOD->ApplyForceToCenter(b2Vec2(2500.0f * xAxis, -100), true);
+	m_immuneTimer += 0.25f;
 }
 
 C_Player::~C_Player()
