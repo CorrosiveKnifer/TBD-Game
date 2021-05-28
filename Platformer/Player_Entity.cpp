@@ -232,8 +232,22 @@ void C_Player::Process(float dT)
 {
 	if (myShield != nullptr)
 	{
-		myShield->SetPosition(MyBox2d.BOD->GetPosition());
-		myShield->Process(dT);
+		m_shieldDelay -= dT;
+		if (m_shieldDelay <= 0)
+		{
+			delete myShield;
+			myShield = 0;
+		}
+		else
+		{
+			myShield->SetPosition(MyBox2d.BOD->GetPosition());
+			myShield->Process(dT);
+		}
+	}
+
+	if (m_dashDelay > 0)
+	{
+		m_dashDelay -= dT;
 	}
 
 	// process waterfall effect
@@ -324,8 +338,7 @@ void C_Player::Process(float dT)
 	
 	RayCastClass RayResult;
 	MyBox2d.BOD->GetWorld()->RayCast(&RayResult, MyBox2d.BOD->GetPosition(), MyBox2d.BOD->GetPosition() + b2Vec2(0, 2));
-	MyBox2d.BOD->GetWorld()->RayCast(&RayResult, MyBox2d.BOD->GetPosition(), MyBox2d.BOD->GetPosition() + b2Vec2(1, 2));
-	MyBox2d.BOD->GetWorld()->RayCast(&RayResult, MyBox2d.BOD->GetPosition(), MyBox2d.BOD->GetPosition() + b2Vec2(-1, 2));
+	MyBox2d.BOD->GetWorld()->RayCast(&RayResult, MyBox2d.BOD->GetPosition(), MyBox2d.BOD->GetPosition() + b2Vec2(-1 * MoveDirection.x, 2));
 	m_isGrounded = RayResult.rayHits.size() > 0;
 
 	//Wrap arround
@@ -956,6 +969,7 @@ void C_Player::UsePowerUp()
 	case SHIELD:
 		if(myShield == nullptr)
 			myShield = new Shield(MyBox2d.BOD->GetWorld(), PlayerNumber, MyBox2d.BOD->GetPosition());
+		m_shieldDelay = 3.0f;
 		break;
 	case RAILSHOT:
 		if (Spr_PowerUp == nullptr)
@@ -1011,8 +1025,12 @@ void C_Player::ThrowBall()
 
 void C_Player::Dash(float xAxis)
 {
-	MyBox2d.BOD->ApplyForceToCenter(b2Vec2(2500.0f * xAxis, -100), true);
-	m_immuneTimer += 0.25f;
+	if(m_dashDelay <= 0 && m_immuneTimer <= 0.0f)
+	{
+		MyBox2d.BOD->ApplyForceToCenter(b2Vec2(10000.0f * xAxis, -200), true);
+		m_dashDelay = 1.5f;
+		m_immuneTimer = 0.16f;
+	}
 }
 
 C_Player::~C_Player()

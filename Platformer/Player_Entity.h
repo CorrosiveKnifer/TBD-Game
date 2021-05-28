@@ -127,6 +127,8 @@ private:
 
 	bool m_isDead = false;
 	float m_deathTimer = 0.0f;
+	float m_dashDelay = 0.0f;
+	float m_shieldDelay = 0.0f;
 
 	bool mb_IsInvincible = false;
 	bool mb_PlayerHasBall = true;
