@@ -18,7 +18,7 @@
 C_Player::C_Player(b2World* world,int _playerNumber, b2Vec2 _position) : Entity()
 {
 	PlayerNumber = _playerNumber;
-	controlJoystickID = _playerNumber - 1;
+	controlJoystickID = InputHandler::GetInstance().playerJoystickIDs.at(_playerNumber - 1);
 	std::string tempPath = "";
 	//1,2,3,4  1=Red, 2=Green, 3= Blue,4=Yellow.
 	if (PlayerNumber == 1)

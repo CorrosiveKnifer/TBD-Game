@@ -36,7 +36,7 @@ MainMenuScene::MainMenuScene()
 	, m_pPlayerSelectBtn(0), m_pControlsBtn(0), m_pQuitBtn(0)
 	, keypressed(-1)
 {	 
-
+	sceneID = MAINMENU;
 
 	menuBackgroundTex.loadFromFile("Resources/images/Titles/Menu_Screen_blank.jpg");
 	menuBackgroundSpr.setTexture(menuBackgroundTex);

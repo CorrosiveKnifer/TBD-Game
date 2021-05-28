@@ -21,6 +21,8 @@
 
 c_Level_1::c_Level_1(unsigned int players) : Scene()
 {
+	sceneID = LEVEL1;
+
 	world->SetContactListener(new CollisionListener());
 
 	// level load for colliders from 3d .obj file

@@ -38,6 +38,7 @@ protected:
 
 	//Member data
 public:
+	Scene* m_topScene;
 
 private:
 	static SceneManager* sm_pInstance;
@@ -46,7 +47,6 @@ private:
 	sf::Clock m_clock;
 	bool m_isRunning;
 
-	Scene* m_topScene;
 	Scene* m_nextScene;
 protected:
 

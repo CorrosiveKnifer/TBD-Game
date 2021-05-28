@@ -22,6 +22,8 @@ ControlsScene::ControlsScene()
 	, m_pBackBtn(0)
 	, keypressed(-1)
 {
+	sceneID = CONTROLS;
+
 	m_pBackBtn = new Button();
 
 	menuBackgroundTex.loadFromFile("Resources/images/Titles/Controls_Screen.jpg");

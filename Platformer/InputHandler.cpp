@@ -18,6 +18,7 @@
 #include "SceneManager.h"
 #include "Renderer.h"
 #include "Player_Entity.h"
+#include "PlayerSelectScene.h"
 
 //Static variables
 InputHandler* InputHandler::sm_pInstance = nullptr;
@@ -55,7 +56,16 @@ void InputHandler::Update()
 			int joyID = event.joystickButton.joystickId;
 			int joyBtn = event.joystickButton.button;
 
-			//GetButtonInput(joyID, joyBtn);
+			if (joyBtn == 0 && SceneManager::GetInstance().m_topScene->sceneID == PLAYERSELECT)
+			{
+				if (playerJoystickIDs.size() < 4)
+				{
+					if (std::find(playerJoystickIDs.begin(), playerJoystickIDs.end(), joyID) == playerJoystickIDs.end())
+					{
+							playerJoystickIDs.push_back(joyID);		
+					}
+				}
+			}
 		}
 		if (event.type == sf::Event::JoystickMoved)
 		{

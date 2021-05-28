@@ -47,7 +47,8 @@ protected:
 
 	bool m_hasMouseClicked;
 
+
 	//Test variable
-	int keypressed;
+	int keypressed;	
 };
 #endif //_PlayerSelectScene_H_

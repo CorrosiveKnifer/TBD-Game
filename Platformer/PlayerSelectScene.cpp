@@ -24,6 +24,8 @@ PlayerSelectScene::PlayerSelectScene()
 	, keypressed(-1)
 {
 
+	sceneID = PLAYERSELECT;
+
 	m_pPlayBtn = new Button();
 	m_pBackBtn = new Button();
 
@@ -109,8 +111,8 @@ void PlayerSelectScene::Update(float dT)
 }
 
 void PlayerSelectScene::Play()
-{
-	SceneManager::GetInstance().TransitionTo(new c_Level_1());
+{	
+	SceneManager::GetInstance().TransitionTo(new c_Level_1(InputHandler::GetInstance().playerJoystickIDs.size()));
 }
 
 void PlayerSelectScene::Back()
