@@ -56,16 +56,16 @@ void InputHandler::Update()
 			int joyID = event.joystickButton.joystickId;
 			int joyBtn = event.joystickButton.button;
 
-			if (joyBtn == 0 && SceneManager::GetInstance().m_topScene->sceneID == PLAYERSELECT || joyBtn == 3 && SceneManager::GetInstance().m_topScene->sceneID == PLAYERSELECT)
+			if (joyBtn == BUTTON_A && SceneManager::GetInstance().m_topScene->sceneID == PLAYERSELECT || joyBtn == BUTTON_B && SceneManager::GetInstance().m_topScene->sceneID == PLAYERSELECT)
 			{
-				if (joyBtn == 0 && playerJoystickIDs.size() < 4)
+				if (joyBtn == BUTTON_A && playerJoystickIDs.size() < 4)
 				{
 					if (std::find(playerJoystickIDs.begin(), playerJoystickIDs.end(), joyID) == playerJoystickIDs.end())
 					{
 							playerJoystickIDs.push_back(joyID);		
 					}
 				}
-				if (joyBtn == 3 && playerJoystickIDs.size() >= 1)
+				if (joyBtn == BUTTON_B && playerJoystickIDs.size() >= 1)
 				{
 					playerJoystickIDs.erase(std::find(playerJoystickIDs.begin(), playerJoystickIDs.end(), joyID));
 				}
