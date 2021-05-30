@@ -42,6 +42,18 @@ protected:
 	sf::Texture menuBackgroundTex;
 	sf::Sprite menuBackgroundSpr;
 
+	sf::Texture player1Tex;
+	sf::Sprite player1Spr;
+
+	sf::Texture player2Tex;
+	sf::Sprite player2Spr;
+
+	sf::Texture player3Tex;
+	sf::Sprite player3Spr;
+
+	sf::Texture player4Tex;
+	sf::Sprite player4Spr;
+
 	Button* m_pPlayBtn;
 	Button* m_pBackBtn;
 

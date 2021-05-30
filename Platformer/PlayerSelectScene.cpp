@@ -32,13 +32,33 @@ PlayerSelectScene::PlayerSelectScene()
 	menuBackgroundTex.loadFromFile("Resources/images/Titles/Player_Select_Screen.jpg");
 	menuBackgroundSpr.setTexture(menuBackgroundTex);
 
-	//Player Select button:
+	player1Tex.loadFromFile("Resources/images/Titles/player1.png");
+	player1Spr.setTexture(player1Tex);
+	player1Spr.setPosition(static_cast<float>(o_pRenderer->GetWindowSize().x * 1 / 8) - (player1Spr.getGlobalBounds().width / 4), o_pRenderer->GetWindowSize().y * 2 / 4);
+	player1Spr.setTextureRect(sf::IntRect(0, 0, player1Spr.getGlobalBounds().width / 2, player1Spr.getGlobalBounds().height));
+
+	player2Tex.loadFromFile("Resources/images/Titles/player2.png");
+	player2Spr.setTexture(player2Tex);
+	player2Spr.setPosition(static_cast<float>(o_pRenderer->GetWindowSize().x * 3 / 8) - (player2Spr.getGlobalBounds().width / 4), o_pRenderer->GetWindowSize().y * 2 / 4);
+	player2Spr.setTextureRect(sf::IntRect(0, 0, player2Spr.getGlobalBounds().width / 2, player2Spr.getGlobalBounds().height));
+
+	player3Tex.loadFromFile("Resources/images/Titles/player3.png");
+	player3Spr.setTexture(player3Tex);
+	player3Spr.setPosition(static_cast<float>(o_pRenderer->GetWindowSize().x * 5 / 8) - (player3Spr.getGlobalBounds().width / 4), o_pRenderer->GetWindowSize().y * 2 / 4);
+	player3Spr.setTextureRect(sf::IntRect(0, 0, player3Spr.getGlobalBounds().width / 2, player3Spr.getGlobalBounds().height));
+
+	player4Tex.loadFromFile("Resources/images/Titles/player4.png");
+	player4Spr.setTexture(player4Tex);
+	player4Spr.setPosition(static_cast<float>(o_pRenderer->GetWindowSize().x * 7 / 8) - (player4Spr.getGlobalBounds().width / 4), o_pRenderer->GetWindowSize().y * 2 / 4);
+	player4Spr.setTextureRect(sf::IntRect(0, 0, player4Spr.getGlobalBounds().width / 2, player4Spr.getGlobalBounds().height));
+
+	//Play button:
 	sf::Sprite* temp = o_pRenderer->CreateSprite("images/Titles/play_button.jpg");
 	temp->setScale(0.8f, 0.7f);
 	temp->setPosition(static_cast<float>(o_pRenderer->GetWindowSize().x * 1.5 / 4), static_cast<float>(o_pRenderer->GetWindowSize().y * 6 / 7));
 	m_pPlayBtn->Initialise(temp, std::bind(&PlayerSelectScene::Play, this));
 
-	//Quit button:
+	//Back button:
 	temp = o_pRenderer->CreateSprite("images/Titles/back.jpg");
 	temp->setScale(0.8f, 0.7f);
 	temp->setPosition(static_cast<float>(o_pRenderer->GetWindowSize().x * 2 / 4), static_cast<float>(o_pRenderer->GetWindowSize().y * 6 / 7));
@@ -79,6 +99,12 @@ void PlayerSelectScene::Draw()
 {
 
 	o_pRenderer->Draw(menuBackgroundSpr);
+
+	o_pRenderer->Draw(player1Spr);
+	o_pRenderer->Draw(player2Spr);
+	o_pRenderer->Draw(player3Spr);
+	o_pRenderer->Draw(player4Spr);
+
 	//Buttons:
 	m_pPlayBtn->Draw();
 	m_pBackBtn->Draw();
@@ -106,6 +132,29 @@ void PlayerSelectScene::Update(float dT)
 {
 	keypressed = InputHandler::GetInstance().IsAnyKeyPressed();
 
+	switch (InputHandler::GetInstance().playerJoystickIDs.size())
+	{
+	case 1:
+		player1Spr.setTextureRect(sf::IntRect(player1Spr.getGlobalBounds().width, 0, player1Spr.getGlobalBounds().width, player1Spr.getGlobalBounds().height));
+		break;
+	case 2:
+		player1Spr.setTextureRect(sf::IntRect(player1Spr.getGlobalBounds().width, 0, player1Spr.getGlobalBounds().width, player1Spr.getGlobalBounds().height));
+		player2Spr.setTextureRect(sf::IntRect(player2Spr.getGlobalBounds().width, 0, player2Spr.getGlobalBounds().width, player2Spr.getGlobalBounds().height));
+		break;
+	case 3:
+		player1Spr.setTextureRect(sf::IntRect(player1Spr.getGlobalBounds().width, 0, player1Spr.getGlobalBounds().width, player1Spr.getGlobalBounds().height));
+		player2Spr.setTextureRect(sf::IntRect(player2Spr.getGlobalBounds().width, 0, player2Spr.getGlobalBounds().width, player2Spr.getGlobalBounds().height));
+		player3Spr.setTextureRect(sf::IntRect(player3Spr.getGlobalBounds().width, 0, player3Spr.getGlobalBounds().width, player3Spr.getGlobalBounds().height));
+		break;
+	case 4:
+		player1Spr.setTextureRect(sf::IntRect(player1Spr.getGlobalBounds().width, 0, player1Spr.getGlobalBounds().width, player1Spr.getGlobalBounds().height));
+		player2Spr.setTextureRect(sf::IntRect(player2Spr.getGlobalBounds().width, 0, player2Spr.getGlobalBounds().width, player2Spr.getGlobalBounds().height));
+		player3Spr.setTextureRect(sf::IntRect(player3Spr.getGlobalBounds().width, 0, player3Spr.getGlobalBounds().width, player3Spr.getGlobalBounds().height));
+		player4Spr.setTextureRect(sf::IntRect(player4Spr.getGlobalBounds().width, 0, player4Spr.getGlobalBounds().width, player4Spr.getGlobalBounds().height));
+		break;
+	default:
+		break;
+	}
 	m_pPlayBtn->Update();
 	m_pBackBtn->Update();
 }

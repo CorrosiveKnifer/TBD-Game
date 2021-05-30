@@ -37,36 +37,41 @@ VictoryScene::VictoryScene(int playerWon)
 {
 	sceneID = MAINMENU;
 
-	menuBackgroundTex.loadFromFile("Resources/images/Titles/Victory_Screen.jpg");
+	menuBackgroundTex.loadFromFile("Resources/images/Titles/Victory_Screen_Resized.jpg");
 	menuBackgroundSpr.setTexture(menuBackgroundTex);
 
 	switch (playerWon)
 	{
 	case 1:
-		victorPlayerTex.loadFromFile("Resources/images/Titles/player1.jpg");
+		victorPlayerTex.loadFromFile("Resources/images/Titles/player1.png");
 		break;
 	case 2:
-		victorPlayerTex.loadFromFile("Resources/images/Titles/player2.jpg");
+		victorPlayerTex.loadFromFile("Resources/images/Titles/player2.png");
 		break;
 	case 3:
-		victorPlayerTex.loadFromFile("Resources/images/Titles/player3.jpg");
+		victorPlayerTex.loadFromFile("Resources/images/Titles/player3.png");
 		break;
 	case 4:
-		victorPlayerTex.loadFromFile("Resources/images/Titles/player4.jpg");
+		victorPlayerTex.loadFromFile("Resources/images/Titles/player4.png");
 		break;
 	default:
-		victorPlayerTex.loadFromFile("Resources/images/Titles/player1.jpg");
+		victorPlayerTex.loadFromFile("Resources/images/Titles/player1.png");
 		break;
 	}
 
+
 	victorPlayerSpr.setTexture(victorPlayerTex);
+	victorPlayerSpr.setPosition(static_cast<float>(o_pRenderer->GetWindowSize().x / 2) - (victorPlayerSpr.getGlobalBounds().width / 4), o_pRenderer->GetWindowSize().y / 2);
+	victorPlayerSpr.setTextureRect(sf::IntRect(victorPlayerSpr.getGlobalBounds().width / 2, 0, victorPlayerSpr.getGlobalBounds().width, victorPlayerSpr.getGlobalBounds().height));
+	
+
 
 	m_pBackBtn = new Button();
 
 	//Quit button:
 	sf::Sprite* temp = o_pRenderer->CreateSprite("images/Titles/back.jpg");
 	temp->setScale(0.8f, 0.7f);
-	temp->setPosition(static_cast<float>(o_pRenderer->GetWindowSize().x / 2) - (temp->getGlobalBounds().width / 4), static_cast<float>(o_pRenderer->GetWindowSize().y * 5 / 7));
+	temp->setPosition(static_cast<float>(o_pRenderer->GetWindowSize().x / 2) - (temp->getGlobalBounds().width / 4), static_cast<float>(o_pRenderer->GetWindowSize().y * 6 / 7));
 	m_pBackBtn->Initialise(temp, std::bind(&VictoryScene::Back, this));
 }
 
@@ -97,18 +102,19 @@ VictoryScene::~VictoryScene()
 void VictoryScene::Draw()
 {
 	o_pRenderer->Draw(menuBackgroundSpr);
+
 	o_pRenderer->Draw(victorPlayerSpr);
 
 	//Buttons:
 	m_pBackBtn->Draw();
 
 	//"Level Select"
-	o_pRenderer->SetFontSize(20);
-	o_pRenderer->SetColour(sf::Color::Black);
-	o_pRenderer->DrawRectangle(355, 400, 152, 22);
-	o_pRenderer->SetColour(sf::Color::White);
-
-	o_pRenderer->SetFontSize(50);
+	//o_pRenderer->SetFontSize(20);
+	//o_pRenderer->SetColour(sf::Color::Black);
+	//o_pRenderer->DrawRectangle(355, 400, 152, 22);
+	//o_pRenderer->SetColour(sf::Color::White);
+	//
+	//o_pRenderer->SetFontSize(50);
 	//o_pRenderer->DrawTextToView("Main Menu:"+ std::to_string(keypressed), 75, 100);
 
 	o_pRenderer->SetColour(sf::Color::Black);
