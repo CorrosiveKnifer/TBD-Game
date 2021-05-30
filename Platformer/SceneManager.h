@@ -42,7 +42,9 @@ protected:
 
 	//Member data
 public:
+	Scene* m_topScene;
 
+	PauseMenuScene* m_pauseScene;
 private:
 	static SceneManager* sm_pInstance;
 	static const unsigned int sm_totalFrames = 60;
@@ -52,8 +54,6 @@ private:
 
 	float pauseDelay = 0.0f;
 
-	PauseMenuScene* m_pauseScene;
-	Scene* m_topScene;
 	Scene* m_nextScene;
 protected:
 

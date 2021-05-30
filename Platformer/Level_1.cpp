@@ -202,6 +202,13 @@ void c_Level_1::Update(float dT)
 	if (playersRemaining <= 1)
 	{
 		//SOMEONE HAS WON
+		for (int i = 0; i < MyPlayers.size(); i++)
+		{
+			if (MyPlayers.at(0)->GetLives() > 0)
+			{
+
+			}
+		}
 	}
 
 	for (auto it : myPowerUps)
