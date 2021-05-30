@@ -74,6 +74,10 @@ private:
 
 	// powerups
 	vector<C_PowerUp*> myPowerUps;
+	float mf_PowerupTimer = 0.0f;
+	float mf_WaterFall_PowerupTimer = 0.0f;
+	int mi_Powerup_NewPU = 4;
+	int mi_WaterFall_Powerup_NewPU = 24;
 	vector<Entity*> m_toRemove;
 };
 
