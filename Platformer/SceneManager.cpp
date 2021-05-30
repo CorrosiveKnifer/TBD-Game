@@ -11,10 +11,11 @@
 // 
 
 #include "SceneManager.h"
-#include "Scene.h"
 #include "InputHandler.h"
 #include "GlobalVariables.h"
-
+#include "Scene.h"
+#include "PauseMenuScene.h"
+#include "Entity.h"
 #include <iostream>
 
 //Statics:
@@ -102,6 +103,9 @@ void SceneManager::DoSceneLoop()
 
 			if (lag > 1.0f / sm_totalFrames) 
 			{
+				if (pauseDelay > 0)
+					pauseDelay -= 1.0f / sm_totalFrames;
+
 				lag -= 1.0f / sm_totalFrames;
 
 				if (m_topScene != nullptr)
@@ -124,6 +128,25 @@ void SceneManager::DoSceneLoop()
 	}
 }
 
+void SceneManager::PauseScene()
+{
+	if (pauseDelay <= 0.0f)
+	{
+		if (m_pauseScene == nullptr)
+			m_pauseScene = new PauseMenuScene(m_topScene);
+		pauseDelay = 1.0f;
+	}
+}
+
+void SceneManager::UnPauseScene()
+{
+	if(pauseDelay <= 0.0f)
+	{
+		m_nextScene = m_pauseScene->GetUnderScene();
+		pauseDelay = 1.0f;
+	}
+}
+
 // Name: LoadNextScene
 // Author: Michael Jordan
 // Description: Transitions to the next scene iff another scene has been loaded by the
@@ -134,6 +157,19 @@ void SceneManager::DoSceneLoop()
 //   void
 void SceneManager::LoadNextScene()
 {
+	if (m_pauseScene != nullptr)
+	{
+		if (m_pauseScene != m_topScene)
+		{
+			m_topScene = m_pauseScene;
+			return;
+		}
+		if (m_nextScene != nullptr)
+		{
+			m_pauseScene = nullptr;
+		}
+	}
+
 	if (m_nextScene != nullptr)
 	{
 		delete m_topScene; //Delete current scene

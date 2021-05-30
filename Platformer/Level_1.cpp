@@ -209,7 +209,7 @@ void c_Level_1::Update(float dT)
 		it->Process(dT);
 	}
 	
-	PostUpdate();
+	PostUpdate(dT);
 }
 
 void c_Level_1::DestroyEntity(Entity* entity)
@@ -274,7 +274,7 @@ void c_Level_1::RespawnPlayer(C_Player* player)
 	player->Respawn(respawnPos, world);
 }
 
-void c_Level_1::PostUpdate()
+void c_Level_1::PostUpdate(float dT)
 {
 	std::vector<Entity*>::iterator iter = m_toRemove.begin();
 	while (iter != m_toRemove.end())

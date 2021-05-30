@@ -22,6 +22,7 @@ public:
 		PLAYER	= 0x0001,
 		BALL	= 0x0002,
 		POWERUP = 0x0004,
+		SHIELD = 0x0008,
 	};
 
 	virtual void BeginContact(b2Contact* contact)
@@ -34,6 +35,12 @@ public:
 		if (caseNo == (EntityType::PLAYER | EntityType::BALL))
 		{
 
+			entityA->HandleHit(entityB);
+			entityB->HandleHit(entityA);
+			return;
+		}
+		if (caseNo == (EntityType::BALL | EntityType::SHIELD))
+		{
 			entityA->HandleHit(entityB);
 			entityB->HandleHit(entityA);
 			return;
@@ -122,7 +129,10 @@ public:
 		{
 			return EntityType::POWERUP;
 		}
-
+		if (typeid(*entity) == typeid(Shield))
+		{
+			return EntityType::SHIELD;
+		}
 		return EntityType::NONE;
 	}
 };

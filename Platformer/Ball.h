@@ -31,7 +31,7 @@ class Entity;
 class C_Ball : Entity
 {
 public:
-	C_Ball(b2World* world, unsigned int playerID, sf::Vector2f _worldPosition, b2Vec2 _vectorVelocity,bool isTemporary = false);
+	C_Ball(b2World* world, unsigned int playerID, sf::Vector2f _worldPosition, b2Vec2 _vectorVelocity, bool isTemporary = false);
 	virtual ~C_Ball();
 
 	//Inheritance functions:
@@ -41,8 +41,10 @@ public:
 
 	const b2Body* GetBody() { return MyBox2d.BOD; };
 	int GetPlayerID() { return this->myPlayerID; }
-	int GetBounceCount() { return this->m_bounceCount; }
+	void SetBounceCount(unsigned int newBounceCount) { m_bounceCount = newBounceCount; };
+	unsigned int GetBounceCount() { return this->m_bounceCount; }
 	virtual bool IsImmune() { return m_bounceCount == 0; };
+	void AddForce(b2Vec2 force) { MyBox2d.BOD->ApplyForceToCenter(force, true); };
 private:
 	unsigned int myPlayerID;
 
@@ -59,6 +61,7 @@ private:
 	float mf_SpeedModifier = 50.0f;
 	unsigned int m_bounceCount = 0;
 	unsigned int m_bounceMax = 6;
+
 	// box2d
 	struct body
 	{

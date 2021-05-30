@@ -14,8 +14,10 @@
 // 
 
 #include <SFML/Graphics.hpp>
-#include "Entity.h"
+
+class Entity;
 class Scene;
+class PauseMenuScene;
 
 class SceneManager
 {
@@ -28,6 +30,8 @@ public:
 	void DoSceneLoop();
 
 	void TransitionTo(Scene* _nextScene) { m_nextScene = _nextScene; };
+	void PauseScene();
+	void UnPauseScene();
 	void Quit() { m_isRunning = false; };
 private:
 	SceneManager();
@@ -38,7 +42,6 @@ protected:
 
 	//Member data
 public:
-	Scene* m_topScene;
 
 private:
 	static SceneManager* sm_pInstance;
@@ -47,6 +50,10 @@ private:
 	sf::Clock m_clock;
 	bool m_isRunning;
 
+	float pauseDelay = 0.0f;
+
+	PauseMenuScene* m_pauseScene;
+	Scene* m_topScene;
 	Scene* m_nextScene;
 protected:
 
