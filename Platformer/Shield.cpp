@@ -25,7 +25,7 @@ Shield::Shield(b2World* world, unsigned int playerID, b2Vec2 _worldPosition)
 
 Shield::~Shield()
 {
-
+	MyBox2d.BOD->GetWorld()->DestroyBody(MyBox2d.BOD);
 }
 
 void Shield::Draw()

@@ -131,7 +131,7 @@ public:
 		}
 		if (typeid(*entity) == typeid(Shield))
 		{
-			return EntityType::POWERUP;
+			return EntityType::SHIELD;
 		}
 		return EntityType::NONE;
 	}
