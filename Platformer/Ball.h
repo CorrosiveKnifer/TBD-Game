@@ -61,6 +61,7 @@ private:
 	float mf_SpeedModifier = 50.0f;
 	unsigned int m_bounceCount = 0;
 	unsigned int m_bounceMax = 6;
+
 	// box2d
 	struct body
 	{

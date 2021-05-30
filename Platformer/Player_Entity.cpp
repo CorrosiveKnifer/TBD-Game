@@ -219,12 +219,37 @@ void C_Player::Draw()
 	{
 		// draw ball being held
 	}
+
+	if (myShield != nullptr)
+	{
+		myShield->Draw();
+	}
 }
 
 
 // ------------------------------------------------- Process -----------------------------------------------------------------
 void C_Player::Process(float dT)
 {
+	if (myShield != nullptr)
+	{
+		m_shieldDelay -= dT;
+		if (m_shieldDelay <= 0)
+		{
+			delete myShield;
+			myShield = 0;
+		}
+		else
+		{
+			myShield->SetPosition(MyBox2d.BOD->GetPosition());
+			myShield->Process(dT);
+		}
+	}
+
+	if (m_dashDelay > 0)
+	{
+		m_dashDelay -= dT;
+	}
+
 	// process waterfall effect
 	if (MyBall_WaterFall.size() > 0)
 	{
@@ -313,6 +338,7 @@ void C_Player::Process(float dT)
 	
 	RayCastClass RayResult;
 	MyBox2d.BOD->GetWorld()->RayCast(&RayResult, MyBox2d.BOD->GetPosition(), MyBox2d.BOD->GetPosition() + b2Vec2(0, 2));
+	MyBox2d.BOD->GetWorld()->RayCast(&RayResult, MyBox2d.BOD->GetPosition(), MyBox2d.BOD->GetPosition() + b2Vec2(-1 * MoveDirection.x, 2));
 	m_isGrounded = RayResult.rayHits.size() > 0;
 
 	//Wrap arround
@@ -622,11 +648,13 @@ void C_Player::HandleInput(float dt)
 			if (InputHandler::GetInstance().GetMovementInput(controlJoystickID).x <= -20)
 			{
 				xAxis -= 1.0f;
+				MoveDirection.x = -1.0f;
 			}
 			//Right
 			if (InputHandler::GetInstance().GetMovementInput(controlJoystickID).x >= 20)
 			{
 				xAxis += 1.0f;
+				MoveDirection.x = 1.0f;
 			}
 		}
 
@@ -638,7 +666,6 @@ void C_Player::HandleInput(float dt)
 		{
 			xAxis -= 1.0f;
 		}
-
 		sf::Vector2i newFacingDirection;
 		//Controller Aiming
 		if (InputHandler::GetInstance().GetAimInput(controlJoystickID).x <= -20 || 
@@ -694,8 +721,7 @@ void C_Player::HandleInput(float dt)
 		//Controller Dodge
 		if (sf::Joystick::isButtonPressed(controlJoystickID, InputHandler::GetInstance().BUTTON_B) || sf::Joystick::isButtonPressed(controlJoystickID, InputHandler::GetInstance().BUTTON_LB))
 		{
-			//DODGE
-
+			Dash(MoveDirection.x);
 		}
 
 		//Controller Pause
@@ -941,7 +967,9 @@ void C_Player::UsePowerUp()
 		myBallPowerUp = myPowerupType;
 		break;
 	case SHIELD:
-
+		if(myShield == nullptr)
+			myShield = new Shield(MyBox2d.BOD->GetWorld(), PlayerNumber, MyBox2d.BOD->GetPosition());
+		m_shieldDelay = 3.0f;
 		break;
 	case RAILSHOT:
 		if (Spr_PowerUp == nullptr)
@@ -993,6 +1021,16 @@ void C_Player::ThrowBall()
 
 	m_hasThrown = true;
 	m_immuneTimer = 0.0f;
+}
+
+void C_Player::Dash(float xAxis)
+{
+	if(m_dashDelay <= 0 && m_immuneTimer <= 0.0f)
+	{
+		MyBox2d.BOD->ApplyForceToCenter(b2Vec2(10000.0f * xAxis, -200), true);
+		m_dashDelay = 1.5f;
+		m_immuneTimer = 0.16f;
+	}
 }
 
 C_Player::~C_Player()

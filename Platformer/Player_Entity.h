@@ -22,6 +22,7 @@
 
 #include "Ball.h"
 #include "Powerup.h"
+#include "Shield.h"
 
 // local includes
 #include "GlobalVariables.h"
@@ -69,7 +70,9 @@ private:
 	void UpdateDirection(sf::Vector2i newFacingDirection);
 	void UsePowerUp();
 	void ThrowBall();
+	void Dash(float xAxis);
 private:
+	Shield* myShield;
 	PowerUpType myPowerupType;
 	PowerUpType myBallPowerUp;
 	// textures and sprites 
@@ -124,6 +127,8 @@ private:
 
 	bool m_isDead = false;
 	float m_deathTimer = 0.0f;
+	float m_dashDelay = 0.0f;
+	float m_shieldDelay = 0.0f;
 
 	bool mb_IsInvincible = false;
 	bool mb_PlayerHasBall = true;
