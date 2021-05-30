@@ -65,16 +65,17 @@ c_Level_1::c_Level_1(unsigned int players) : Scene()
 		MyPlayers.push_back(new C_Player(world, i + 1, myPlayerSpawnPoints[i])); // player
 	}
 	
+	srand(time(0));
 	// create powerups
-	for (unsigned int i = 0; i < 4; i++)
+	/*for (unsigned int i = 0; i < 4; i++)
 	{
 		myPowerUps.push_back(new C_PowerUp(world, myPowerUpSpawnPoints[i],i+1));
-	}
-	myPowerUps.push_back(new C_PowerUp(world, myPowerUpWaterfall, 5));
-	for (unsigned int i = 4; i < myPowerUpSpawnPoints.size(); i++)
+	}*/
+	//myPowerUps.push_back(new C_PowerUp(world, myPowerUpWaterfall, 5));
+	/*for (unsigned int i = 4; i < myPowerUpSpawnPoints.size(); i++)
 	{
 		myPowerUps.push_back(new C_PowerUp(world, myPowerUpSpawnPoints[i], 4));
-	}
+	}*/
 
 	// player UI Icons and stats
 	TX_UI_Player_Icons[0].loadFromFile("Resources/images/UI_Icons/Red_Rudy.png");
@@ -206,6 +207,59 @@ void c_Level_1::Update(float dT)
 	{
 		it->Process(dT);
 	}
+
+
+	// Powerups update
+	mf_PowerupTimer += dT;
+	mf_WaterFall_PowerupTimer += dT;
+
+
+
+	if (mf_PowerupTimer > mi_Powerup_NewPU) // time to spawn a powerup?
+	{
+		mf_PowerupTimer = 0.0f; // reset timer
+		
+
+		int tempCheck = 0;
+		for (auto it : myPowerUps) // check if the waterfall PU is in game
+		{
+			if (it->myPowerupType == 5)
+			{
+				tempCheck++;
+			}
+		}
+		if (tempCheck < 1 && mf_WaterFall_PowerupTimer > mi_WaterFall_Powerup_NewPU) // time for a waterfall PU.
+		{
+			mf_WaterFall_PowerupTimer = 0.0f; // reset WF timer
+
+			myPowerUps.push_back(new C_PowerUp(world, myPowerUpWaterfall, 5));
+		}
+		if (tempCheck > 0) { mf_WaterFall_PowerupTimer = 0.0f; } // reset WF_PU timer
+
+
+		if (myPowerUps.size() < 3 && tempCheck > 0) // time for another powerup
+		{
+			int tempPos = rand() % myPlayerSpawnPoints.size() + 1;
+			int tempType = rand() % 4 + 1;
+
+			myPowerUps.push_back(new C_PowerUp(world, myPowerUpSpawnPoints[tempPos], tempType));
+		}
+		if (myPowerUps.size() < 2 && tempCheck < 1) // time for another powerup
+		{
+			int tempPos = rand() % myPlayerSpawnPoints.size() + 1;
+			int tempType = rand() % 4 + 1;
+			int tempPos2 = rand() % myPlayerSpawnPoints.size() + 1;
+			int tempType2 = rand() % 4 + 1;
+
+			myPowerUps.push_back(new C_PowerUp(world, myPowerUpSpawnPoints[tempPos], tempType));
+			if (tempPos2 != tempPos)
+			{
+				myPowerUps.push_back(new C_PowerUp(world, myPowerUpSpawnPoints[tempPos2], tempType2));
+			}
+		}
+
+	}
+	
 	
 	PostUpdate(dT);
 }
