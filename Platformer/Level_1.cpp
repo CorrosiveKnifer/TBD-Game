@@ -19,7 +19,7 @@
 #include "SceneManager.h"
 #include "CollisionListener.h"
 
-c_Level_1::c_Level_1() : Scene()
+c_Level_1::c_Level_1(unsigned int players) : Scene()
 {
 	world->SetContactListener(new CollisionListener());
 
@@ -58,13 +58,13 @@ c_Level_1::c_Level_1() : Scene()
 		levelMesh::levelSpawnPoints(fName, myPlayerSpawnPoints , myPowerUpSpawnPoints, myPowerUpWaterfall);
 		
 	}
-	
-	// update for how many players playing ---------------------------------------<<<<<<<
-	MyPlayers.push_back(new C_Player(world, 1, myPlayerSpawnPoints[0])); // player
-	MyPlayers.push_back(new C_Player(world, 2, myPlayerSpawnPoints[1])); // player
-	MyPlayers.push_back(new C_Player(world, 3, myPlayerSpawnPoints[2])); // player
-	MyPlayers.push_back(new C_Player(world, 4, myPlayerSpawnPoints[3])); // player
 
+	// update for how many players playing ---------------------------------------<<<<<<<
+	for (unsigned int i = 0; i < players; i++)
+	{
+		MyPlayers.push_back(new C_Player(world, i + 1, myPlayerSpawnPoints[i])); // player
+	}
+	
 	// create powerups
 	for (unsigned int i = 0; i < 4; i++)
 	{
@@ -179,17 +179,29 @@ void c_Level_1::Update(float dT)
 		Spr_MyCollectedPowerUp[it->GetPlayerID() - 1].setTexture(Tx_PowerUps[it->GetPowerUpType()]);
 
 	}
+	unsigned int playersRemaining = 0;
 	for (auto it : MyPlayers)
 	{
 		float timer;
-		if (it->IsDead(timer))
+		if (it->IsDead(timer) && it->GetLives() > 0)
 		{
 			if (timer >= 3.0f)
 			{
-				it->Respawn(b2Vec2(10, 10), world);
+				RespawnPlayer(it);
 			}
 		}
+
+		if (it->GetLives() > 0)
+		{
+			playersRemaining++;
+		}
 	}
+
+	if (playersRemaining <= 1)
+	{
+		//SOMEONE HAS WON
+	}
+
 	for (auto it : myPowerUps)
 	{
 		it->Process(dT);
@@ -215,6 +227,49 @@ void c_Level_1::DestroyEntity(Entity* entity)
 		}
 		iter++;
 	}
+}
+
+void c_Level_1::RespawnPlayer(C_Player* player)
+{
+	b2Vec2 averagePos(0, 0);
+	unsigned int playerCount = 0;
+
+	for (C_Player* currPlayer : MyPlayers)
+	{
+		float time;
+		if (!currPlayer->IsDead(time))
+		{
+			averagePos += currPlayer->GetPosition();
+			playerCount++;
+		}
+	}
+
+	if (playerCount == 0)
+	{
+		int select = rand() % myPlayerSpawnPoints.size();
+		b2Vec2 pos = myPlayerSpawnPoints.at(select);
+		pos.y += 1;
+		player->Respawn(pos, world);
+		return;
+	}
+
+	averagePos = b2Vec2(averagePos.x / playerCount, averagePos.y / playerCount);
+
+	float maxDist = -10000;
+	b2Vec2 respawnPos;
+	for (b2Vec2 pos : myPlayerSpawnPoints)
+	{
+		b2Vec2 spawnPos(pos.x / C_GlobalVariables::PPM, pos.y / C_GlobalVariables::PPM);
+		float dist = std::sqrt(std::powf(spawnPos.x - averagePos.x, 2) + std::powf(spawnPos.y - averagePos.y, 2));
+		if (dist > maxDist)
+		{
+			maxDist = dist;
+			respawnPos = spawnPos;
+			respawnPos.y += 0.5f;
+		}
+	}
+
+	player->Respawn(respawnPos, world);
 }
 
 void c_Level_1::PostUpdate()

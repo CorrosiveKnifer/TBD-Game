@@ -16,12 +16,14 @@
 //
 //Library Includes
 #include <SFML/Graphics.hpp>
+#include <list>
+#include <iostream>
+//#include "Player_Entity.h"
 
 //Forward Declaration
 class BackBuffer;
-class Game;
 class LogoScene;
-class Window;
+class C_Player;
 
 //Implementation
 class InputHandler
@@ -38,7 +40,40 @@ public:
 	sf::Keyboard::Key IsAnyKeyPressed();
 	sf::Vector2i GetMousePosition();
 
+	enum ButtonType {
+		BUTTON_A = 0,
+		BUTTON_B = 1,
+		BUTTON_X = 2,
+		BUTTON_Y = 3,
+		BUTTON_LB = 4,
+		BUTTON_RB = 5,
+		BUTTON_BACK = 6,
+		BUTTON_START = 7,
+		BUTTON_L3 = 8,
+		BUTTON_R3 = 9
+	};
+
+	int GetJoystickCount();
+
+	sf::Vector2f GetAimInput(int joystickID);
+	sf::Vector2f GetMovementInput(int joystickID);
+	float GetShootInput(int joystickID);
+	sf::Vector2f GetEmoteInput(int joystickID);
+
+	std::list<ButtonType> getButton(int joystickID);
+	
+	//void GetAnyJoystickInput(int joystickID, sf::Joystick::Axis axis, float pos);
+	//void GetButtonInput(int joystickID, int button);
+
 	void SwitchCharacter(int current);
+
+	//C_Player* player;
+
+	int m_playerInControl;
+	int m_playerNext;
+
+	int m_pConnectedControllers;
+
 private:
 	InputHandler();
 	~InputHandler();
@@ -46,8 +81,7 @@ protected:
 
 	//Member data
 public:
-	int m_playerInControl = 1;
-	int m_playerNext = 1;
+
 private:
 	static InputHandler* sm_pInstance;
 

@@ -23,6 +23,7 @@
     <ClCompile Include="GlobalVariables.cpp" />
     <ClCompile Include="LevelLoader.cpp" />
     <ClCompile Include="Level_1.cpp" />
+    <ClCompile Include="PauseMenuScene.cpp" />
     <ClCompile Include="Player_Entity.cpp" />
     <ClCompile Include="Powerup.cpp" />
     <ClCompile Include="Renderer.cpp" />
@@ -48,6 +49,7 @@
     <ClInclude Include="GlobalVariables.h" />
     <ClInclude Include="LevelLoader.h" />
     <ClInclude Include="Level_1.h" />
+    <ClInclude Include="PauseMenuScene.h" />
     <ClInclude Include="Player_Entity.h" />
     <ClInclude Include="Powerup.h" />
     <ClInclude Include="RayCastClass.h" />

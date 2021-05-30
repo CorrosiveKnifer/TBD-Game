@@ -11,17 +11,15 @@
 // Author         	: Sonja Fowler
 // Mail         	: sonja@alp.co.nz
 //
-
-#ifndef _PLAYER_ENTITY_
-#define _PLAYER_ENTITY_
+// 
+// parent include
+#include "Entity.h"
 
 // Library Includes
 #include <Box2D.h>
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 
-// parent include
-#include "Entity.h"
 #include "Ball.h"
 #include "Powerup.h"
 
@@ -37,7 +35,7 @@ enum EmoteType
 	SHOW_OFF,
 };
 
-class C_Player : Entity
+class C_Player : public Entity
 {
 public:
 	C_Player(b2World* world,int _playerNumber, b2Vec2 _position);
@@ -52,14 +50,16 @@ public:
 	void ApplyPowerUp(PowerUpType type);
 	//sf::Sprite& GetSpriteLegs() { return Spr_Legs; }
 	//sf::Sprite& GetSpr_UpperBody() { return Spr_UpperBody; }
-	sf::Sprite& GetSpriteBall() { return Spr_Ball_overlay; }
+	b2Vec2 GetPosition() { return MyBox2d.BOD->GetPosition(); };
+
+	sf::Sprite& GetSpriteBall() { return Spr_Ball_overlay; };
 	bool IsDead(float& outTimer) { outTimer = m_deathTimer; return m_isDead; };
 	virtual bool IsImmune() { return m_immuneTimer > 0; };
 
-	int GetLives() { return this->myLives; }
-	int GetScore() { return this->myScore; }
-	void SetScore(int _score) { this->myScore += _score; }
-	int GetPlayerID() { return PlayerNumber; }
+	int GetLives() { return this->myLives; };
+	int GetScore() { return this->myScore; };
+	void SetScore(int _score) { this->myScore += _score; };
+	int GetPlayerID() { return PlayerNumber; };
 
 	PowerUpType GetPowerUpType() { return myPowerupType; };
 
@@ -68,14 +68,17 @@ private:
 	void ProcessImmuneFrames(float dt);
 	void UpdateDirection(sf::Vector2i newFacingDirection);
 	void UsePowerUp();
+	void ThrowBall();
 private:
 	PowerUpType myPowerupType;
+	PowerUpType myBallPowerUp;
 	// textures and sprites 
 	sf::Texture Tx_LegsIdle, Tx_LegsJump, Tx_LegsRun[4];
 	sf::Texture Tx_UB_ThrowUp1, Tx_UB_ThrowUp2, Tx_UB_ThrowDown1, Tx_UB_ThrowDown2, Tx_UB_ThrowSide1, Tx_UB_ThrowSide2, Tx_UB_ThrowDiagUp1, Tx_UB_ThrowDiagUp2;
 	sf::Texture Tx_UB_ThrowDiagDown1, Tx_UB_ThrowDiagDown2, Tx_UB_Shield, Tx_UB_Victory;
 
 	sf::Sprite Spr_Legs, Spr_UpperBody;
+	sf::Sprite* Spr_PowerUp;
 	sf::Sprite* Spr_Emote;
 
 	sf::Texture* Tx_Emotes;
@@ -103,6 +106,7 @@ private:
 	body MyBox2d;
 
 	int PlayerNumber; //1,2,3,4  1=Red, 2=Green, 3= Blue,4=Yellow.
+	int controlJoystickID;
 
 	enum Direction{facing_right, facing_upRight, facing_up, facing_upLeft, facing_left, facing_downLeft, facing_down, facing_downRight};
 	Direction MyDirection;
@@ -148,5 +152,3 @@ private:
 	float mf_WaterFall_Timer = 0.0f;
 
 };
-
-#endif
