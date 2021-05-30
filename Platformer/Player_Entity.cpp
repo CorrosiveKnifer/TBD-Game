@@ -286,7 +286,7 @@ void C_Player::Process(float dT)
 	if (m_emoteTimer > 0)
 		m_emoteTimer = std::clamp(m_emoteTimer - dT, 0.0f, m_emoteTimer);
 
-	if (m_playerSpeedMod >= 1.0f)
+	if (m_playerSpeedMod > 1.0f)
 	{
 		m_playerSpeedMod = 1.0f + 1.0f * (m_powerUpTimer / m_powerUpTimerMax);
 	}
@@ -957,6 +957,9 @@ void C_Player::UsePowerUp()
 		m_playerSpeedMod = 2.0f;
 		break;
 	case TRIPLESHOT:
+		if (MyBall != nullptr)
+			return;
+
 		if (Spr_PowerUp == nullptr)
 		{
 			Spr_PowerUp = new sf::Sprite();
@@ -971,6 +974,9 @@ void C_Player::UsePowerUp()
 		m_shieldDelay = 3.0f;
 		break;
 	case RAILSHOT:
+		if (MyBall != nullptr)
+			return;
+
 		if (Spr_PowerUp == nullptr)
 		{
 			Spr_PowerUp = new sf::Sprite();
