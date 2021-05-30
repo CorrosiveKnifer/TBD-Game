@@ -18,6 +18,7 @@
 #include "InputHandler.h"
 #include "SceneManager.h"
 #include "CollisionListener.h"
+#include "VictoryScene.h"
 
 c_Level_1::c_Level_1(unsigned int players) : Scene()
 {
@@ -205,9 +206,9 @@ void c_Level_1::Update(float dT)
 		//SOMEONE HAS WON
 		for (int i = 0; i < MyPlayers.size(); i++)
 		{
-			if (MyPlayers.at(0)->GetLives() > 0)
+			if (MyPlayers.at(i)->GetLives() > 0)
 			{
-
+				SceneManager::GetInstance().TransitionTo(new VictoryScene(MyPlayers.at(i)->GetPlayerID()));
 			}
 		}
 	}

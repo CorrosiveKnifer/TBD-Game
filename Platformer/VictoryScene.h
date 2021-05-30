@@ -28,7 +28,7 @@ class VictoryScene : public Scene
 {
 	//Member function
 public:
-	VictoryScene();
+	VictoryScene(int playerWon);
 	virtual ~VictoryScene();
 
 	//Inherited functions:
@@ -38,15 +38,13 @@ public:
 	virtual void DestroyEntity(Entity* entity) {};
 
 	//Button functions:
-	void PlayerSelect();
-	void Settings();
-	void Quit();
+	void Back();
 private:
 
 protected:
 	//Member data
 public:
-
+	
 private:
 
 protected:
@@ -55,6 +53,9 @@ protected:
 
 	sf::Texture menuBackgroundTex;
 	sf::Sprite menuBackgroundSpr;
+
+	sf::Texture victorPlayerTex;
+	sf::Sprite victorPlayerSpr;
 
 	Button* m_pBackBtn;
 

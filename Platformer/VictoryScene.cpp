@@ -21,15 +21,14 @@
 #include "resource.h"
 #include "ListBox.h"
 #include "Iniparser.h"
-#include "LogoScene.h"
-#include "ControlsScene.h"
-#include "PlayerSelectScene.h"
+#include "MainMenuScene.h"
+
 
 //Library includes
 #include <windows.h>
 
 //Constructor
-VictoryScene::VictoryScene()
+VictoryScene::VictoryScene(int playerWon)
 	: Scene()
 	, m_hasMouseClicked(false)
 	, m_mousePos(0, 0), m_mousePressPos(0)
@@ -38,8 +37,29 @@ VictoryScene::VictoryScene()
 {
 	sceneID = MAINMENU;
 
-	menuBackgroundTex.loadFromFile("Resources/images/Titles/Menu_Screen_blank.jpg");
+	menuBackgroundTex.loadFromFile("Resources/images/Titles/Victory_Screen.jpg");
 	menuBackgroundSpr.setTexture(menuBackgroundTex);
+
+	switch (playerWon)
+	{
+	case 1:
+		victorPlayerTex.loadFromFile("Resources/images/Titles/player1.jpg");
+		break;
+	case 2:
+		victorPlayerTex.loadFromFile("Resources/images/Titles/player2.jpg");
+		break;
+	case 3:
+		victorPlayerTex.loadFromFile("Resources/images/Titles/player3.jpg");
+		break;
+	case 4:
+		victorPlayerTex.loadFromFile("Resources/images/Titles/player4.jpg");
+		break;
+	default:
+		victorPlayerTex.loadFromFile("Resources/images/Titles/player1.jpg");
+		break;
+	}
+
+	victorPlayerSpr.setTexture(victorPlayerTex);
 
 	m_pBackBtn = new Button();
 
@@ -47,7 +67,7 @@ VictoryScene::VictoryScene()
 	sf::Sprite* temp = o_pRenderer->CreateSprite("images/Titles/back.jpg");
 	temp->setScale(0.8f, 0.7f);
 	temp->setPosition(static_cast<float>(o_pRenderer->GetWindowSize().x / 2) - (temp->getGlobalBounds().width / 4), static_cast<float>(o_pRenderer->GetWindowSize().y * 5 / 7));
-	m_pBackBtn->Initialise(temp, std::bind(&VictoryScene::Quit, this));
+	m_pBackBtn->Initialise(temp, std::bind(&VictoryScene::Back, this));
 }
 
 //Destructor
@@ -77,6 +97,7 @@ VictoryScene::~VictoryScene()
 void VictoryScene::Draw()
 {
 	o_pRenderer->Draw(menuBackgroundSpr);
+	o_pRenderer->Draw(victorPlayerSpr);
 
 	//Buttons:
 	m_pBackBtn->Draw();
@@ -107,17 +128,7 @@ void VictoryScene::Update(float dT)
 	m_pBackBtn->Update();
 }
 
-void VictoryScene::PlayerSelect()
+void VictoryScene::Back()
 {
-	SceneManager::GetInstance().TransitionTo(new PlayerSelectScene());
-}
-
-void VictoryScene::Settings()
-{
-	SceneManager::GetInstance().TransitionTo(new ControlsScene());
-}
-
-void VictoryScene::Quit()
-{
-	SceneManager::GetInstance().Quit();
+	SceneManager::GetInstance().TransitionTo(new MainMenuScene());
 }
