@@ -51,19 +51,23 @@ void InputHandler::Update()
 		{
 			SceneManager::GetInstance().Quit();
 		}
-		if (event.type == sf::Event::JoystickButtonPressed)
+		if (event.type == sf::Event::JoystickButtonPressed && sf::Joystick::getIdentification(event.joystickButton.joystickId).productId != 0x09cc)
 		{
 			int joyID = event.joystickButton.joystickId;
 			int joyBtn = event.joystickButton.button;
 
-			if (joyBtn == 0 && SceneManager::GetInstance().m_topScene->sceneID == PLAYERSELECT)
+			if (joyBtn == 0 && SceneManager::GetInstance().m_topScene->sceneID == PLAYERSELECT || joyBtn == 3 && SceneManager::GetInstance().m_topScene->sceneID == PLAYERSELECT)
 			{
-				if (playerJoystickIDs.size() < 4)
+				if (joyBtn == 0 && playerJoystickIDs.size() < 4)
 				{
 					if (std::find(playerJoystickIDs.begin(), playerJoystickIDs.end(), joyID) == playerJoystickIDs.end())
 					{
 							playerJoystickIDs.push_back(joyID);		
 					}
+				}
+				if (joyBtn == 3 && playerJoystickIDs.size() >= 1)
+				{
+					playerJoystickIDs.erase(std::find(playerJoystickIDs.begin(), playerJoystickIDs.end(), joyID));
 				}
 			}
 		}

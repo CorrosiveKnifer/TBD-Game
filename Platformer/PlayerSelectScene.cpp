@@ -134,17 +134,29 @@ void PlayerSelectScene::Update(float dT)
 
 	switch (InputHandler::GetInstance().playerJoystickIDs.size())
 	{
+	case 0:
+			player1Spr.setTextureRect(sf::IntRect(0, 0, player1Spr.getGlobalBounds().width, player1Spr.getGlobalBounds().height));
+			player2Spr.setTextureRect(sf::IntRect(0, 0, player2Spr.getGlobalBounds().width, player2Spr.getGlobalBounds().height));
+			player3Spr.setTextureRect(sf::IntRect(0, 0, player3Spr.getGlobalBounds().width, player3Spr.getGlobalBounds().height));
+			player4Spr.setTextureRect(sf::IntRect(0, 0, player4Spr.getGlobalBounds().width, player4Spr.getGlobalBounds().height));
+			break;
 	case 1:
 		player1Spr.setTextureRect(sf::IntRect(player1Spr.getGlobalBounds().width, 0, player1Spr.getGlobalBounds().width, player1Spr.getGlobalBounds().height));
+		player2Spr.setTextureRect(sf::IntRect(0, 0, player2Spr.getGlobalBounds().width, player2Spr.getGlobalBounds().height));
+		player3Spr.setTextureRect(sf::IntRect(0, 0, player3Spr.getGlobalBounds().width, player3Spr.getGlobalBounds().height));
+		player4Spr.setTextureRect(sf::IntRect(0, 0, player4Spr.getGlobalBounds().width, player4Spr.getGlobalBounds().height));
 		break;
 	case 2:
 		player1Spr.setTextureRect(sf::IntRect(player1Spr.getGlobalBounds().width, 0, player1Spr.getGlobalBounds().width, player1Spr.getGlobalBounds().height));
 		player2Spr.setTextureRect(sf::IntRect(player2Spr.getGlobalBounds().width, 0, player2Spr.getGlobalBounds().width, player2Spr.getGlobalBounds().height));
+		player3Spr.setTextureRect(sf::IntRect(0, 0, player3Spr.getGlobalBounds().width, player3Spr.getGlobalBounds().height));
+		player4Spr.setTextureRect(sf::IntRect(0, 0, player4Spr.getGlobalBounds().width, player4Spr.getGlobalBounds().height));
 		break;
 	case 3:
 		player1Spr.setTextureRect(sf::IntRect(player1Spr.getGlobalBounds().width, 0, player1Spr.getGlobalBounds().width, player1Spr.getGlobalBounds().height));
 		player2Spr.setTextureRect(sf::IntRect(player2Spr.getGlobalBounds().width, 0, player2Spr.getGlobalBounds().width, player2Spr.getGlobalBounds().height));
 		player3Spr.setTextureRect(sf::IntRect(player3Spr.getGlobalBounds().width, 0, player3Spr.getGlobalBounds().width, player3Spr.getGlobalBounds().height));
+		player4Spr.setTextureRect(sf::IntRect(0, 0, player4Spr.getGlobalBounds().width, player4Spr.getGlobalBounds().height));
 		break;
 	case 4:
 		player1Spr.setTextureRect(sf::IntRect(player1Spr.getGlobalBounds().width, 0, player1Spr.getGlobalBounds().width, player1Spr.getGlobalBounds().height));
