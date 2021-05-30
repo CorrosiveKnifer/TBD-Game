@@ -244,7 +244,6 @@ void C_Player::Process(float dT)
 			myShield->Process(dT);
 		}
 	}
-
 	if (m_dashDelay > 0)
 	{
 		m_dashDelay -= dT;
