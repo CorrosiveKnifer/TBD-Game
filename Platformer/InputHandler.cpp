@@ -142,7 +142,7 @@ sf::Vector2f InputHandler::GetMovementInput(int joystickID)
 // Get the shoot input from the joystick
 float InputHandler::GetShootInput(int joystickID)
 {
-	return sf::Joystick::getAxisPosition(joystickID, sf::Joystick::Axis::Z);
+	//return sf::Joystick::getAxisPosition(joystickID, sf::Joystick::Axis::Z);
 }
 
 // Get the emote input from the joystick
