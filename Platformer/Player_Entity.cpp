@@ -576,7 +576,7 @@ void C_Player::HandleInput(float dt)
 		//}
 
 		//Controller Shoot input
-		if (sf::Joystick::isButtonPressed(controlJoystickID, InputHandler::GetInstance().BUTTON_LB) || sf::Joystick::isButtonPressed(controlJoystickID, InputHandler::GetInstance().BUTTON_RB))
+		if (sf::Joystick::isButtonPressed(controlJoystickID, InputHandler::GetInstance().BUTTON_RB))
 		{
 			if (!m_hasThrown && MyBall == nullptr)
 			{
@@ -666,6 +666,7 @@ void C_Player::HandleInput(float dt)
 			xAxis -= 1.0f;
 		}
 		sf::Vector2i newFacingDirection;
+
 		//Controller Aiming
 		if (InputHandler::GetInstance().GetAimInput(controlJoystickID).x <= -20 || 
 			InputHandler::GetInstance().GetAimInput(controlJoystickID).x >= 20 || 
@@ -696,7 +697,7 @@ void C_Player::HandleInput(float dt)
 		}
 
 		//Controller Jump
-		if (sf::Joystick::isButtonPressed(controlJoystickID, InputHandler::GetInstance().BUTTON_A) && m_isGrounded && !m_hasJumped)
+		if (sf::Joystick::isButtonPressed(controlJoystickID, InputHandler::GetInstance().BUTTON_A) && m_isGrounded && !m_hasJumped || sf::Joystick::isButtonPressed(controlJoystickID, InputHandler::GetInstance().BUTTON_LB) && m_isGrounded && !m_hasJumped)
 		{
 			yAxis += 1.0f;
 			m_hasJumped = true;

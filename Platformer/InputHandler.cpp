@@ -51,7 +51,7 @@ void InputHandler::Update()
 		{
 			SceneManager::GetInstance().Quit();
 		}
-		if (event.type == sf::Event::JoystickButtonPressed && sf::Joystick::getIdentification(event.joystickButton.joystickId).productId != 0x09cc)
+		if (event.type == sf::Event::JoystickButtonPressed && sf::Joystick::getIdentification(event.joystickButton.joystickId).vendorId != 0x054cc)
 		{
 			int joyID = event.joystickButton.joystickId;
 			int joyBtn = event.joystickButton.button;
@@ -65,7 +65,7 @@ void InputHandler::Update()
 							playerJoystickIDs.push_back(joyID);		
 					}
 				}
-				if (joyBtn == BUTTON_B && playerJoystickIDs.size() >= 1)
+				if (joyBtn == BUTTON_B && playerJoystickIDs.size() >= 1 && std::find(playerJoystickIDs.begin(), playerJoystickIDs.end(), joyID) != playerJoystickIDs.end())
 				{
 					playerJoystickIDs.erase(std::find(playerJoystickIDs.begin(), playerJoystickIDs.end(), joyID));
 				}
