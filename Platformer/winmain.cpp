@@ -4,6 +4,8 @@
 
 int main()
 {
+	srand(static_cast<unsigned int>(time(0)));
+
 	SceneManager::GetInstance().TransitionTo(new LogoScene());
 	SceneManager::GetInstance().DoSceneLoop();
 	

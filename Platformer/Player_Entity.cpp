@@ -295,20 +295,32 @@ void C_Player::Process(float dT)
 		MyBall->Process(dT);
 
 	// Make the WATERFALL!!!
-	if (myPowerupType == WATERFALL && mi_WaterFall_Count > 0)
+	if (myPowerupType == WATERFALL && mi_WaterFall_Count != 0)
 	{
 		mf_WaterFall_Timer += dT;
 		if (mf_WaterFall_Timer > 0.2f)
 		{
 			mf_WaterFall_Timer = 0.0f;
-			mi_WaterFall_Count--;
-			MyBall_WaterFall.push_back(new C_Ball(MyBox2d.BOD->GetWorld(), PlayerNumber,sf::Vector2f(790.0f, 5.0f),b2Vec2(-0.5f - ((float)(mi_WaterFall_Count)/100.0f),-0.5f),true));
+			//Note: Water fall count converges to 0 balls remaining. Negative represents the other hole.
+			if (mi_WaterFall_Count > 0)
+			{
+				//Left side
+				MyBall_WaterFall.push_back(new C_Ball(MyBox2d.BOD->GetWorld(), PlayerNumber, sf::Vector2f(790.0f, 5.0f), b2Vec2(-0.5f - ((float)(std::abs(mi_WaterFall_Count)) / 100.0f), -0.5f), true));
+				mi_WaterFall_Count--;
+			}
+			else if (mi_WaterFall_Count < 0)
+			{
+				//Right side
+				MyBall_WaterFall.push_back(new C_Ball(MyBox2d.BOD->GetWorld(), PlayerNumber, sf::Vector2f(1200.0f, 5.0f), b2Vec2(-0.5f - ((float)(std::abs(mi_WaterFall_Count)) / 100.0f), -0.5f), true));
+				mi_WaterFall_Count++;
+			}
+			
 		}
 	}
-	if (myPowerupType == WATERFALL && mi_WaterFall_Count <= 0)
+	if (myPowerupType == WATERFALL && mi_WaterFall_Count == 0)
 	{
 		myPowerupType = NONE;
-		mi_WaterFall_Count = mi_WaterFall_Count_Orig;
+		mi_WaterFall_Count = 0;
 	}
 
 	if (m_isDead )
@@ -538,10 +550,20 @@ void C_Player::ApplyPowerUp(PowerUpType type)
 		S_powerupCollected.play();
 		break;
 	case WATERFALL:
+	{
 		myPowerupType = WATERFALL;
-		mi_WaterFall_Count = mi_WaterFall_Count_Orig;
+		int direct = (rand() % 2);
+		if (direct == 1)
+		{
+			mi_WaterFall_Count = mi_WaterFall_Count_Orig;
+		}
+		else
+		{
+			mi_WaterFall_Count = -1.0f * mi_WaterFall_Count_Orig;
+		}
 		S_WaterFall.play(); // <----different sound FX
 		break;
+	}
 	default:
 		break;
 	}
@@ -549,6 +571,11 @@ void C_Player::ApplyPowerUp(PowerUpType type)
 
 void C_Player::HandleInput(float dt)
 {
+	if (m_pickUpDelay > 0)
+	{
+		m_pickUpDelay -= dt;
+	}
+
 	float xVelocity = MyBox2d.BOD->GetLinearVelocity().x * 0.8f; //0.8 for friction
 	if (xVelocity <= 0.05f && xVelocity >= -0.05f)
 	{
@@ -578,28 +605,25 @@ void C_Player::HandleInput(float dt)
 		//Controller Shoot input
 		if (sf::Joystick::isButtonPressed(controlJoystickID, InputHandler::GetInstance().BUTTON_RB))
 		{
-			if (!m_hasThrown && MyBall == nullptr)
+			if (m_pickUpDelay <= 0.0f && MyBall == nullptr) //Throw
 			{
 				ThrowBall();
+				m_pickUpDelay = 0.4f;
 			}
-		}
-		else
-		{
-			m_hasThrown = false;
+			else if (m_pickUpDelay <= 0.0f) //Pick up
+			{
+				b2Vec2 direction = MyBox2d.BOD->GetPosition() - MyBall->GetBody()->GetPosition();
+				float distance = direction.LengthSquared();
+				if (sqrtf(distance) < m_playerGrabRange)
+				{
+					delete MyBall;
+					MyBall = nullptr;
+					m_pickUpDelay = 0.4f;
+				}
+			}
 		}
 
-		//Pick up
-		if (sf::Joystick::isButtonPressed(controlJoystickID, InputHandler::GetInstance().BUTTON_RB) && MyBall != nullptr && !m_hasThrown)
-		{
-			b2Vec2 direction = MyBox2d.BOD->GetPosition() - MyBall->GetBody()->GetPosition();
-			float distance = direction.LengthSquared();
-			if (sqrtf(distance) < m_playerGrabRange)
-			{
-				delete MyBall;
-				MyBall = nullptr;
-				m_hasThrown = true;
-			}
-		}
+		
 
 		float xAxis = 0.0f;
 		float yAxis = 0.0f;
@@ -613,30 +637,30 @@ void C_Player::HandleInput(float dt)
 		}
 
 		//Spawn Ball/Grab ball
-		if (InputHandler::GetInstance().IsKeyPressed(sf::Keyboard::E))
-		{
-			if (!m_hasThrown && MyBall == nullptr)
-			{
-				m_hasThrown = true;
-				MyBall = new C_Ball(MyBox2d.BOD->GetWorld(), PlayerNumber, Spr_Ball_overlay.getPosition(), b2Vec2(FaceDirection.x, FaceDirection.y));
-				m_immuneTimer = 0.0f;
-			}
-			else if (!m_hasThrown && MyBall != nullptr)
-			{
-				b2Vec2 direction = MyBox2d.BOD->GetPosition() - MyBall->GetBody()->GetPosition();
-				float distance = direction.LengthSquared();
-				if (sqrtf(distance) < m_playerGrabRange)
-				{
-					delete MyBall;
-					MyBall = nullptr;
-					m_hasThrown = true;
-				}
-			}
-		}
-		else if (m_hasThrown)
-		{
-			m_hasThrown = false;
-		}
+		//if (InputHandler::GetInstance().IsKeyPressed(sf::Keyboard::E))
+		//{
+		//	if (!m_hasThrown && MyBall == nullptr)
+		//	{
+		//		m_hasThrown = true;
+		//		MyBall = new C_Ball(MyBox2d.BOD->GetWorld(), PlayerNumber, Spr_Ball_overlay.getPosition(), b2Vec2(FaceDirection.x, FaceDirection.y));
+		//		m_immuneTimer = 0.0f;
+		//	}
+		//	else if (!m_hasThrown && MyBall != nullptr)
+		//	{
+		//		b2Vec2 direction = MyBox2d.BOD->GetPosition() - MyBall->GetBody()->GetPosition();
+		//		float distance = direction.LengthSquared();
+		//		if (sqrtf(distance) < m_playerGrabRange)
+		//		{
+		//			delete MyBall;
+		//			MyBall = nullptr;
+		//			m_hasThrown = true;
+		//		}
+		//	}
+		//}
+		//else if (m_hasThrown)
+		//{
+		//	m_hasThrown = false;
+		//}
 		//float xAxis = 0.0f;
 		//float yAxis = 0.0f;
 		
@@ -1025,7 +1049,7 @@ void C_Player::ThrowBall()
 	}
 	myBallPowerUp = NONE;
 
-	m_hasThrown = true;
+	//m_hasThrown = true;
 	m_immuneTimer = 0.0f;
 }
 

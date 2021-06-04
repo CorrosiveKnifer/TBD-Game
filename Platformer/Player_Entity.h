@@ -134,11 +134,12 @@ private:
 	bool mb_PlayerHasBall = true;
 	bool m_isGrounded = false;
 	bool m_hasJumped = false;
-	bool m_hasThrown = false;
+	//bool m_hasThrown = false;
 	int myHealth = C_GlobalVariables::maxHealth;
 	int myLives = C_GlobalVariables::maxLives;
 	int myScore = 0;
 
+	float m_pickUpDelay = 0.0f;
 	float m_immuneTimer = 0.0f;
 	float m_immunityFramesSpeed = 2.0f;
 	float m_playerSpeedMod = 1.0f;
@@ -152,7 +153,7 @@ private:
 	int mi_Current_Leg_Frame = 0;
 	
 	float m_emoteTimer = 0.0f;
-	int mi_WaterFall_Count = 25; // 25 balls created for waterfall
+	int mi_WaterFall_Count = 0; // 25 balls created for waterfall
 	int mi_WaterFall_Count_Orig = 25;
 	float mf_WaterFall_Timer = 0.0f;
 
