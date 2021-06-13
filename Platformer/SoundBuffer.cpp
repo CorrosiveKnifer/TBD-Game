@@ -40,7 +40,7 @@ SoundBuffer::SoundBuffer()
 	: m_backgroundVol(0), m_soundVol(0), m_playerHearing(0, 0), m_localDistance(400)
 	, m_volModifier(1.0)
 {
-	m_backgroundVol = 35.0f;
+	m_backgroundVol = 20.0f;
 	m_soundVol = 100.0f;
 }
 

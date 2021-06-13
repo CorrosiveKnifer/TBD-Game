@@ -66,6 +66,7 @@ public:
 	void DrawRectangle(float x, float y, float w, float h);
 	void DrawTextToView(std::string msg, float x, float y);
 	void DrawTextToWorld(std::string msg, float x, float y);
+	void DrawLine(sf::Vector2f p1, sf::Vector2f p2, sf::Color col);
 
 	sf::RenderWindow* GetWindow() const;
 	const sf::Vector2u GetWindowSize() const;

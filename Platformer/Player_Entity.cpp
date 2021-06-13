@@ -218,6 +218,18 @@ void C_Player::Draw()
 	{
 		myShield->Draw();
 	}
+
+	Renderer::GetInstance().DrawLine(
+		sf::Vector2f(MyBox2d.BOD->GetPosition().x* C_GlobalVariables::PPM, MyBox2d.BOD->GetPosition().y* C_GlobalVariables::PPM),
+		sf::Vector2f(MyBox2d.BOD->GetPosition().x * C_GlobalVariables::PPM, (MyBox2d.BOD->GetPosition().y + 1.85f)* C_GlobalVariables::PPM),
+		sf::Color::Green
+	);
+
+	Renderer::GetInstance().DrawLine(
+		sf::Vector2f(MyBox2d.BOD->GetPosition().x * C_GlobalVariables::PPM, MyBox2d.BOD->GetPosition().y * C_GlobalVariables::PPM),
+		sf::Vector2f((MyBox2d.BOD->GetPosition().x + -0.5 * MoveDirection.x) * C_GlobalVariables::PPM, (MyBox2d.BOD->GetPosition().y + 1.85f) * C_GlobalVariables::PPM),
+		sf::Color::Green
+	);
 }
 
 
@@ -360,8 +372,8 @@ void C_Player::Process(float dT)
 	Spr_Emote->setPosition(this->MyBox2d.BOD->GetPosition().x * C_GlobalVariables::PPM, this->MyBox2d.BOD->GetPosition().y * C_GlobalVariables::PPM - 100);
 	
 	RayCastClass RayResult;
-	MyBox2d.BOD->GetWorld()->RayCast(&RayResult, MyBox2d.BOD->GetPosition(), MyBox2d.BOD->GetPosition() + b2Vec2(0, 2));
-	MyBox2d.BOD->GetWorld()->RayCast(&RayResult, MyBox2d.BOD->GetPosition(), MyBox2d.BOD->GetPosition() + b2Vec2(-1 * MoveDirection.x, 2));
+	MyBox2d.BOD->GetWorld()->RayCast(&RayResult, MyBox2d.BOD->GetPosition(), MyBox2d.BOD->GetPosition() + b2Vec2(0, 1.85));
+	MyBox2d.BOD->GetWorld()->RayCast(&RayResult, MyBox2d.BOD->GetPosition(), MyBox2d.BOD->GetPosition() + b2Vec2(-0.5 * MoveDirection.x, 1.85));
 	m_isGrounded = RayResult.rayHits.size() > 0;
 
 	//Wrap arround
@@ -880,20 +892,18 @@ void C_Player::UsePowerUp()
 	if (myPowerupType == PowerUpType::NONE)
 		return;
 
-	// play use sound
-	SoundBuffer::GetInstance().PlaySoundEffect("powerup");
-
 	switch (myPowerupType)
 	{
 	case NONE:
 		break;
 	case SPEED:
 		m_playerSpeedMod = 2.0f;
+		SoundBuffer::GetInstance().PlaySoundEffect("powerup");
 		break;
 	case TRIPLESHOT:
 		if (MyBall != nullptr)
 			return;
-
+		SoundBuffer::GetInstance().PlaySoundEffect("powerup");
 		if (Spr_PowerUp == nullptr)
 		{
 			Spr_PowerUp = new sf::Sprite();
@@ -905,12 +915,13 @@ void C_Player::UsePowerUp()
 	case SHIELD:
 		if(myShield == nullptr)
 			myShield = new Shield(MyBox2d.BOD->GetWorld(), PlayerNumber, MyBox2d.BOD->GetPosition());
+		SoundBuffer::GetInstance().PlaySoundEffect("powerup");
 		m_shieldDelay = 3.0f;
 		break;
 	case RAILSHOT:
 		if (MyBall != nullptr)
 			return;
-
+		SoundBuffer::GetInstance().PlaySoundEffect("powerup");
 		if (Spr_PowerUp == nullptr)
 		{
 			Spr_PowerUp = new sf::Sprite();
@@ -966,7 +977,7 @@ void C_Player::Dash(float xAxis)
 {
 	if(m_dashDelay <= 0 && m_immuneTimer <= 0.0f)
 	{
-		MyBox2d.BOD->ApplyForceToCenter(b2Vec2(10000.0f * xAxis, -200), true);
+		MyBox2d.BOD->ApplyForceToCenter(b2Vec2(10000.0f * xAxis, -400), true);
 		m_dashDelay = 1.5f;
 		m_immuneTimer = 0.16f;
 		SoundBuffer::GetInstance().PlaySoundEffect("Dash");

@@ -131,7 +131,7 @@ private:
 
 	//Player Settings
 	float m_playerSpeed = 500;
-	float m_playerJumpForce = -210;
+	float m_playerJumpForce = -400;
 	float m_playerFallModifier = 125;
 	float m_playerGrabRange = 2.5f;
 

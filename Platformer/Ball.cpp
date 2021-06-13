@@ -63,6 +63,8 @@ void C_Ball::Draw()
 {
 	if (IsImmune())
 		Spr_Ball.setColor(m_immuneColor);
+	else if (m_bounceCount > 6)
+		Spr_Ball.setColor(sf::Color::White);
 	else
 		Spr_Ball.setColor(myBallColor);
 
@@ -107,8 +109,18 @@ void C_Ball::Process(float dT)
 	else if (this->MyBox2d.BOD->GetPosition().y * C_GlobalVariables::PPM < 0)
 	{
 		// disabled for waterfall effect - Sonja
-		//this->MyBox2d.BOD->SetTransform(b2Vec2(this->MyBox2d.BOD->GetPosition().x, C_GlobalVariables::ScreenSizeY / C_GlobalVariables::PPM), 0);
+		this->MyBox2d.BOD->SetTransform(b2Vec2(this->MyBox2d.BOD->GetPosition().x, C_GlobalVariables::ScreenSizeY / C_GlobalVariables::PPM), 0);
 	}
+
+	if (this->MyBox2d.BOD->GetPosition().x * C_GlobalVariables::PPM > C_GlobalVariables::ScreenSizeX)
+	{
+		this->MyBox2d.BOD->SetTransform(b2Vec2(0, this->MyBox2d.BOD->GetPosition().y), 0);
+	}
+	else if (this->MyBox2d.BOD->GetPosition().x * C_GlobalVariables::PPM < 0)
+	{
+		this->MyBox2d.BOD->SetTransform(b2Vec2(C_GlobalVariables::ScreenSizeX / C_GlobalVariables::PPM, this->MyBox2d.BOD->GetPosition().y), 0);
+	}
+
 	if (m_bounceCount == 0)
 	{
 		b2Vec2 velBefore = MyBox2d.BOD->GetLinearVelocity();

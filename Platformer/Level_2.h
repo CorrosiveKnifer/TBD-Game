@@ -42,7 +42,7 @@ public:
 	virtual void DestroyEntity(Entity* entity);
 	void RespawnPlayer(C_Player* player);
 	void PostUpdate(float dT);
-	b2World* world = new b2World(C_GlobalVariables::Gravity);
+	b2World* world = new b2World(b2Vec2(0, C_GlobalVariables::Gravity.y));
 
 
 private:
