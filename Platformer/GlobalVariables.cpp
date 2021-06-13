@@ -27,3 +27,5 @@ uint16 C_GlobalVariables::GetLayerMaskFor(unsigned int playerID)
 {
     return ~uint16(powf(2, playerID)); //('~' = Everything except for) the player's bit
 }
+
+int C_GlobalVariables::CurrentLevel = 0;

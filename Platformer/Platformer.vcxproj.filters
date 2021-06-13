@@ -114,6 +114,9 @@
     <ClCompile Include="VictoryScene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Level_2.cpp">
+      <Filter>Source Files\Scenes</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Renderer.h">
@@ -202,6 +205,9 @@
     </ClInclude>
     <ClInclude Include="VictoryScene.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Level_2.h">
+      <Filter>Header Files\Scenes</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

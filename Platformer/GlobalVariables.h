@@ -24,6 +24,8 @@ public:
 
 	static int Player_1_Score, Player_2_Score, Player_3_Score, Player_4_Score;
 
+	static int CurrentLevel;
+
 private:
 	C_GlobalVariables();
 

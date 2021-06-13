@@ -11,6 +11,7 @@
 #include "LogoScene.h"
 #include <windows.h>
 #include "Level_1.h"
+#include "Level_2.h"
 #include "MainMenuScene.h"
 
 //Library includes
