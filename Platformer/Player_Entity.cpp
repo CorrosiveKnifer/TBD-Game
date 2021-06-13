@@ -356,7 +356,7 @@ void C_Player::Process(float dT)
 		this->MyBox2d.BOD->SetTransform(b2Vec2(this->MyBox2d.BOD->GetPosition().x, C_GlobalVariables::ScreenSizeY / C_GlobalVariables::PPM), 0);
 	}
 
-	if (this->MyBox2d.BOD->GetPosition().x * C_GlobalVariables::PPM > C_GlobalVariables::ScreenSizeY)
+	if (this->MyBox2d.BOD->GetPosition().x * C_GlobalVariables::PPM > C_GlobalVariables::ScreenSizeX)
 	{
 		this->MyBox2d.BOD->SetTransform(b2Vec2(0, this->MyBox2d.BOD->GetPosition().y), 0);
 	}
@@ -951,6 +951,7 @@ void C_Player::Dash(float xAxis)
 		MyBox2d.BOD->ApplyForceToCenter(b2Vec2(10000.0f * xAxis, -200), true);
 		m_dashDelay = 1.5f;
 		m_immuneTimer = 0.16f;
+		SoundBuffer::GetInstance().PlaySoundEffect("Dash");
 	}
 }
 
