@@ -17,14 +17,13 @@
 // local includes
 #include "InputHandler.h"
 #include "SceneManager.h"
-#include "CollisionListener.h"
 #include "VictoryScene.h"
 
 c_Level_1::c_Level_1(unsigned int players) : Scene()
 {
 	sceneID = LEVEL1;
-
-	world->SetContactListener(new CollisionListener());
+	listener = new CollisionListener();
+	world->SetContactListener(listener);
 
 	// level load for colliders from 3d .obj file
 	for (const auto& entry : fs::directory_iterator(path))
@@ -347,5 +346,37 @@ void c_Level_1::PostUpdate(float dT)
 
 c_Level_1::~c_Level_1()
 {
-	
+	vector<levelMesh*>::iterator meshIter = myLevel1Meshes.begin();
+	while (meshIter != myLevel1Meshes.end())
+	{
+		delete* meshIter;
+		meshIter = myLevel1Meshes.erase(meshIter);
+	}
+
+	vector<C_Player*>::iterator playerIter = MyPlayers.begin();
+	while (playerIter != MyPlayers.end())
+	{
+		delete* playerIter;
+		playerIter = MyPlayers.erase(playerIter);
+	}
+
+	vector<C_PowerUp*>::iterator poweriter = myPowerUps.begin();
+	while (poweriter != myPowerUps.end())
+	{
+		delete* poweriter;
+		poweriter = myPowerUps.erase(poweriter);
+	}
+
+	vector<Entity*>::iterator iter = m_toRemove.begin();
+	while (iter != m_toRemove.end())
+	{
+		delete* iter;
+		iter = m_toRemove.erase(iter);
+	}
+
+	delete world;
+	world = nullptr;
+
+	delete listener;
+	listener = nullptr;
 }

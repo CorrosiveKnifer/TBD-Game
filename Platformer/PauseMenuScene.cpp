@@ -9,7 +9,8 @@ PauseMenuScene::PauseMenuScene(Scene* underScene) : Scene()
 
 PauseMenuScene::~PauseMenuScene()
 {
-
+	delete m_underScene;
+	m_underScene = nullptr;
 }
 
 void PauseMenuScene::Draw()

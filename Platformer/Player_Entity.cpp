@@ -14,71 +14,75 @@
 #include "Player_Entity.h"
 #include "SceneManager.h"
 #include "RayCastClass.h"
+#include "SoundBuffer.h"
+
 #include <iostream>
 
 C_Player::C_Player(b2World* world,int _playerNumber, b2Vec2 _position) : Entity()
 {
 	PlayerNumber = _playerNumber;
 	controlJoystickID = InputHandler::GetInstance().playerJoystickIDs.at(_playerNumber - 1);
+
 	std::string tempPath = "";
 	//1,2,3,4  1=Red, 2=Green, 3= Blue,4=Yellow.
 	if (PlayerNumber == 1)
 	{
-		tempPath = "Resources/images/Characters/Finals_Red_Sized/";
+		tempPath = "images/Characters/Finals_Red_Sized/";
 		myBallColor = sf::Color::Red;
 		myScore = C_GlobalVariables::Player_1_Score;
 	}
 	if (PlayerNumber == 2)
 	{
-		tempPath = "Resources/images/Characters/Finals_GREEN_Sized/";
+		tempPath = "images/Characters/Finals_GREEN_Sized/";
 		myBallColor = sf::Color::Green;
 		myScore = C_GlobalVariables::Player_2_Score;
 	}
 	if (PlayerNumber == 3)
 	{
-		tempPath = "Resources/images/Characters/Finals_BLUE_Sized/";
+		tempPath = "images/Characters/Finals_BLUE_Sized/";
 		myBallColor = sf::Color(0, 150, 255, 255);
 		myScore = C_GlobalVariables::Player_3_Score;
 	}
 	if (PlayerNumber == 4)
 	{
-		tempPath = "Resources/images/Characters/Finals_YELLOW_sized/";
+		tempPath = "images/Characters/Finals_YELLOW_sized/";
 		myBallColor = sf::Color::Yellow;
 		myScore = C_GlobalVariables::Player_4_Score;
 	}
 
 	//Renderer can do this for you.
-	Tx_LegsIdle.loadFromFile(tempPath + "_0013_Legs_Idle.png");
-	Tx_LegsJump.loadFromFile(tempPath + "_0012_Legs_Jump.png");
-	Tx_LegsRun[0].loadFromFile(tempPath + "_0009_Legs_Run_1.png");
-	Tx_LegsRun[1].loadFromFile(tempPath + "_0011_Legs_Run_2.png");
-	Tx_LegsRun[2].loadFromFile(tempPath + "_0010_Legs_Run_3.png");
-	Tx_LegsRun[3].loadFromFile(tempPath + "_0011_Legs_Run_4.png");
+	Tx_LegsIdle = Renderer::GetInstance().CreateTexture(tempPath + "_0013_Legs_Idle.png");
+	Tx_LegsJump = Renderer::GetInstance().CreateTexture(tempPath + "_0012_Legs_Jump.png");
+	
+	Tx_LegsRun[0] = Renderer::GetInstance().CreateTexture(tempPath + "_0009_Legs_Run_1.png");
+	Tx_LegsRun[1] = Renderer::GetInstance().CreateTexture(tempPath + "_0011_Legs_Run_2.png");
+	Tx_LegsRun[2] = Renderer::GetInstance().CreateTexture(tempPath + "_0010_Legs_Run_3.png");
+	Tx_LegsRun[3] = Renderer::GetInstance().CreateTexture(tempPath + "_0011_Legs_Run_4.png");
 
-	Tx_UB_ThrowUp1.loadFromFile(tempPath + "_0001_Throw_Up_1.png");
-	Tx_UB_ThrowUp2.loadFromFile(tempPath + "_0000_Throw_Up_2.png");
-	Tx_UB_ThrowDown1.loadFromFile(tempPath + "_0003_Throw_Down_1.png");
-	Tx_UB_ThrowDown2.loadFromFile(tempPath + "_0002_Throw_Down_2.png");
-	Tx_UB_ThrowSide1.loadFromFile(tempPath + "_0016_Throw_Mid_1.png");
-	Tx_UB_ThrowSide2.loadFromFile(tempPath + "_0015_Throw_Mid_2.png");
-	Tx_UB_ThrowDiagUp1.loadFromFile(tempPath + "_0005_Throw_DiagUp_1.png");
-	Tx_UB_ThrowDiagUp2.loadFromFile(tempPath + "_0004_Throw_DiagUp_2.png");
+	Tx_UB_ThrowUp1 = Renderer::GetInstance().CreateTexture(tempPath + "_0001_Throw_Up_1.png");
+	Tx_UB_ThrowUp2 = Renderer::GetInstance().CreateTexture(tempPath + "_0000_Throw_Up_2.png");
+	Tx_UB_ThrowDown1 = Renderer::GetInstance().CreateTexture(tempPath + "_0003_Throw_Down_1.png");
+	Tx_UB_ThrowDown2 = Renderer::GetInstance().CreateTexture(tempPath + "_0002_Throw_Down_2.png");
+	Tx_UB_ThrowSide1 = Renderer::GetInstance().CreateTexture(tempPath + "_0016_Throw_Mid_1.png");
+	Tx_UB_ThrowSide2 = Renderer::GetInstance().CreateTexture(tempPath + "_0015_Throw_Mid_2.png");
+	Tx_UB_ThrowDiagUp1 = Renderer::GetInstance().CreateTexture(tempPath + "_0005_Throw_DiagUp_1.png");
+	Tx_UB_ThrowDiagUp2 = Renderer::GetInstance().CreateTexture(tempPath + "_0004_Throw_DiagUp_2.png");
 
-	Tx_UB_ThrowDiagDown1.loadFromFile(tempPath + "_0007_Throw_DiagDown_1.png");
-	Tx_UB_ThrowDiagDown2.loadFromFile(tempPath + "_0006_Throw_DiagDown_2.png");
-	Tx_UB_Shield.loadFromFile(tempPath + "_0008_Shield.png");
-	Tx_UB_Victory.loadFromFile(tempPath + "_0014_Victory.png");
+	Tx_UB_ThrowDiagDown1 = Renderer::GetInstance().CreateTexture(tempPath + "_0007_Throw_DiagDown_1.png");
+	Tx_UB_ThrowDiagDown2 = Renderer::GetInstance().CreateTexture(tempPath + "_0006_Throw_DiagDown_2.png");
+	Tx_UB_Shield = Renderer::GetInstance().CreateTexture(tempPath + "_0008_Shield.png");
+	Tx_UB_Victory = Renderer::GetInstance().CreateTexture(tempPath + "_0014_Victory.png");
 
-	Tx_MyBall_Overlay.loadFromFile("Resources/images/Ball/Ball.png");
+	Tx_MyBall_Overlay = Renderer::GetInstance().CreateTexture("images/Ball/Ball.png");
 
 	// sprite setup
-	Spr_Legs.setTexture(Tx_LegsIdle);
-	Spr_UpperBody.setTexture(Tx_UB_ThrowSide1);
+	Spr_Legs.setTexture(*Tx_LegsIdle);
+	Spr_UpperBody.setTexture(*Tx_UB_ThrowSide1);
 	Spr_Legs.setOrigin(41.0f, 82.0f);
 	Spr_UpperBody.setOrigin(41.0f, 82.0f);
 
-	Spr_Ball_overlay.setTexture(Tx_MyBall_Overlay);
-	Spr_Ball_overlay.setOrigin(Tx_MyBall_Overlay.getSize().x / 2.0f, Tx_MyBall_Overlay.getSize().y / 2.0f);
+	Spr_Ball_overlay.setTexture(*Tx_MyBall_Overlay);
+	Spr_Ball_overlay.setOrigin(Tx_MyBall_Overlay->getSize().x / 2.0f, Tx_MyBall_Overlay->getSize().y / 2.0f);
 	Spr_Ball_overlay.setColor(myBallColor);
 
  	Spr_Emote = Renderer::GetInstance().CreateSprite("images/Emotes/Emote3.png");
@@ -107,22 +111,11 @@ C_Player::C_Player(b2World* world,int _playerNumber, b2Vec2 _position) : Entity(
 	m_immuneTimer = 2.0f;
 
 	//myPowerupType = NONE;
-	Tx_Emotes = new sf::Texture[4];
-	Tx_Emotes[0] = *Renderer::GetInstance().CreateTexture("images/Emotes/Emote1.png");
-	Tx_Emotes[1] = *Renderer::GetInstance().CreateTexture("images/Emotes/Emote2.png");
-	Tx_Emotes[2] = *Renderer::GetInstance().CreateTexture("images/Emotes/Emote3.png");
-	Tx_Emotes[3] = *Renderer::GetInstance().CreateTexture("images/Emotes/Emote4.png");
+	Tx_Emotes[0] = Renderer::GetInstance().CreateTexture("images/Emotes/Emote1.png");
+	Tx_Emotes[1] = Renderer::GetInstance().CreateTexture("images/Emotes/Emote2.png");
+	Tx_Emotes[2] = Renderer::GetInstance().CreateTexture("images/Emotes/Emote3.png");
+	Tx_Emotes[3] = Renderer::GetInstance().CreateTexture("images/Emotes/Emote4.png");
 
-	// sounds
-	SB_powerupCollected.loadFromFile("Resources/sounds/powerup_collect1.wav");
-	SB_powerupUsed.loadFromFile("Resources/sounds/powerup.wav");
-	SB_die.loadFromFile("Resources/sounds/big_buzz.wav");
-	SB_WaterFall.loadFromFile("Resources/sounds/big_dong.wav");
-
-	S_powerupCollected.setBuffer(SB_powerupCollected);
-	S_powerupUsed.setBuffer(SB_powerupUsed);
-	S_die.setBuffer(SB_die);
-	S_WaterFall.setBuffer(SB_WaterFall);
 }
 
 void C_Player::Draw()
@@ -164,6 +157,7 @@ void C_Player::Draw()
 	else
 	{
 		Renderer::GetInstance().Draw(Spr_Ball_overlay);
+
 		if (Spr_PowerUp != nullptr)
 			Renderer::GetInstance().Draw(*Spr_PowerUp);
 	}
@@ -362,6 +356,15 @@ void C_Player::Process(float dT)
 		this->MyBox2d.BOD->SetTransform(b2Vec2(this->MyBox2d.BOD->GetPosition().x, C_GlobalVariables::ScreenSizeY / C_GlobalVariables::PPM), 0);
 	}
 
+	if (this->MyBox2d.BOD->GetPosition().x * C_GlobalVariables::PPM > C_GlobalVariables::ScreenSizeY)
+	{
+		this->MyBox2d.BOD->SetTransform(b2Vec2(0, this->MyBox2d.BOD->GetPosition().y), 0);
+	}
+	else if (this->MyBox2d.BOD->GetPosition().x * C_GlobalVariables::PPM < 0)
+	{
+		this->MyBox2d.BOD->SetTransform(b2Vec2(C_GlobalVariables::ScreenSizeX / C_GlobalVariables::PPM, this->MyBox2d.BOD->GetPosition().y), 0);
+	}
+
 	if (this->MyBox2d.BOD->GetLinearVelocity().x < -C_GlobalVariables::minimumSpeedForAnim)
 	{
 		// setup running based on speed
@@ -372,7 +375,7 @@ void C_Player::Process(float dT)
 			mf_Anim_RunSpeed_Timer = 0.0f;
 		}
 		if (mi_Current_Leg_Frame > 3) { mi_Current_Leg_Frame = 0; }
-		this->Spr_Legs.setTexture(this->Tx_LegsRun[mi_Current_Leg_Frame]);
+		this->Spr_Legs.setTexture(*Tx_LegsRun[mi_Current_Leg_Frame]);
 		this->Spr_Legs.setScale(-1.0f, 1.0f);
 		
 	}
@@ -386,7 +389,7 @@ void C_Player::Process(float dT)
 			mf_Anim_RunSpeed_Timer = 0.0f;
 		}
 		if (mi_Current_Leg_Frame > 3) { mi_Current_Leg_Frame = 0; }
-		this->Spr_Legs.setTexture(this->Tx_LegsRun[mi_Current_Leg_Frame]);
+		this->Spr_Legs.setTexture(*Tx_LegsRun[mi_Current_Leg_Frame]);
 		this->Spr_Legs.setScale(1.0f, 1.0f);
 		
 	}
@@ -396,12 +399,12 @@ void C_Player::Process(float dT)
 	{
 		if (MyDirection == C_Player::facing_right || MyDirection == C_Player::facing_upRight || MyDirection == C_Player::facing_downRight || MyDirection == C_Player::facing_down || MyDirection == C_Player::facing_up)
 		{
-			this->Spr_Legs.setTexture(this->Tx_LegsIdle);
+			this->Spr_Legs.setTexture(*Tx_LegsIdle);
 			this->Spr_Legs.setScale(1.0f, 1.0f);
 		}
 		else
 		{
-			this->Spr_Legs.setTexture(this->Tx_LegsIdle);
+			this->Spr_Legs.setTexture(*Tx_LegsIdle);
 			this->Spr_Legs.setScale(-1.0f, 1.0f);
 		}
 		
@@ -413,7 +416,7 @@ void C_Player::Process(float dT)
 	// final -  override for legs if we are airborne
 	if (this->MyBox2d.BOD->GetLinearVelocity().y > C_GlobalVariables::minimumSpeedForAnimJump || this->MyBox2d.BOD->GetLinearVelocity().y < -C_GlobalVariables::minimumSpeedForAnimJump)
 	{
-		this->Spr_Legs.setTexture(this->Tx_LegsJump);
+		this->Spr_Legs.setTexture(*Tx_LegsJump);
 		if (this->MyBox2d.BOD->GetLinearVelocity().x > C_GlobalVariables::minimumSpeedForAnim)
 		{
 			this->Spr_Legs.setScale(1.0f, 1.0f);
@@ -432,28 +435,28 @@ void C_Player::Process(float dT)
 	switch (MyDirection)
 	{
 	case C_Player::facing_right:
-		this->Spr_UpperBody.setTexture(this->Tx_UB_ThrowSide1);
+		this->Spr_UpperBody.setTexture(*Tx_UB_ThrowSide1);
 		break;
 	case C_Player::facing_upRight:
-		this->Spr_UpperBody.setTexture(this->Tx_UB_ThrowDiagUp1);
+		this->Spr_UpperBody.setTexture(*Tx_UB_ThrowDiagUp1);
 		break;
 	case C_Player::facing_up:
-		this->Spr_UpperBody.setTexture(this->Tx_UB_ThrowUp1);
+		this->Spr_UpperBody.setTexture(*Tx_UB_ThrowUp1);
 		break;
 	case C_Player::facing_upLeft:
-		this->Spr_UpperBody.setTexture(this->Tx_UB_ThrowDiagUp1);
+		this->Spr_UpperBody.setTexture(*Tx_UB_ThrowDiagUp1);
 		break;
 	case C_Player::facing_left:
-		this->Spr_UpperBody.setTexture(this->Tx_UB_ThrowSide1);
+		this->Spr_UpperBody.setTexture(*Tx_UB_ThrowSide1);
 		break;
 	case C_Player::facing_downLeft:
-		this->Spr_UpperBody.setTexture(this->Tx_UB_ThrowDiagDown1);
+		this->Spr_UpperBody.setTexture(*Tx_UB_ThrowDiagDown1);
 		break;
 	case C_Player::facing_down:
-		this->Spr_UpperBody.setTexture(this->Tx_UB_ThrowDown1);
+		this->Spr_UpperBody.setTexture(*Tx_UB_ThrowDown1);
 		break;
 	case C_Player::facing_downRight:
-		this->Spr_UpperBody.setTexture(this->Tx_UB_ThrowDiagDown1);
+		this->Spr_UpperBody.setTexture(*Tx_UB_ThrowDiagDown1);
 		break;
 	default:
 		break;
@@ -506,8 +509,7 @@ void C_Player::HandleHit(Entity* other)
 		m_isDead = true;
 		m_deathTimer = 0.0f;
 		this->myLives--;
-
-		S_die.play();
+		SoundBuffer::GetInstance().PlaySoundEffect("big_buzz");
 	}
 }
 
@@ -529,30 +531,9 @@ void C_Player::Respawn(b2Vec2 position, b2World* world)
 
 void C_Player::ApplyPowerUp(PowerUpType type)
 {
-	switch (type)
+	if (type == PowerUpType::WATERFALL)
 	{
-	case NONE:
-		break;
-	case SPEED:
-		myPowerupType = SPEED;
-		S_powerupCollected.play();
-		break;
-	case TRIPLESHOT:
-		myPowerupType = TRIPLESHOT;
-		S_powerupCollected.play();
-		break;
-	case SHIELD:
-		myPowerupType = SHIELD;
-		S_powerupCollected.play();
-		break;
-	case RAILSHOT:
-		myPowerupType = RAILSHOT;
-		S_powerupCollected.play();
-		break;
-	case WATERFALL:
-	{
-		myPowerupType = WATERFALL;
-		int direct = (rand() % 2);
+		int direct = (rand() % 2); //Decide which direction the waterfall is coming from.
 		if (direct == 1)
 		{
 			mi_WaterFall_Count = mi_WaterFall_Count_Orig;
@@ -561,12 +542,14 @@ void C_Player::ApplyPowerUp(PowerUpType type)
 		{
 			mi_WaterFall_Count = -1.0f * mi_WaterFall_Count_Orig;
 		}
-		S_WaterFall.play(); // <----different sound FX
-		break;
+		SoundBuffer::GetInstance().PlaySoundEffect("big_dong");
 	}
-	default:
-		break;
+	else if (type != PowerUpType::NONE)
+	{
+		SoundBuffer::GetInstance().PlaySoundEffect("powerup_collect1");
 	}
+
+	myPowerupType = type;
 }
 
 void C_Player::HandleInput(float dt)
@@ -635,34 +618,6 @@ void C_Player::HandleInput(float dt)
 		{
 			xAxis -= 1.0f;
 		}
-
-		//Spawn Ball/Grab ball
-		//if (InputHandler::GetInstance().IsKeyPressed(sf::Keyboard::E))
-		//{
-		//	if (!m_hasThrown && MyBall == nullptr)
-		//	{
-		//		m_hasThrown = true;
-		//		MyBall = new C_Ball(MyBox2d.BOD->GetWorld(), PlayerNumber, Spr_Ball_overlay.getPosition(), b2Vec2(FaceDirection.x, FaceDirection.y));
-		//		m_immuneTimer = 0.0f;
-		//	}
-		//	else if (!m_hasThrown && MyBall != nullptr)
-		//	{
-		//		b2Vec2 direction = MyBox2d.BOD->GetPosition() - MyBall->GetBody()->GetPosition();
-		//		float distance = direction.LengthSquared();
-		//		if (sqrtf(distance) < m_playerGrabRange)
-		//		{
-		//			delete MyBall;
-		//			MyBall = nullptr;
-		//			m_hasThrown = true;
-		//		}
-		//	}
-		//}
-		//else if (m_hasThrown)
-		//{
-		//	m_hasThrown = false;
-		//}
-		//float xAxis = 0.0f;
-		//float yAxis = 0.0f;
 		
 		//Controller Movement
 		if (InputHandler::GetInstance().GetMovementInput(controlJoystickID).x != 0)
@@ -731,17 +686,6 @@ void C_Player::HandleInput(float dt)
 			m_hasJumped = false;
 		}
 
-		//Keyboard Jump
-		if (InputHandler::GetInstance().IsKeyPressed(sf::Keyboard::Space) && m_isGrounded && !m_hasJumped)
-		{
-			yAxis += 1.0f;
-			m_hasJumped = true;
-		}
-		else if(m_isGrounded)
-		{
-			m_hasJumped = false;
-		}
-
 		//Controller Dodge
 		if (sf::Joystick::isButtonPressed(controlJoystickID, InputHandler::GetInstance().BUTTON_B))
 		{
@@ -788,19 +732,13 @@ void C_Player::HandleInput(float dt)
 			UsePowerUp();
 		}
 
-		//Keyboard Use Power Up
-		if (InputHandler::GetInstance().IsKeyPressed(sf::Keyboard::Q))
-		{
-			UsePowerUp();
-		}
-
 		//Controller Emotes
 		if (InputHandler::GetInstance().GetEmoteInput(controlJoystickID).x != 0 || InputHandler::GetInstance().GetEmoteInput(controlJoystickID).y != 0)
 		{
 			//Dpad Up
 			if (InputHandler::InputHandler::GetInstance().GetEmoteInput(controlJoystickID).y >= 20)
 			{
-				Spr_Emote->setTexture(Tx_Emotes[0]);
+				Spr_Emote->setTexture(*Tx_Emotes[0]);
 				if (m_emoteTimer <= 1.0f)
 				{
 					m_emoteTimer = 1.0f;
@@ -812,7 +750,7 @@ void C_Player::HandleInput(float dt)
 			//Dpad Left
 			if (InputHandler::InputHandler::GetInstance().GetEmoteInput(controlJoystickID).x <= 20)
 			{
-				Spr_Emote->setTexture(Tx_Emotes[1]);
+				Spr_Emote->setTexture(*Tx_Emotes[1]);
 				if (m_emoteTimer <= 1.0f)
 				{
 					m_emoteTimer = 1.0f;
@@ -824,7 +762,7 @@ void C_Player::HandleInput(float dt)
 			//Dpad Down
 			if (InputHandler::InputHandler::GetInstance().GetEmoteInput(controlJoystickID).y <= 20)
 			{
-				Spr_Emote->setTexture(Tx_Emotes[2]);
+				Spr_Emote->setTexture(*Tx_Emotes[2]);
 				if (m_emoteTimer <= 1.0f)
 				{
 					m_emoteTimer = 1.0f;
@@ -836,7 +774,7 @@ void C_Player::HandleInput(float dt)
 			//Dpad Right
 			if (InputHandler::InputHandler::GetInstance().GetEmoteInput(controlJoystickID).x >= 20)
 			{
-				Spr_Emote->setTexture(Tx_Emotes[3]);
+				Spr_Emote->setTexture(*Tx_Emotes[3], true);
 				if (m_emoteTimer <= 1.0f)
 				{
 					m_emoteTimer = 1.0f;
@@ -846,53 +784,6 @@ void C_Player::HandleInput(float dt)
 				return;
 			}
 		}
-
-		//Keyboard Emotes
-		if (InputHandler::GetInstance().IsKeyPressed(sf::Keyboard::Num1))
-		{
-			Spr_Emote->setTexture(Tx_Emotes[0], true);
-			if (m_emoteTimer <= 1.0f)
-			{
-				m_emoteTimer = 1.0f;
-			}
-			if (m_emoteTimer <= 0.0f)
-				m_emoteTimer = 1.5f;
-			return;
-		}
-		if (InputHandler::GetInstance().IsKeyPressed(sf::Keyboard::Num2))
-		{
-			Spr_Emote->setTexture(Tx_Emotes[1], true);
-			if (m_emoteTimer <= 1.0f)
-			{
-				m_emoteTimer = 1.0f;
-			}
-			if (m_emoteTimer <= 0.0f)
-				m_emoteTimer = 1.5f;
-			return;
-		}
-		if (InputHandler::GetInstance().IsKeyPressed(sf::Keyboard::Num3))
-		{
-			Spr_Emote->setTexture(Tx_Emotes[2], true);
-			if (m_emoteTimer <= 1.0f)
-			{
-				m_emoteTimer = 1.0f;
-			}
-			if (m_emoteTimer <= 0.0f)
-				m_emoteTimer = 1.5f;
-			return;
-		}
-		if (InputHandler::GetInstance().IsKeyPressed(sf::Keyboard::Num4))
-		{
-			Spr_Emote->setTexture(Tx_Emotes[3], true);
-			if (m_emoteTimer <= 1.0f)
-			{
-				m_emoteTimer = 1.0f;
-			}
-			if (m_emoteTimer <= 0.0f)
-				m_emoteTimer = 1.5f;
-			return;
-		}
-	//}
 }
 
 void C_Player::ProcessImmuneFrames(float dt)
@@ -972,7 +863,7 @@ void C_Player::UsePowerUp()
 		return;
 
 	// play use sound
-	S_powerupUsed.play();
+	SoundBuffer::GetInstance().PlaySoundEffect("powerup");
 
 	switch (myPowerupType)
 	{
@@ -1065,5 +956,30 @@ void C_Player::Dash(float xAxis)
 
 C_Player::~C_Player()
 {
+	if (myShield != nullptr)
+	{
+		delete myShield;
+		myShield = nullptr;
+	}
 
+	delete Spr_PowerUp;
+	Spr_PowerUp = nullptr;
+
+	delete Spr_Emote;
+	Spr_Emote = nullptr;
+
+	MyBox2d.BOD->GetWorld()->DestroyBody(MyBox2d.BOD);
+
+	if (MyBall != nullptr)
+	{
+		delete MyBall;
+		MyBall = nullptr;
+	}
+
+	std::vector<C_Ball*>::iterator iter = MyBall_WaterFall.begin();
+	while (iter != MyBall_WaterFall.end())
+	{
+		delete * iter;
+		iter = MyBall_WaterFall.erase(iter);
+	}
 }

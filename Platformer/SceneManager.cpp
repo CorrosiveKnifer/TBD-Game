@@ -57,7 +57,7 @@ void SceneManager::DestroyInstance()
 
 //Contructor
 SceneManager::SceneManager()
-	: m_topScene(nullptr), m_nextScene(nullptr)
+	: m_topScene(nullptr), m_nextScene(nullptr), m_pauseScene(nullptr)
 {
 	m_isRunning = false;
 }
@@ -65,7 +65,10 @@ SceneManager::SceneManager()
 //Destructor
 SceneManager::~SceneManager()
 {
-
+	delete m_topScene;
+	m_topScene = nullptr;
+	delete m_nextScene;
+	m_nextScene = nullptr;
 }
 
 void SceneManager::DestroyEntity(Entity* entity)

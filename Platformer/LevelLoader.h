@@ -38,7 +38,7 @@ class levelMesh
 {
 public:
 	levelMesh(string path, b2World& world);
-	~levelMesh() {};
+	~levelMesh();
 	static void levelSpawnPoints(string path, vector<b2Vec2>& myPlayerSpawnPoints, vector<b2Vec2>& myPowerUpSpawnPoints, b2Vec2 &_specialPowerUp);
 
 	vector <float*> vertices;

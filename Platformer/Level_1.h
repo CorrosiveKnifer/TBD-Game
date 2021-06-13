@@ -29,6 +29,7 @@
 #include "Player_Entity.h"
 #include "Powerup.h"
 #include "SoundBuffer.h"
+#include "CollisionListener.h"
 
 class c_Level_1 : public Scene
 
@@ -44,11 +45,11 @@ public:
 	void PostUpdate(float dT);
 	b2World* world = new b2World(C_GlobalVariables::Gravity);
 
-
 private:
 	// collision info
 	vector<levelMesh*> myLevel1Meshes;
 	std::string path = "Resources/levels/level_1";
+	CollisionListener* listener;
 	vector<string> dirList;
 
 	// spawn points
