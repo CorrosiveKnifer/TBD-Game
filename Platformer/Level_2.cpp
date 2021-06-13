@@ -196,7 +196,6 @@ void c_Level_2::Update(float dT)
 			playersRemaining++;
 		}
 	}
-
 	//if (playersRemaining <= 1)
 	//{
 	//	//SOMEONE HAS WON

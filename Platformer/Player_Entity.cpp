@@ -998,8 +998,6 @@ C_Player::~C_Player()
 	delete Spr_Emote;
 	Spr_Emote = nullptr;
 
-	MyBox2d.BOD->GetWorld()->DestroyBody(MyBox2d.BOD);
-
 	if (MyBall != nullptr)
 	{
 		delete MyBall;
@@ -1012,4 +1010,7 @@ C_Player::~C_Player()
 		delete * iter;
 		iter = MyBall_WaterFall.erase(iter);
 	}
+
+	if(MyBox2d.BOD != nullptr)
+		MyBox2d.BOD->GetWorld()->DestroyBody(MyBox2d.BOD);
 }

@@ -54,7 +54,6 @@ c_Level_1::c_Level_1(unsigned int players) : Scene()
 	backgroundSpr[1].setTexture(backgroundTex[1]);
 	backgroundSpr[2].setTexture(backgroundTex[2]);
 
-
 	// load in spawn points for players and powerups
 
 	for (const auto& entry : fs::directory_iterator(pathSpawn))
@@ -72,6 +71,7 @@ c_Level_1::c_Level_1(unsigned int players) : Scene()
 	}
 	
 	srand(time(0));
+
 	// create powerups
 	/*for (unsigned int i = 0; i < 4; i++)
 	{
@@ -139,6 +139,9 @@ c_Level_1::c_Level_1(unsigned int players) : Scene()
 	Spr_MyCollectedPowerUp[1].setPosition(1863.0f, 170.0f);
 	Spr_MyCollectedPowerUp[2].setPosition(174.0f, 970.0f);
 	Spr_MyCollectedPowerUp[3].setPosition(1863.0f, 970.0f);
+
+	
+	Spr_Winner.setPosition(C_GlobalVariables::ScreenSizeX / 2, C_GlobalVariables::ScreenSizeY / 2);
 }
 
 
@@ -148,10 +151,12 @@ void c_Level_1::Draw()
 	o_pRenderer->Draw(backgroundSpr[1]);
 	o_pRenderer->Draw(backgroundSpr[2]);
 
-	for (auto it : MyPlayers)
-	{
-		it->Draw();
-	}
+	if(!hasWon)
+		for (auto it : MyPlayers)
+		{
+			it->Draw();
+		}
+
 	for (auto it : myPowerUps)
 	{
 		it->Draw();
@@ -168,6 +173,13 @@ void c_Level_1::Draw()
 		o_pRenderer->Draw(SPR_UI_Player_Icons[i]);
 		o_pRenderer->Draw(Text_UI_Player_Stats[i]);
 		o_pRenderer->Draw(Spr_MyCollectedPowerUp[i]);
+	}
+
+	if (hasWon)
+	{
+		o_pRenderer->Draw(Spr_Winner);
+		o_pRenderer->SetFontSize(25);
+		o_pRenderer->DrawTextToWorld("Press XBox_A/PS_X to continue.", C_GlobalVariables::ScreenSizeX/2 - 150, C_GlobalVariables::ScreenSizeY/2 + 150);
 	}
 }
 
@@ -205,29 +217,45 @@ void c_Level_1::Update(float dT)
 	if (playersRemaining <= 1)
 	{
 		//SOMEONE HAS WON
-		for (int i = 0; i < MyPlayers.size(); i++)
+		if (!hasWon)
 		{
-			if (MyPlayers.at(i)->GetLives() > 0)
+			for (int i = 0; i < MyPlayers.size(); i++)
 			{
-				C_GlobalVariables::Player_1_Score = MyPlayers[0]->GetScore(); // carry the scores over to level 2
-				if (MyPlayers.size() > 1)
+				if (MyPlayers.at(i)->GetLives() > 0)
 				{
-					C_GlobalVariables::Player_2_Score = MyPlayers[1]->GetScore();
-				}
-				if (MyPlayers.size() > 2)
-				{
-					C_GlobalVariables::Player_3_Score = MyPlayers[2]->GetScore();
-				}
-				if (MyPlayers.size() > 3)
-				{
-					C_GlobalVariables::Player_4_Score = MyPlayers[3]->GetScore();
-				}
+					Spr_Winner.setOrigin(TX_UI_Player_Icons[i].getSize().x/2, TX_UI_Player_Icons[i].getSize().y/2);
+					Spr_Winner.setTexture(TX_UI_Player_Icons[i]);
+					hasWon = true;
 
-				SceneManager::GetInstance().TransitionTo(new c_Level_2(InputHandler::GetInstance().playerJoystickIDs.size()));
-				SoundBuffer::GetInstance().StopBackgroundMusic();
-				SoundBuffer::GetInstance().LoadBackgroundMusic("Resources/music/Music2.wav");
-				SoundBuffer::GetInstance().PlayBackgroundMusic();
-				SoundBuffer::GetInstance().SetBGLooping(true);
+					C_GlobalVariables::Player_1_Score = MyPlayers[0]->GetScore(); // carry the scores over to level 2
+					
+					if (MyPlayers.size() > 1)
+					{
+						C_GlobalVariables::Player_2_Score = MyPlayers[1]->GetScore();
+					}
+					if (MyPlayers.size() > 2)
+					{
+						C_GlobalVariables::Player_3_Score = MyPlayers[2]->GetScore();
+					}
+					if (MyPlayers.size() > 3)
+					{
+						C_GlobalVariables::Player_4_Score = MyPlayers[3]->GetScore();
+					}
+				}
+			}
+		}
+		else
+		{
+			for (int i = 0; i < 4; i++)
+			{
+				if (sf::Joystick::isButtonPressed(i, InputHandler::GetInstance().BUTTON_A))
+				{
+					SceneManager::GetInstance().TransitionTo(new c_Level_2(InputHandler::GetInstance().playerJoystickIDs.size()));
+					SoundBuffer::GetInstance().StopBackgroundMusic();
+					SoundBuffer::GetInstance().LoadBackgroundMusic("Resources/music/Music2.wav");
+					SoundBuffer::GetInstance().PlayBackgroundMusic();
+					SoundBuffer::GetInstance().SetBGLooping(true);
+				}
 			}
 		}
 	}
@@ -237,17 +265,13 @@ void c_Level_1::Update(float dT)
 		it->Process(dT);
 	}
 
-
 	// Powerups update
 	mf_PowerupTimer += dT;
 	mf_WaterFall_PowerupTimer += dT;
 
-
-
 	if (mf_PowerupTimer > mi_Powerup_NewPU) // time to spawn a powerup?
 	{
 		mf_PowerupTimer = 0.0f; // reset timer
-		
 
 		int tempCheck = 0;
 		for (auto it : myPowerUps) // check if the waterfall PU is in game
@@ -288,7 +312,6 @@ void c_Level_1::Update(float dT)
 		}
 
 	}
-	
 	
 	PostUpdate(dT);
 }

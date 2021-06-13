@@ -64,6 +64,10 @@ private:
 
 	// Players
 	vector<C_Player*> MyPlayers;
+
+	sf::Sprite Spr_Winner;
+	bool hasWon = false;
+
 	// player UI icons
 	sf::Texture TX_UI_Player_Icons[4];
 	sf::Sprite  SPR_UI_Player_Icons[4];
