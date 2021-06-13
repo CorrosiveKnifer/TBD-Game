@@ -45,6 +45,10 @@ public:
 			entityB->HandleHit(entityA);
 			return;
 		}
+		if (caseNo == (EntityType::BALL | EntityType::POWERUP))
+		{
+			return;
+		}
 		if (caseNo & EntityType::BALL)
 		{
 			if (GetType(entityA) == EntityType::BALL)
@@ -100,10 +104,7 @@ public:
 
 		if (caseNo == (EntityType::BALL | EntityType::POWERUP))
 		{
-			if (entityA->IsImmune() || entityB->IsImmune())
-			{
-				contact->SetEnabled(false);
-			}
+			contact->SetEnabled(false);
 		}
 	}
 
