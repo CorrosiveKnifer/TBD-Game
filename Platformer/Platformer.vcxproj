@@ -24,6 +24,7 @@
     <ClCompile Include="GlobalVariables.cpp" />
     <ClCompile Include="LevelLoader.cpp" />
     <ClCompile Include="Level_1.cpp" />
+    <ClCompile Include="Level_2.cpp" />
     <ClCompile Include="PauseMenuScene.cpp" />
     <ClCompile Include="PlayerSelectScene.cpp" />
     <ClCompile Include="Player_Entity.cpp" />
@@ -54,6 +55,7 @@
     <ClInclude Include="GlobalVariables.h" />
     <ClInclude Include="LevelLoader.h" />
     <ClInclude Include="Level_1.h" />
+    <ClInclude Include="Level_2.h" />
     <ClInclude Include="PauseMenuScene.h" />
     <ClInclude Include="PlayerSelectScene.h" />
     <ClInclude Include="Player_Entity.h" />

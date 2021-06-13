@@ -13,6 +13,7 @@
 
 //parent include
 #include "Level_1.h"
+#include "Level_2.h"
 
 // local includes
 #include "InputHandler.h"
@@ -22,8 +23,11 @@
 c_Level_1::c_Level_1(unsigned int players) : Scene()
 {
 	sceneID = LEVEL1;
+
 	listener = new CollisionListener();
 	world->SetContactListener(listener);
+
+	C_GlobalVariables::CurrentLevel = 1;
 
 	// level load for colliders from 3d .obj file
 	for (const auto& entry : fs::directory_iterator(path))
@@ -205,7 +209,25 @@ void c_Level_1::Update(float dT)
 		{
 			if (MyPlayers.at(i)->GetLives() > 0)
 			{
-				SceneManager::GetInstance().TransitionTo(new VictoryScene(MyPlayers.at(i)->GetPlayerID()));
+				C_GlobalVariables::Player_1_Score = MyPlayers[0]->GetScore(); // carry the scores over to level 2
+				if (MyPlayers.size() > 1)
+				{
+					C_GlobalVariables::Player_2_Score = MyPlayers[1]->GetScore();
+				}
+				if (MyPlayers.size() > 2)
+				{
+					C_GlobalVariables::Player_3_Score = MyPlayers[2]->GetScore();
+				}
+				if (MyPlayers.size() > 3)
+				{
+					C_GlobalVariables::Player_4_Score = MyPlayers[3]->GetScore();
+				}
+
+				SceneManager::GetInstance().TransitionTo(new c_Level_2(InputHandler::GetInstance().playerJoystickIDs.size()));
+				SoundBuffer::GetInstance().StopBackgroundMusic();
+				SoundBuffer::GetInstance().LoadBackgroundMusic("Resources/music/Music2.wav");
+				SoundBuffer::GetInstance().PlayBackgroundMusic();
+				SoundBuffer::GetInstance().SetBGLooping(true);
 			}
 		}
 	}

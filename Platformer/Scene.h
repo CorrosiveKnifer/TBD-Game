@@ -9,7 +9,8 @@ enum SceneName {
 	MAINMENU,
 	PLAYERSELECT,
 	CONTROLS,
-	LOGO
+	LOGO,
+	LEVEL2,
 };
 
 class Scene

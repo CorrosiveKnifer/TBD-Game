@@ -299,13 +299,31 @@ void C_Player::Process(float dT)
 			if (mi_WaterFall_Count > 0)
 			{
 				//Left side
-				MyBall_WaterFall.push_back(new C_Ball(MyBox2d.BOD->GetWorld(), PlayerNumber, sf::Vector2f(790.0f, 5.0f), b2Vec2(-0.5f - ((float)(std::abs(mi_WaterFall_Count)) / 100.0f), -0.5f), true));
+				if (C_GlobalVariables::CurrentLevel == 1)
+				{
+					MyBall_WaterFall.push_back(new C_Ball(MyBox2d.BOD->GetWorld(), PlayerNumber, sf::Vector2f(790.0f, 5.0f), 
+						b2Vec2(-0.5f - ((float)(std::abs(mi_WaterFall_Count)) / 100.0f), -0.5f), true));
+				}
+				if (C_GlobalVariables::CurrentLevel == 2)
+				{
+					MyBall_WaterFall.push_back(new C_Ball(MyBox2d.BOD->GetWorld(), PlayerNumber, sf::Vector2f(963.0f, 1065.0f),
+						b2Vec2((-0.05f - ((float)(std::abs(mi_WaterFall_Count)) / 100.0f)), 0.5f), true));
+				}
 				mi_WaterFall_Count--;
 			}
 			else if (mi_WaterFall_Count < 0)
 			{
 				//Right side
-				MyBall_WaterFall.push_back(new C_Ball(MyBox2d.BOD->GetWorld(), PlayerNumber, sf::Vector2f(1200.0f, 5.0f), b2Vec2(-0.5f - ((float)(std::abs(mi_WaterFall_Count)) / 100.0f), -0.5f), true));
+				if (C_GlobalVariables::CurrentLevel == 1)
+				{
+					MyBall_WaterFall.push_back(new C_Ball(MyBox2d.BOD->GetWorld(), PlayerNumber, sf::Vector2f(1200.0f, 5.0f),
+						b2Vec2(-0.5f - ((float)(std::abs(mi_WaterFall_Count)) / 100.0f), -0.5f), true));
+				}
+				if (C_GlobalVariables::CurrentLevel == 2)
+				{
+					MyBall_WaterFall.push_back(new C_Ball(MyBox2d.BOD->GetWorld(), PlayerNumber, sf::Vector2f(963.0f, 1065.0f),
+						b2Vec2(0.05f + ((float)(std::abs(mi_WaterFall_Count)) / 100.0f), 0.5f), true));
+				}
 				mi_WaterFall_Count++;
 			}
 			
