@@ -20,10 +20,12 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Ball.cpp" />
+    <ClCompile Include="ControlsScene.cpp" />
     <ClCompile Include="GlobalVariables.cpp" />
     <ClCompile Include="LevelLoader.cpp" />
     <ClCompile Include="Level_1.cpp" />
     <ClCompile Include="PauseMenuScene.cpp" />
+    <ClCompile Include="PlayerSelectScene.cpp" />
     <ClCompile Include="Player_Entity.cpp" />
     <ClCompile Include="Powerup.cpp" />
     <ClCompile Include="Renderer.cpp" />
@@ -41,16 +43,19 @@
     <ClCompile Include="Shield.cpp" />
     <ClCompile Include="SoundBuffer.cpp" />
     <ClCompile Include="SpriteMap.cpp" />
+    <ClCompile Include="VictoryScene.cpp" />
     <ClCompile Include="Widget.cpp" />
     <ClCompile Include="winmain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Ball.h" />
     <ClInclude Include="CollisionListener.h" />
+    <ClInclude Include="ControlsScene.h" />
     <ClInclude Include="GlobalVariables.h" />
     <ClInclude Include="LevelLoader.h" />
     <ClInclude Include="Level_1.h" />
     <ClInclude Include="PauseMenuScene.h" />
+    <ClInclude Include="PlayerSelectScene.h" />
     <ClInclude Include="Player_Entity.h" />
     <ClInclude Include="Powerup.h" />
     <ClInclude Include="RayCastClass.h" />
@@ -70,6 +75,7 @@
     <ClInclude Include="Shield.h" />
     <ClInclude Include="SoundBuffer.h" />
     <ClInclude Include="SpriteMap.h" />
+    <ClInclude Include="VictoryScene.h" />
     <ClInclude Include="Widget.h" />
   </ItemGroup>
   <ItemGroup>

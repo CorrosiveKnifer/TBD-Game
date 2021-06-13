@@ -18,7 +18,6 @@
 #include <SFML/Graphics.hpp>
 #include <list>
 #include <iostream>
-//#include "Player_Entity.h"
 
 //Forward Declaration
 class BackBuffer;
@@ -73,6 +72,8 @@ public:
 	int m_playerNext;
 
 	int m_pConnectedControllers;
+
+	std::vector <int> playerJoystickIDs;
 
 private:
 	InputHandler();

@@ -1,0 +1,24 @@
+sfml - set origin to x,y (41,82)   for upperbody AND legs.
+
+Box2D - size of box = (30,99), so->(15,50), set poistion of sprite to this centre.
+
+draw legs first,(back)
+then body, 	(middle)
+then ball. 	(top layer)
+
+Any vertical velocity should use legs-jump instead of running  -override.
+
+
+// placement for ball overlay
+Throw-mid-right from origin = x,y (-30,23)
+Throw-mid-left from origin = x,y (30,23) (flipped)
+
+Throw-diagDown-right from origin = x,y (-35,44)
+Throw-diagDown-left from origin = x,y (35,44) (flipped)
+
+Throw-diagUp-right from origin = x,y (-25,4)
+Throw-diagUp-left from origin = x,y (25,4) (flipped)
+
+Throw-down from origin = x,y (-6,48)
+
+Throw-up from origin = x,y (-5,-10) 

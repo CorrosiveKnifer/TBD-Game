@@ -18,6 +18,7 @@
 #include "SceneManager.h"
 #include "Renderer.h"
 #include "Player_Entity.h"
+#include "PlayerSelectScene.h"
 
 //Static variables
 InputHandler* InputHandler::sm_pInstance = nullptr;
@@ -50,12 +51,25 @@ void InputHandler::Update()
 		{
 			SceneManager::GetInstance().Quit();
 		}
-		if (event.type == sf::Event::JoystickButtonPressed)
+		if (event.type == sf::Event::JoystickButtonPressed && sf::Joystick::getIdentification(event.joystickButton.joystickId).vendorId != 0x054c)
 		{
 			int joyID = event.joystickButton.joystickId;
 			int joyBtn = event.joystickButton.button;
 
-			//GetButtonInput(joyID, joyBtn);
+			if (joyBtn == BUTTON_A && SceneManager::GetInstance().m_topScene->sceneID == PLAYERSELECT || joyBtn == BUTTON_B && SceneManager::GetInstance().m_topScene->sceneID == PLAYERSELECT)
+			{
+				if (joyBtn == BUTTON_A && playerJoystickIDs.size() < 4)
+				{
+					if (std::find(playerJoystickIDs.begin(), playerJoystickIDs.end(), joyID) == playerJoystickIDs.end())
+					{
+							playerJoystickIDs.push_back(joyID);		
+					}
+				}
+				if (joyBtn == BUTTON_B && playerJoystickIDs.size() >= 1 && std::find(playerJoystickIDs.begin(), playerJoystickIDs.end(), joyID) != playerJoystickIDs.end())
+				{
+					playerJoystickIDs.erase(std::find(playerJoystickIDs.begin(), playerJoystickIDs.end(), joyID));
+				}
+			}
 		}
 		if (event.type == sf::Event::JoystickMoved)
 		{

@@ -18,9 +18,12 @@
 #include "InputHandler.h"
 #include "SceneManager.h"
 #include "CollisionListener.h"
+#include "VictoryScene.h"
 
 c_Level_1::c_Level_1(unsigned int players) : Scene()
 {
+	sceneID = LEVEL1;
+
 	world->SetContactListener(new CollisionListener());
 
 	// level load for colliders from 3d .obj file
@@ -133,8 +136,6 @@ c_Level_1::c_Level_1(unsigned int players) : Scene()
 	Spr_MyCollectedPowerUp[1].setPosition(1863.0f, 170.0f);
 	Spr_MyCollectedPowerUp[2].setPosition(174.0f, 970.0f);
 	Spr_MyCollectedPowerUp[3].setPosition(1863.0f, 970.0f);
-
-
 }
 
 
@@ -201,6 +202,13 @@ void c_Level_1::Update(float dT)
 	if (playersRemaining <= 1)
 	{
 		//SOMEONE HAS WON
+		for (int i = 0; i < MyPlayers.size(); i++)
+		{
+			if (MyPlayers.at(i)->GetLives() > 0)
+			{
+				SceneManager::GetInstance().TransitionTo(new VictoryScene(MyPlayers.at(i)->GetPlayerID()));
+			}
+		}
 	}
 
 	for (auto it : myPowerUps)

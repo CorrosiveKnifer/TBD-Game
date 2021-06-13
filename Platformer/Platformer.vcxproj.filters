@@ -99,10 +99,19 @@
     <ClCompile Include="Powerup.cpp">
       <Filter>Source Files\Entities</Filter>
     </ClCompile>
-    <ClCompile Include="PauseMenuScene.cpp">
+    <ClCompile Include="ControlsScene.cpp">
       <Filter>Source Files\Scenes</Filter>
     </ClCompile>
+    <ClCompile Include="PlayerSelectScene.cpp">
+      <Filter>Source Files\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="PauseMenuScene.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
     <ClCompile Include="Shield.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="VictoryScene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -179,10 +188,19 @@
     <ClInclude Include="Powerup.h">
       <Filter>Header Files\Entities</Filter>
     </ClInclude>
-    <ClInclude Include="PauseMenuScene.h">
+    <ClInclude Include="ControlsScene.h">
       <Filter>Header Files\Scenes</Filter>
     </ClInclude>
+    <ClInclude Include="PlayerSelectScene.h">
+      <Filter>Header Files\Scenes</Filter>
+    </ClInclude>
+    <ClInclude Include="PauseMenuScene.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
     <ClInclude Include="Shield.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="VictoryScene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

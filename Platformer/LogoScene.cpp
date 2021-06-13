@@ -20,7 +20,6 @@
 #include "InputHandler.h"
 #include "SceneManager.h"
 #include "MainMenuScene.h"
-#include "Level_1.h"
 #include "SoundBuffer.h"
 
 //Constructor
@@ -29,6 +28,8 @@ LogoScene::LogoScene()
 	, m_isInputEnabled(true)
 	, m_screenColor(sf::Color::Black)
 {
+	sceneID = LOGO;
+
 	m_logo = o_pRenderer->CreateSprite("MDS.png");
 	m_logo->setOrigin(sf::Vector2f(m_logo->getTextureRect().width / 2, m_logo->getTextureRect().height / 2));
 	m_logo->setPosition(sf::Vector2f(o_pRenderer->GetWindowSize().x / 2.0f, o_pRenderer->GetWindowSize().y / 2.0f));
@@ -78,9 +79,9 @@ void LogoScene::Draw()
 void LogoScene::Update(float dt)
 {
 	m_timePassed += dt;
-	if (InputHandler::GetInstance().IsMousePressed(sf::Mouse::Left))
+	if (InputHandler::GetInstance().IsMousePressed(sf::Mouse::Left) || sf::Joystick::isButtonPressed(0, InputHandler::GetInstance().BUTTON_A) || sf::Joystick::isButtonPressed(1, InputHandler::GetInstance().BUTTON_A))
 	{
-		SceneManager::GetInstance().TransitionTo(new c_Level_1());
+		SceneManager::GetInstance().TransitionTo(new MainMenuScene());
 		return;
 	}
 
@@ -109,7 +110,7 @@ void LogoScene::Update(float dt)
 	{
 		if (m_hasFinished)
 		{
-			SceneManager::GetInstance().TransitionTo(new c_Level_1());
+			SceneManager::GetInstance().TransitionTo(new MainMenuScene());
 			return;
 		}
 			
