@@ -1,6 +1,7 @@
 #pragma once
 #include <Box2D.h>
 #include <vector>
+#include "Entity.h"
 
 struct RaycastHit
 {
@@ -23,7 +24,10 @@ public:
 
 	float ReportFixture(b2Fixture* fixture, const b2Vec2& point, const b2Vec2& normal, float fraction)
 	{
-		rayHits.push_back(RaycastHit(fixture, point, normal));
+		Entity* entityA = reinterpret_cast<Entity*>(fixture->GetUserData().pointer);
+
+		if(entityA == nullptr)
+			rayHits.push_back(RaycastHit(fixture, point, normal));
 
 		return 1.0f;
 	}

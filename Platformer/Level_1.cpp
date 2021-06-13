@@ -72,17 +72,6 @@ c_Level_1::c_Level_1(unsigned int players) : Scene()
 	
 	srand(time(0));
 
-	// create powerups
-	/*for (unsigned int i = 0; i < 4; i++)
-	{
-		myPowerUps.push_back(new C_PowerUp(world, myPowerUpSpawnPoints[i],i+1));
-	}*/
-	//myPowerUps.push_back(new C_PowerUp(world, myPowerUpWaterfall, 5));
-	/*for (unsigned int i = 4; i < myPowerUpSpawnPoints.size(); i++)
-	{
-		myPowerUps.push_back(new C_PowerUp(world, myPowerUpSpawnPoints[i], 4));
-	}*/
-
 	// player UI Icons and stats
 	TX_UI_Player_Icons[0].loadFromFile("Resources/images/UI_Icons/Red_Rudy.png");
 	TX_UI_Player_Icons[1].loadFromFile("Resources/images/UI_Icons/Green_Gordon.png");
@@ -139,8 +128,6 @@ c_Level_1::c_Level_1(unsigned int players) : Scene()
 	Spr_MyCollectedPowerUp[1].setPosition(1863.0f, 170.0f);
 	Spr_MyCollectedPowerUp[2].setPosition(174.0f, 970.0f);
 	Spr_MyCollectedPowerUp[3].setPosition(1863.0f, 970.0f);
-
-	
 	Spr_Winner.setPosition(C_GlobalVariables::ScreenSizeX / 2, C_GlobalVariables::ScreenSizeY / 2);
 }
 
@@ -387,6 +374,11 @@ void c_Level_1::PostUpdate(float dT)
 		iter = m_toRemove.erase(iter);
 	}
 	m_toRemove.clear();
+
+	for (auto it : MyPlayers)
+	{
+		it->PostUpdate(dT);
+	}
 }
 
 c_Level_1::~c_Level_1()

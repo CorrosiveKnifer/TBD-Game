@@ -61,6 +61,14 @@ public:
 			}
 			return;
 		}
+		if (caseNo & EntityType::PLAYER)
+		{
+			if (GetType(entityA) == EntityType::PLAYER && GetType(entityB) == EntityType::PLAYER)
+			{
+				contact->SetEnabled(false);
+				return;
+			}
+		}
 	}
 
 	virtual void EndContact(b2Contact* contact)
@@ -75,6 +83,13 @@ public:
 
 		if (entityA == nullptr || entityB == nullptr)
 			return;
+
+		if (GetType(entityA) == EntityType::PLAYER && GetType(entityB) == EntityType::PLAYER)
+		{
+			contact->SetEnabled(false);
+			return;
+		}
+
 		if (typeid(*entityA) == typeid(*entityB))
 			return;
 
@@ -105,6 +120,7 @@ public:
 		if (caseNo == (EntityType::BALL | EntityType::POWERUP))
 		{
 			contact->SetEnabled(false);
+			return;
 		}
 	}
 

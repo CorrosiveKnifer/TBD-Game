@@ -45,6 +45,7 @@ public:
 	//Inheritance functions:
 	virtual void Draw();
 	virtual void Process(float dT);
+	void PostUpdate(float dT);
 	virtual void HandleHit(Entity* other);
 
 	void Respawn(b2Vec2 position, b2World* world);
@@ -144,6 +145,8 @@ private:
 	bool mb_PlayerHasBall = true;
 	bool m_isGrounded = false;
 	bool m_hasJumped = false;
+	bool m_canMoveLeft = true;
+	bool m_canMoveRight = true;
 	//bool m_hasThrown = false;
 	int myHealth = C_GlobalVariables::maxHealth;
 	int myLives = C_GlobalVariables::maxLives;

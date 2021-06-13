@@ -219,6 +219,7 @@ void C_Player::Draw()
 		myShield->Draw();
 	}
 
+	//Raycast
 	Renderer::GetInstance().DrawLine(
 		sf::Vector2f(MyBox2d.BOD->GetPosition().x* C_GlobalVariables::PPM, MyBox2d.BOD->GetPosition().y* C_GlobalVariables::PPM),
 		sf::Vector2f(MyBox2d.BOD->GetPosition().x * C_GlobalVariables::PPM, (MyBox2d.BOD->GetPosition().y + 1.85f)* C_GlobalVariables::PPM),
@@ -228,6 +229,17 @@ void C_Player::Draw()
 	Renderer::GetInstance().DrawLine(
 		sf::Vector2f(MyBox2d.BOD->GetPosition().x * C_GlobalVariables::PPM, MyBox2d.BOD->GetPosition().y * C_GlobalVariables::PPM),
 		sf::Vector2f((MyBox2d.BOD->GetPosition().x + -0.5 * MoveDirection.x) * C_GlobalVariables::PPM, (MyBox2d.BOD->GetPosition().y + 1.85f) * C_GlobalVariables::PPM),
+		sf::Color::Green
+	);
+	Renderer::GetInstance().DrawLine(
+		sf::Vector2f((MyBox2d.BOD->GetPosition().x - 0.85)* C_GlobalVariables::PPM, (MyBox2d.BOD->GetPosition().y - 1.85f) * C_GlobalVariables::PPM),
+		sf::Vector2f((MyBox2d.BOD->GetPosition().x - 0.85)* C_GlobalVariables::PPM, (MyBox2d.BOD->GetPosition().y + 1.5f)* C_GlobalVariables::PPM),
+		sf::Color::Green
+	);
+
+	Renderer::GetInstance().DrawLine(
+		sf::Vector2f((MyBox2d.BOD->GetPosition().x + 0.85)* C_GlobalVariables::PPM, (MyBox2d.BOD->GetPosition().y - 1.85f)* C_GlobalVariables::PPM),
+		sf::Vector2f((MyBox2d.BOD->GetPosition().x + 0.85)* C_GlobalVariables::PPM, (MyBox2d.BOD->GetPosition().y + 1.5f)* C_GlobalVariables::PPM),
 		sf::Color::Green
 	);
 }
@@ -311,12 +323,12 @@ void C_Player::Process(float dT)
 			if (mi_WaterFall_Count > 0)
 			{
 				//Left side
-				if (C_GlobalVariables::CurrentLevel == 1)
+				if (C_GlobalVariables::CurrentLevel == 1 && MyBox2d.BOD != nullptr)
 				{
 					MyBall_WaterFall.push_back(new C_Ball(MyBox2d.BOD->GetWorld(), PlayerNumber, sf::Vector2f(790.0f, 5.0f), 
 						b2Vec2(-0.5f - ((float)(std::abs(mi_WaterFall_Count)) / 100.0f), -0.5f), true));
 				}
-				if (C_GlobalVariables::CurrentLevel == 2)
+				if (C_GlobalVariables::CurrentLevel == 2 && MyBox2d.BOD != nullptr)
 				{
 					MyBall_WaterFall.push_back(new C_Ball(MyBox2d.BOD->GetWorld(), PlayerNumber, sf::Vector2f(963.0f, 1065.0f),
 						b2Vec2((-0.05f - ((float)(std::abs(mi_WaterFall_Count)) / 100.0f)), 0.5f), true));
@@ -375,6 +387,15 @@ void C_Player::Process(float dT)
 	MyBox2d.BOD->GetWorld()->RayCast(&RayResult, MyBox2d.BOD->GetPosition(), MyBox2d.BOD->GetPosition() + b2Vec2(0, 1.85));
 	MyBox2d.BOD->GetWorld()->RayCast(&RayResult, MyBox2d.BOD->GetPosition(), MyBox2d.BOD->GetPosition() + b2Vec2(-0.5 * MoveDirection.x, 1.85));
 	m_isGrounded = RayResult.rayHits.size() > 0;
+
+	RayCastClass HorizRayResult;
+	//Raycast left
+	MyBox2d.BOD->GetWorld()->RayCast(&HorizRayResult, MyBox2d.BOD->GetPosition() + b2Vec2(-0.85, -1.85), MyBox2d.BOD->GetPosition() + b2Vec2(-0.85, 1.5));
+	m_canMoveLeft = HorizRayResult.rayHits.size() == 0; //Can move if no results
+	HorizRayResult.rayHits.clear();
+
+	MyBox2d.BOD->GetWorld()->RayCast(&HorizRayResult, MyBox2d.BOD->GetPosition() + b2Vec2(0.85, -1.85), MyBox2d.BOD->GetPosition() + b2Vec2(0.85, 1.5));
+	m_canMoveRight = HorizRayResult.rayHits.size() == 0; 
 
 	//Wrap arround
 	if (this->MyBox2d.BOD->GetPosition().y * C_GlobalVariables::PPM > C_GlobalVariables::ScreenSizeY)
@@ -532,6 +553,15 @@ void C_Player::Process(float dT)
 	}
 }
 
+void C_Player::PostUpdate(float dT)
+{
+	if (m_isDead && MyBall != nullptr)
+	{
+		delete MyBall;
+		MyBall = nullptr;
+	}
+}
+
 void C_Player::HandleHit(Entity* other)
 {
 	if (!m_isDead && !IsImmune() && !other->IsImmune())
@@ -636,33 +666,31 @@ void C_Player::HandleInput(float dt)
 			}
 		}
 
-		
-
 		float xAxis = 0.0f;
 		float yAxis = 0.0f;
-		if (InputHandler::GetInstance().IsKeyPressed(sf::Keyboard::D))
-		{
-			xAxis += 1.0f;
-		}
-		if (InputHandler::GetInstance().IsKeyPressed(sf::Keyboard::A))
-		{
-			xAxis -= 1.0f;
-		}
 		
 		//Controller Movement
 		if (InputHandler::GetInstance().GetMovementInput(controlJoystickID).x != 0)
 		{
 			//Left
-			if (InputHandler::GetInstance().GetMovementInput(controlJoystickID).x <= -20)
+			if (InputHandler::GetInstance().GetMovementInput(controlJoystickID).x <= -20 && m_canMoveLeft)
 			{
 				xAxis -= 1.0f;
 				MoveDirection.x = -1.0f;
 			}
+			else if (!m_canMoveLeft)
+			{
+				MyBox2d.BOD->ApplyForceToCenter(b2Vec2(10, 0), true);
+			}
 			//Right
-			if (InputHandler::GetInstance().GetMovementInput(controlJoystickID).x >= 20)
+			if (InputHandler::GetInstance().GetMovementInput(controlJoystickID).x >= 20 && m_canMoveRight)
 			{
 				xAxis += 1.0f;
 				MoveDirection.x = 1.0f;
+			}
+			else if (!m_canMoveRight)
+			{
+				MyBox2d.BOD->ApplyForceToCenter(b2Vec2(-10, 0), true);
 			}
 		}
 
