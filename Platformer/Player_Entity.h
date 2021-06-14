@@ -45,6 +45,7 @@ public:
 	//Inheritance functions:
 	virtual void Draw();
 	virtual void Process(float dT);
+	void PostUpdate(float dT);
 	virtual void HandleHit(Entity* other);
 
 	void Respawn(b2Vec2 position, b2World* world);
@@ -76,25 +77,35 @@ private:
 	PowerUpType myPowerupType;
 	PowerUpType myBallPowerUp;
 	// textures and sprites 
-	sf::Texture Tx_LegsIdle, Tx_LegsJump, Tx_LegsRun[4];
-	sf::Texture Tx_UB_ThrowUp1, Tx_UB_ThrowUp2, Tx_UB_ThrowDown1, Tx_UB_ThrowDown2, Tx_UB_ThrowSide1, Tx_UB_ThrowSide2, Tx_UB_ThrowDiagUp1, Tx_UB_ThrowDiagUp2;
-	sf::Texture Tx_UB_ThrowDiagDown1, Tx_UB_ThrowDiagDown2, Tx_UB_Shield, Tx_UB_Victory;
+	
+	//Leg Texture references
+	sf::Texture* Tx_LegsIdle;
+	sf::Texture* Tx_LegsJump;
+	sf::Texture* Tx_LegsRun[4];
+
+	sf::Texture* Tx_UB_ThrowUp1; 
+	sf::Texture* Tx_UB_ThrowUp2; 
+	sf::Texture* Tx_UB_ThrowDown1; 
+	sf::Texture* Tx_UB_ThrowDown2; 
+	sf::Texture* Tx_UB_ThrowSide1;
+	sf::Texture* Tx_UB_ThrowSide2; 
+	sf::Texture* Tx_UB_ThrowDiagUp1; 
+	sf::Texture* Tx_UB_ThrowDiagUp2;
+	sf::Texture* Tx_UB_ThrowDiagDown1; 
+	sf::Texture* Tx_UB_ThrowDiagDown2; 
+	sf::Texture* Tx_UB_Shield; 
+	sf::Texture* Tx_UB_Victory;
 
 	sf::Sprite Spr_Legs, Spr_UpperBody;
 	sf::Sprite* Spr_PowerUp;
 	sf::Sprite* Spr_Emote;
 
-	sf::Texture* Tx_Emotes;
+	sf::Texture* Tx_Emotes[4];
 
 	// the ball being held - is not a box2d object, simply a temporary overlay
-	sf::Texture Tx_MyBall_Overlay;
+	sf::Texture* Tx_MyBall_Overlay;
 	sf::Sprite Spr_Ball_overlay;
 	sf::Color myBallColor;
-
-	// sounds
-	sf::SoundBuffer SB_powerupCollected, SB_powerupUsed, SB_die, SB_WaterFall;
-	sf::Sound S_powerupCollected, S_powerupUsed, S_die, S_WaterFall;
-
 
 	struct body
 	{
@@ -121,7 +132,7 @@ private:
 
 	//Player Settings
 	float m_playerSpeed = 500;
-	float m_playerJumpForce = -210;
+	float m_playerJumpForce = -400;
 	float m_playerFallModifier = 125;
 	float m_playerGrabRange = 2.5f;
 
@@ -134,6 +145,8 @@ private:
 	bool mb_PlayerHasBall = true;
 	bool m_isGrounded = false;
 	bool m_hasJumped = false;
+	bool m_canMoveLeft = true;
+	bool m_canMoveRight = true;
 	//bool m_hasThrown = false;
 	int myHealth = C_GlobalVariables::maxHealth;
 	int myLives = C_GlobalVariables::maxLives;

@@ -525,6 +525,17 @@ void Renderer::DrawTextToWorld(std::string msg, float x, float y)
 	}
 }
 
+void Renderer::DrawLine(sf::Vector2f p1, sf::Vector2f p2, sf::Color col)
+{
+	sf::VertexArray line(sf::LinesStrip, 2);
+	line[0].position = p1;
+	line[0].color = col;
+	line[1].position = p2;
+	line[1].color = col;
+
+	Draw(line);
+}
+
 // GetWindow( )
 //
 // Description:	returns the window which this Renderer is incharge of.

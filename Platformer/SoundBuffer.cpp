@@ -40,16 +40,8 @@ SoundBuffer::SoundBuffer()
 	: m_backgroundVol(0), m_soundVol(0), m_playerHearing(0, 0), m_localDistance(400)
 	, m_volModifier(1.0)
 {
-	if (IniParser::GetInstance().LoadIniFile("assets/settings.ini"))
-	{
-		m_backgroundVol = IniParser::GetInstance().GetValueAsFloat("Settings", "BGMusic");
-		m_soundVol = IniParser::GetInstance().GetValueAsFloat("Settings", "SEMusic");
-	}
-	else
-	{
-		m_backgroundVol = 35.0f;
-		m_soundVol = 100.0f;
-	}
+	m_backgroundVol = 20.0f;
+	m_soundVol = 100.0f;
 }
 
 //Deconstructor
@@ -224,6 +216,8 @@ void  SoundBuffer::LoadHeldBackgroundMusic()
 bool SoundBuffer::PlaySoundEffect(std::string _fileLoc, sf::Vector2f _soundLoc, bool _global)
 {
 	//Create sound
+	_fileLoc = "Resources/sounds/"+_fileLoc+".wav";
+
 	if (!m_buffer.loadFromFile(_fileLoc))
 	{
 		return false; //Sound Not found

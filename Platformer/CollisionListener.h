@@ -45,6 +45,10 @@ public:
 			entityB->HandleHit(entityA);
 			return;
 		}
+		if (caseNo == (EntityType::BALL | EntityType::POWERUP))
+		{
+			return;
+		}
 		if (caseNo & EntityType::BALL)
 		{
 			if (GetType(entityA) == EntityType::BALL)
@@ -56,6 +60,14 @@ public:
 				entityB->HandleHit(nullptr);
 			}
 			return;
+		}
+		if (caseNo & EntityType::PLAYER)
+		{
+			if (GetType(entityA) == EntityType::PLAYER && GetType(entityB) == EntityType::PLAYER)
+			{
+				contact->SetEnabled(false);
+				return;
+			}
 		}
 	}
 
@@ -71,6 +83,13 @@ public:
 
 		if (entityA == nullptr || entityB == nullptr)
 			return;
+
+		if (GetType(entityA) == EntityType::PLAYER && GetType(entityB) == EntityType::PLAYER)
+		{
+			contact->SetEnabled(false);
+			return;
+		}
+
 		if (typeid(*entityA) == typeid(*entityB))
 			return;
 
@@ -100,10 +119,8 @@ public:
 
 		if (caseNo == (EntityType::BALL | EntityType::POWERUP))
 		{
-			if (entityA->IsImmune() || entityB->IsImmune())
-			{
-				contact->SetEnabled(false);
-			}
+			contact->SetEnabled(false);
+			return;
 		}
 	}
 

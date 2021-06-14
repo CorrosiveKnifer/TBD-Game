@@ -177,7 +177,6 @@ void c_Level_2::Update(float dT)
 		it->Process(dT);
 
 		Spr_MyCollectedPowerUp[it->GetPlayerID() - 1].setTexture(Tx_PowerUps[it->GetPowerUpType()]);
-
 	}
 	unsigned int playersRemaining = 0;
 	for (auto it : MyPlayers)
@@ -196,18 +195,17 @@ void c_Level_2::Update(float dT)
 			playersRemaining++;
 		}
 	}
-
-	//if (playersRemaining <= 1)
-	//{
-	//	//SOMEONE HAS WON
-	//	for (int i = 0; i < MyPlayers.size(); i++)
-	//	{
-	//		if (MyPlayers.at(i)->GetLives() > 0)
-	//		{
-	//			SceneManager::GetInstance().TransitionTo(new VictoryScene(MyPlayers.at(i)->GetPlayerID()));
-	//		}
-	//	}
-	//}
+	if (playersRemaining <= 1)
+	{
+		//SOMEONE HAS WON
+		for (int i = 0; i < MyPlayers.size(); i++)
+		{
+			if (MyPlayers.at(i)->GetLives() > 0)
+			{
+				SceneManager::GetInstance().TransitionTo(new VictoryScene(MyPlayers.at(i)->GetPlayerID()));
+			}
+		}
+	}
 
 	for (auto it : myPowerUps)
 	{
@@ -265,7 +263,6 @@ void c_Level_2::Update(float dT)
 		}
 
 	}
-
 
 	PostUpdate(dT);
 }
@@ -341,6 +338,11 @@ void c_Level_2::PostUpdate(float dT)
 		iter = m_toRemove.erase(iter);
 	}
 	m_toRemove.clear();
+
+	for (auto it : MyPlayers)
+	{
+		it->PostUpdate(dT);
+	}
 }
 
 c_Level_2::~c_Level_2()

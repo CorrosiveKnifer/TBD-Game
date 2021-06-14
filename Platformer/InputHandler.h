@@ -34,7 +34,7 @@ public:
 
 	void Update();
 
-	bool IsKeyPressed(sf::Keyboard::Key _key) { return sf::Keyboard::isKeyPressed(_key); };
+	bool IsKeyPressed(sf::Keyboard::Key _key) { return sf::Keyboard::isKeyPressed(_key);};
 	bool IsMousePressed(sf::Mouse::Button _button) { return sf::Mouse::isButtonPressed(_button);};
 	sf::Keyboard::Key IsAnyKeyPressed();
 	sf::Vector2i GetMousePosition();

@@ -24,7 +24,7 @@ public:
 	virtual void Update(float dt) = 0;
 	virtual void DestroyEntity(Entity* entity) = 0;
 
-	int sceneID;
+	int sceneID = 0;
 
 private:
 

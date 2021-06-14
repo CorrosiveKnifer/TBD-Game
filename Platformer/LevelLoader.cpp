@@ -112,7 +112,23 @@ levelMesh::levelMesh(string path, b2World& world)
                 }
             }
         }
-        myfile.close();
+    }
+    myfile.close();
+}
+
+levelMesh::~levelMesh()
+{
+    vector<float*>::iterator vertIter = vertices.begin();
+    while (vertIter != vertices.end())
+    {
+        delete* vertIter;
+        vertIter = vertices.erase(vertIter);
+    }
+    vector<int*>::iterator indIter = Indices.begin();
+    while (indIter != Indices.end())
+    {
+        delete* indIter;
+        indIter = Indices.erase(indIter);
     }
 }
 

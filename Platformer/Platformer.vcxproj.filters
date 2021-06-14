@@ -105,14 +105,14 @@
     <ClCompile Include="PlayerSelectScene.cpp">
       <Filter>Source Files\Scenes</Filter>
     </ClCompile>
-    <ClCompile Include="PauseMenuScene.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Shield.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="VictoryScene.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PauseMenuScene.cpp">
+      <Filter>Source Files\Scenes</Filter>
     </ClCompile>
     <ClCompile Include="Level_2.cpp">
       <Filter>Source Files\Scenes</Filter>
@@ -197,14 +197,14 @@
     <ClInclude Include="PlayerSelectScene.h">
       <Filter>Header Files\Scenes</Filter>
     </ClInclude>
-    <ClInclude Include="PauseMenuScene.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Shield.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="VictoryScene.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PauseMenuScene.h">
+      <Filter>Header Files\Scenes</Filter>
     </ClInclude>
     <ClInclude Include="Level_2.h">
       <Filter>Header Files\Scenes</Filter>

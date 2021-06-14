@@ -29,6 +29,7 @@
 #include "Player_Entity.h"
 #include "Powerup.h"
 #include "SoundBuffer.h"
+#include "CollisionListener.h"
 
 class c_Level_1 : public Scene
 
@@ -44,11 +45,11 @@ public:
 	void PostUpdate(float dT);
 	b2World* world = new b2World(C_GlobalVariables::Gravity);
 
-
 private:
 	// collision info
 	vector<levelMesh*> myLevel1Meshes;
 	std::string path = "Resources/levels/level_1";
+	CollisionListener* listener;
 	vector<string> dirList;
 
 	// spawn points
@@ -64,6 +65,10 @@ private:
 
 	// Players
 	vector<C_Player*> MyPlayers;
+
+	sf::Sprite Spr_Winner;
+	bool hasWon = false;
+
 	// player UI icons
 	sf::Texture TX_UI_Player_Icons[4];
 	sf::Sprite  SPR_UI_Player_Icons[4];
