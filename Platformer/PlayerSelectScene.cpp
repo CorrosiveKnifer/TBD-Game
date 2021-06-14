@@ -175,6 +175,11 @@ void PlayerSelectScene::Update(float dT)
 void PlayerSelectScene::Play()
 {	
 	SceneManager::GetInstance().TransitionTo(new c_Level_1(InputHandler::GetInstance().playerJoystickIDs.size()));
+	// reset all player scores
+	C_GlobalVariables::Player_1_Score = 0;
+	C_GlobalVariables::Player_2_Score = 0;
+	C_GlobalVariables::Player_3_Score = 0;
+	C_GlobalVariables::Player_4_Score = 0;
 }
 
 void PlayerSelectScene::Back()

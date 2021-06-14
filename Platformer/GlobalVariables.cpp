@@ -14,7 +14,7 @@ float C_GlobalVariables::minimumSpeedForAnimJump = 0.01f;
 
 float  C_GlobalVariables::timeStep = 1 / 60.0f;
 
-int C_GlobalVariables::maxLives = 3, C_GlobalVariables::maxHealth=100; 
+int C_GlobalVariables::maxLives = 5, C_GlobalVariables::maxHealth=100; 
 
 int C_GlobalVariables::Player_1_Score = 0, C_GlobalVariables::Player_2_Score = 0, C_GlobalVariables::Player_3_Score = 0, C_GlobalVariables::Player_4_Score = 0;
 

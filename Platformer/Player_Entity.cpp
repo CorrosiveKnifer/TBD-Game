@@ -974,25 +974,27 @@ void C_Player::ThrowBall()
 	{
 	case TRIPLESHOT:
 	{
-		MyBall = new C_Ball(MyBox2d.BOD->GetWorld(), PlayerNumber, Spr_Ball_overlay.getPosition(), b2Vec2(FaceDirection.x, FaceDirection.y));
+		MyBall = new C_Ball(MyBox2d.BOD->GetWorld(), PlayerNumber, Spr_UpperBody.getPosition(), b2Vec2(FaceDirection.x, FaceDirection.y));
 
-		C_Ball* temp = new C_Ball(MyBox2d.BOD->GetWorld(), PlayerNumber, Spr_Ball_overlay.getPosition(), b2Vec2(FaceDirection.y * 0.2, -FaceDirection.x * 0.2) + b2Vec2(FaceDirection.x * 0.8, FaceDirection.y * 0.8), true);
+		C_Ball* temp = new C_Ball(MyBox2d.BOD->GetWorld(), PlayerNumber, Spr_UpperBody.getPosition(), b2Vec2(FaceDirection.y * 0.2, -FaceDirection.x * 0.2) + b2Vec2(FaceDirection.x * 0.8, FaceDirection.y * 0.8), true);
 		MyBall_WaterFall.push_back(temp);
-		temp = new C_Ball(MyBox2d.BOD->GetWorld(), PlayerNumber, Spr_Ball_overlay.getPosition(), b2Vec2(-FaceDirection.y * 0.2, FaceDirection.x * 0.2) + b2Vec2(FaceDirection.x * 0.8, FaceDirection.y * 0.8), true);
+		temp = new C_Ball(MyBox2d.BOD->GetWorld(), PlayerNumber, Spr_UpperBody.getPosition(), b2Vec2(-FaceDirection.y * 0.2, FaceDirection.x * 0.2) + b2Vec2(FaceDirection.x * 0.8, FaceDirection.y * 0.8), true);
 		MyBall_WaterFall.push_back(temp);
 		delete Spr_PowerUp;
 		Spr_PowerUp = nullptr;
 		break;
 	}
 	case RAILSHOT:
-		MyBall = new C_Ball(MyBox2d.BOD->GetWorld(), PlayerNumber, Spr_Ball_overlay.getPosition(), b2Vec2(FaceDirection.x, FaceDirection.y));
+		MyBall = new C_Ball(MyBox2d.BOD->GetWorld(), PlayerNumber, Spr_UpperBody.getPosition(), b2Vec2(FaceDirection.x, FaceDirection.y));
 		MyBall->AddForce(b2Vec2(FaceDirection.x * 75.0f, FaceDirection.y * 75.0f));
 		MyBall->SetBounceCount(10);
 		delete Spr_PowerUp;
 		Spr_PowerUp = nullptr;
 		break;
 	default:
-		MyBall = new C_Ball(MyBox2d.BOD->GetWorld(), PlayerNumber, Spr_Ball_overlay.getPosition(), b2Vec2(FaceDirection.x, FaceDirection.y));
+		
+		MyBall = new C_Ball(MyBox2d.BOD->GetWorld(), PlayerNumber, Spr_UpperBody.getPosition(), b2Vec2(FaceDirection.x, FaceDirection.y));
+		//MyBall = new C_Ball(MyBox2d.BOD->GetWorld(), PlayerNumber, Spr_Ball_overlay.getPosition(), b2Vec2(FaceDirection.x, FaceDirection.y));
 		break;
 	}
 	myBallPowerUp = NONE;

@@ -2,8 +2,14 @@
 #include "Player_Entity.h"
 #include "SceneManager.h"
 
-C_PowerUp::C_PowerUp(b2World* world, b2Vec2 _worldPosition,unsigned int _PU_typeID)
+bool C_PowerUp::positionIsReserved[9] = { false }; // reserve positions to avoid overlap
+
+
+C_PowerUp::C_PowerUp(b2World* world, b2Vec2 _worldPosition,unsigned int _PU_typeID, int _reserved_POS_ID)
 {
+	myPosition = _reserved_POS_ID; // this powerups position.
+	C_PowerUp::positionIsReserved[myPosition] = true; // reserve this position
+
 	std::string bottom, top;
 	switch (_PU_typeID)
 	{
@@ -89,6 +95,8 @@ void C_PowerUp::Process(float dT)
 void C_PowerUp::HandleHit(Entity* other)
 {
 	reinterpret_cast<C_Player*>(other)->ApplyPowerUp(this->myPowerupType);
+
+	C_PowerUp::positionIsReserved[this->myPosition] = false; // free up the position for another PU.
 
 	SceneManager::GetInstance().DestroyEntity(this);
 }

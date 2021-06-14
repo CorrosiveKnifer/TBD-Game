@@ -195,17 +195,17 @@ void c_Level_2::Update(float dT)
 			playersRemaining++;
 		}
 	}
-	if (playersRemaining <= 1)
-	{
-		//SOMEONE HAS WON
-		for (int i = 0; i < MyPlayers.size(); i++)
-		{
-			if (MyPlayers.at(i)->GetLives() > 0)
-			{
-				SceneManager::GetInstance().TransitionTo(new VictoryScene(MyPlayers.at(i)->GetPlayerID()));
-			}
-		}
-	}
+	//if (playersRemaining <= 1)
+	//{
+	//	//SOMEONE HAS WON
+	//	for (int i = 0; i < MyPlayers.size(); i++)
+	//	{
+	//		if (MyPlayers.at(i)->GetLives() > 0)
+	//		{
+	//			SceneManager::GetInstance().TransitionTo(new VictoryScene(MyPlayers.at(i)->GetPlayerID()));
+	//		}
+	//	}
+	//}
 
 	for (auto it : myPowerUps)
 	{
@@ -217,12 +217,9 @@ void c_Level_2::Update(float dT)
 	mf_PowerupTimer += dT;
 	mf_WaterFall_PowerupTimer += dT;
 
-
-
 	if (mf_PowerupTimer > mi_Powerup_NewPU) // time to spawn a powerup?
 	{
 		mf_PowerupTimer = 0.0f; // reset timer
-
 
 		int tempCheck = 0;
 		for (auto it : myPowerUps) // check if the waterfall PU is in game
@@ -236,31 +233,30 @@ void c_Level_2::Update(float dT)
 		{
 			mf_WaterFall_PowerupTimer = 0.0f; // reset WF timer
 
-			myPowerUps.push_back(new C_PowerUp(world, myPowerUpWaterfall, 5));
+			myPowerUps.push_back(new C_PowerUp(world, myPowerUpWaterfall, 5, 8));
 		}
 		if (tempCheck > 0) { mf_WaterFall_PowerupTimer = 0.0f; } // reset WF_PU timer
 
 
-		if (myPowerUps.size() < 3 && tempCheck > 0) // time for another powerup
+		if (myPowerUps.size() < 4 ) // time for another powerup
 		{
-			int tempPos = rand() % myPlayerSpawnPoints.size() + 1;
-			int tempType = rand() % 4 + 1;
-
-			myPowerUps.push_back(new C_PowerUp(world, myPowerUpSpawnPoints[tempPos], tempType));
-		}
-		if (myPowerUps.size() < 2 && tempCheck < 1) // time for another powerup
-		{
-			int tempPos = rand() % myPlayerSpawnPoints.size() + 1;
-			int tempType = rand() % 4 + 1;
-			int tempPos2 = rand() % myPlayerSpawnPoints.size() + 1;
-			int tempType2 = rand() % 4 + 1;
-
-			myPowerUps.push_back(new C_PowerUp(world, myPowerUpSpawnPoints[tempPos], tempType));
-			if (tempPos2 != tempPos)
+			int tempPos = rand() % myPowerUpSpawnPoints.size() + 1;
+			if (C_PowerUp::positionIsReserved[tempPos] == true)
 			{
-				myPowerUps.push_back(new C_PowerUp(world, myPowerUpSpawnPoints[tempPos2], tempType2));
+				for (unsigned int i = 0; i < myPowerUpSpawnPoints.size(); i++)
+				{
+					if (C_PowerUp::positionIsReserved[i] == false)
+					{
+						tempPos = i;
+						C_PowerUp::positionIsReserved[i] = true;
+					}
+				}
 			}
+			int tempType = rand() % 4 + 1;
+
+			myPowerUps.push_back(new C_PowerUp(world, myPowerUpSpawnPoints[tempPos], tempType, tempPos));
 		}
+
 
 	}
 
