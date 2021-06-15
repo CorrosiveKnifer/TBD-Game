@@ -30,24 +30,28 @@ C_Player::C_Player(b2World* world,int _playerNumber, b2Vec2 _position) : Entity(
 		tempPath = "images/Characters/Finals_Red_Sized/";
 		myBallColor = sf::Color::Red;
 		myScore = C_GlobalVariables::Player_1_Score;
+		C_GlobalVariables::Player_1_Score = 0;
 	}
 	if (PlayerNumber == 2)
 	{
 		tempPath = "images/Characters/Finals_GREEN_Sized/";
 		myBallColor = sf::Color::Green;
 		myScore = C_GlobalVariables::Player_2_Score;
+		C_GlobalVariables::Player_2_Score = 0;
 	}
 	if (PlayerNumber == 3)
 	{
 		tempPath = "images/Characters/Finals_BLUE_Sized/";
 		myBallColor = sf::Color(0, 150, 255, 255);
 		myScore = C_GlobalVariables::Player_3_Score;
+		C_GlobalVariables::Player_3_Score = 0;
 	}
 	if (PlayerNumber == 4)
 	{
 		tempPath = "images/Characters/Finals_YELLOW_sized/";
 		myBallColor = sf::Color::Yellow;
 		myScore = C_GlobalVariables::Player_4_Score;
+		C_GlobalVariables::Player_4_Score = 0;
 	}
 
 	//Renderer can do this for you.
@@ -313,7 +317,7 @@ void C_Player::Process(float dT)
 		MyBall->Process(dT);
 
 	// Make the WATERFALL!!!
-	if (myPowerupType == WATERFALL && mi_WaterFall_Count != 0)
+	if (waterFallTrigger == true && mi_WaterFall_Count != 0)
 	{
 		mf_WaterFall_Timer += dT;
 		if (mf_WaterFall_Timer > 0.2f)
@@ -353,9 +357,10 @@ void C_Player::Process(float dT)
 			
 		}
 	}
-	if (myPowerupType == WATERFALL && mi_WaterFall_Count == 0)
+	if (waterFallTrigger == true && mi_WaterFall_Count == 0)
 	{
-		myPowerupType = NONE;
+		//myPowerupType = NONE;
+		waterFallTrigger = false;
 		mi_WaterFall_Count = 0;
 	}
 
@@ -593,6 +598,8 @@ void C_Player::ApplyPowerUp(PowerUpType type)
 {
 	if (type == PowerUpType::WATERFALL)
 	{
+		this->waterFallTrigger = true; // trigger the waterfall to create independace from other PU's once set off.
+
 		int direct = (rand() % 2); //Decide which direction the waterfall is coming from.
 		if (direct == 1)
 		{
@@ -959,7 +966,7 @@ void C_Player::UsePowerUp()
 		Spr_PowerUp->setTexture(*Renderer::GetInstance().CreateTexture("images/powerups/pu_railShot_1.png"), true);
 		break;
 	case WATERFALL:
-		//Sonja's job
+		//Sonja's job - done
 		break;
 	default:
 		break;

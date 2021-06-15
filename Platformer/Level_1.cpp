@@ -215,20 +215,7 @@ void c_Level_1::Update(float dT)
 					hasWon = true;
 
 				}
-				C_GlobalVariables::Player_1_Score = MyPlayers[0]->GetScore(); // carry the scores over to level 2
 
-				if (MyPlayers.size() > 1)
-				{
-					C_GlobalVariables::Player_2_Score = MyPlayers[1]->GetScore();
-				}
-				if (MyPlayers.size() > 2)
-				{
-					C_GlobalVariables::Player_3_Score = MyPlayers[2]->GetScore();
-				}
-				if (MyPlayers.size() > 3)
-				{
-					C_GlobalVariables::Player_4_Score = MyPlayers[3]->GetScore();
-				}
 			}
 		}
 		else
@@ -237,6 +224,21 @@ void c_Level_1::Update(float dT)
 			{
 				if (sf::Joystick::isButtonPressed(i, InputHandler::GetInstance().BUTTON_A))
 				{
+					C_GlobalVariables::Player_1_Score = MyPlayers[0]->GetScore(); // carry the scores over to level 2
+
+					if (MyPlayers.size() > 1)
+					{
+						C_GlobalVariables::Player_2_Score = MyPlayers[1]->GetScore();
+					}
+					if (MyPlayers.size() > 2)
+					{
+						C_GlobalVariables::Player_3_Score = MyPlayers[2]->GetScore();
+					}
+					if (MyPlayers.size() > 3)
+					{
+						C_GlobalVariables::Player_4_Score = MyPlayers[3]->GetScore();
+					}
+
 					SceneManager::GetInstance().TransitionTo(new c_Level_2(InputHandler::GetInstance().playerJoystickIDs.size()));
 					SoundBuffer::GetInstance().StopBackgroundMusic();
 					SoundBuffer::GetInstance().LoadBackgroundMusic("Resources/music/Music2.wav");
