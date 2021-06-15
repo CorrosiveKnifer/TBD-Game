@@ -240,7 +240,8 @@ void c_Level_2::Update(float dT)
 
 		if (myPowerUps.size() < 4 ) // time for another powerup
 		{
-			int tempPos = rand() % myPowerUpSpawnPoints.size() + 1;
+			int tempPos = rand() % myPowerUpSpawnPoints.size();
+
 			if (C_PowerUp::positionIsReserved[tempPos] == true)
 			{
 				for (unsigned int i = 0; i < myPowerUpSpawnPoints.size(); i++)
@@ -249,6 +250,7 @@ void c_Level_2::Update(float dT)
 					{
 						tempPos = i;
 						C_PowerUp::positionIsReserved[i] = true;
+						break;
 					}
 				}
 			}

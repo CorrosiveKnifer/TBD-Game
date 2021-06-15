@@ -75,6 +75,7 @@ private:
 private:
 	Shield* myShield;
 	PowerUpType myPowerupType;
+	bool waterFallTrigger = false;
 	PowerUpType myBallPowerUp;
 	// textures and sprites 
 	
