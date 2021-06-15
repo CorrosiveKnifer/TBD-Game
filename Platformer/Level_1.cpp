@@ -214,20 +214,20 @@ void c_Level_1::Update(float dT)
 					Spr_Winner.setTexture(TX_UI_Player_Icons[i]);
 					hasWon = true;
 
-					C_GlobalVariables::Player_1_Score = MyPlayers[0]->GetScore(); // carry the scores over to level 2
-					
-					if (MyPlayers.size() > 1)
-					{
-						C_GlobalVariables::Player_2_Score = MyPlayers[1]->GetScore();
-					}
-					if (MyPlayers.size() > 2)
-					{
-						C_GlobalVariables::Player_3_Score = MyPlayers[2]->GetScore();
-					}
-					if (MyPlayers.size() > 3)
-					{
-						C_GlobalVariables::Player_4_Score = MyPlayers[3]->GetScore();
-					}
+				}
+				C_GlobalVariables::Player_1_Score = MyPlayers[0]->GetScore(); // carry the scores over to level 2
+
+				if (MyPlayers.size() > 1)
+				{
+					C_GlobalVariables::Player_2_Score = MyPlayers[1]->GetScore();
+				}
+				if (MyPlayers.size() > 2)
+				{
+					C_GlobalVariables::Player_3_Score = MyPlayers[2]->GetScore();
+				}
+				if (MyPlayers.size() > 3)
+				{
+					C_GlobalVariables::Player_4_Score = MyPlayers[3]->GetScore();
 				}
 			}
 		}
