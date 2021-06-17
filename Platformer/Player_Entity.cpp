@@ -31,24 +31,28 @@ C_Player::C_Player(b2World* world,int _playerNumber, b2Vec2 _position) : Entity(
 		tempPath = "images/Characters/Finals_Red_Sized/";
 		myBallColor = sf::Color::Red;
 		myScore = C_GlobalVariables::Player_1_Score;
+		C_GlobalVariables::Player_1_Score = 0;
 	}
 	if (PlayerNumber == 2)
 	{
 		tempPath = "images/Characters/Finals_GREEN_Sized/";
 		myBallColor = sf::Color::Green;
 		myScore = C_GlobalVariables::Player_2_Score;
+		C_GlobalVariables::Player_2_Score = 0;
 	}
 	if (PlayerNumber == 3)
 	{
 		tempPath = "images/Characters/Finals_BLUE_Sized/";
 		myBallColor = sf::Color(0, 150, 255, 255);
 		myScore = C_GlobalVariables::Player_3_Score;
+		C_GlobalVariables::Player_3_Score = 0;
 	}
 	if (PlayerNumber == 4)
 	{
 		tempPath = "images/Characters/Finals_YELLOW_sized/";
 		myBallColor = sf::Color::Yellow;
 		myScore = C_GlobalVariables::Player_4_Score;
+		C_GlobalVariables::Player_4_Score = 0;
 	}
 
 	//Renderer can do this for you.
@@ -220,6 +224,7 @@ void C_Player::Draw()
 		myShield->Draw();
 	}
 
+	//Raycast
 	Renderer::GetInstance().DrawLine(
 		sf::Vector2f(MyBox2d.BOD->GetPosition().x* C_GlobalVariables::PPM, MyBox2d.BOD->GetPosition().y* C_GlobalVariables::PPM),
 		sf::Vector2f(MyBox2d.BOD->GetPosition().x * C_GlobalVariables::PPM, (MyBox2d.BOD->GetPosition().y + 1.85f)* C_GlobalVariables::PPM),
@@ -229,6 +234,17 @@ void C_Player::Draw()
 	Renderer::GetInstance().DrawLine(
 		sf::Vector2f(MyBox2d.BOD->GetPosition().x * C_GlobalVariables::PPM, MyBox2d.BOD->GetPosition().y * C_GlobalVariables::PPM),
 		sf::Vector2f((MyBox2d.BOD->GetPosition().x + -0.5 * MoveDirection.x) * C_GlobalVariables::PPM, (MyBox2d.BOD->GetPosition().y + 1.85f) * C_GlobalVariables::PPM),
+		sf::Color::Green
+	);
+	Renderer::GetInstance().DrawLine(
+		sf::Vector2f((MyBox2d.BOD->GetPosition().x - 0.85)* C_GlobalVariables::PPM, (MyBox2d.BOD->GetPosition().y - 1.85f) * C_GlobalVariables::PPM),
+		sf::Vector2f((MyBox2d.BOD->GetPosition().x - 0.85)* C_GlobalVariables::PPM, (MyBox2d.BOD->GetPosition().y + 1.5f)* C_GlobalVariables::PPM),
+		sf::Color::Green
+	);
+
+	Renderer::GetInstance().DrawLine(
+		sf::Vector2f((MyBox2d.BOD->GetPosition().x + 0.85)* C_GlobalVariables::PPM, (MyBox2d.BOD->GetPosition().y - 1.85f)* C_GlobalVariables::PPM),
+		sf::Vector2f((MyBox2d.BOD->GetPosition().x + 0.85)* C_GlobalVariables::PPM, (MyBox2d.BOD->GetPosition().y + 1.5f)* C_GlobalVariables::PPM),
 		sf::Color::Green
 	);
 }
@@ -302,7 +318,7 @@ void C_Player::Process(float dT)
 		MyBall->Process(dT);
 
 	// Make the WATERFALL!!!
-	if (myPowerupType == WATERFALL && mi_WaterFall_Count != 0)
+	if (waterFallTrigger == true && mi_WaterFall_Count != 0)
 	{
 		mf_WaterFall_Timer += dT;
 		if (mf_WaterFall_Timer > 0.2f)
@@ -312,12 +328,12 @@ void C_Player::Process(float dT)
 			if (mi_WaterFall_Count > 0)
 			{
 				//Left side
-				if (C_GlobalVariables::CurrentLevel == 1)
+				if (C_GlobalVariables::CurrentLevel == 1 && MyBox2d.BOD != nullptr)
 				{
 					MyBall_WaterFall.push_back(new C_Ball(myWorld, PlayerNumber, sf::Vector2f(790.0f, 5.0f),
 						b2Vec2(-0.5f - ((float)(std::abs(mi_WaterFall_Count)) / 100.0f), -0.5f), true));
 				}
-				if (C_GlobalVariables::CurrentLevel == 2)
+				if (C_GlobalVariables::CurrentLevel == 2 && MyBox2d.BOD != nullptr)
 				{
 					MyBall_WaterFall.push_back(new C_Ball(myWorld, PlayerNumber, sf::Vector2f(963.0f, 1065.0f),
 						b2Vec2((-0.05f - ((float)(std::abs(mi_WaterFall_Count)) / 100.0f)), 0.5f), true));
@@ -342,9 +358,10 @@ void C_Player::Process(float dT)
 			
 		}
 	}
-	if (myPowerupType == WATERFALL && mi_WaterFall_Count == 0)
+	if (waterFallTrigger == true && mi_WaterFall_Count == 0)
 	{
-		myPowerupType = NONE;
+		//myPowerupType = NONE;
+		waterFallTrigger = false;
 		mi_WaterFall_Count = 0;
 	}
 
@@ -376,6 +393,15 @@ void C_Player::Process(float dT)
 	MyBox2d.BOD->GetWorld()->RayCast(&RayResult, MyBox2d.BOD->GetPosition(), MyBox2d.BOD->GetPosition() + b2Vec2(0, 1.85));
 	MyBox2d.BOD->GetWorld()->RayCast(&RayResult, MyBox2d.BOD->GetPosition(), MyBox2d.BOD->GetPosition() + b2Vec2(-0.5 * MoveDirection.x, 1.85));
 	m_isGrounded = RayResult.rayHits.size() > 0;
+
+	RayCastClass HorizRayResult;
+	//Raycast left
+	MyBox2d.BOD->GetWorld()->RayCast(&HorizRayResult, MyBox2d.BOD->GetPosition() + b2Vec2(-0.85, -1.85), MyBox2d.BOD->GetPosition() + b2Vec2(-0.85, 1.5));
+	m_canMoveLeft = HorizRayResult.rayHits.size() == 0; //Can move if no results
+	HorizRayResult.rayHits.clear();
+
+	MyBox2d.BOD->GetWorld()->RayCast(&HorizRayResult, MyBox2d.BOD->GetPosition() + b2Vec2(0.85, -1.85), MyBox2d.BOD->GetPosition() + b2Vec2(0.85, 1.5));
+	m_canMoveRight = HorizRayResult.rayHits.size() == 0; 
 
 	//Wrap arround
 	if (this->MyBox2d.BOD->GetPosition().y * C_GlobalVariables::PPM > C_GlobalVariables::ScreenSizeY)
@@ -533,6 +559,15 @@ void C_Player::Process(float dT)
 	}
 }
 
+void C_Player::PostUpdate(float dT)
+{
+	if (m_isDead && MyBall != nullptr)
+	{
+		delete MyBall;
+		MyBall = nullptr;
+	}
+}
+
 void C_Player::HandleHit(Entity* other)
 {
 	if (!m_isDead && !IsImmune() && !other->IsImmune())
@@ -564,6 +599,8 @@ void C_Player::ApplyPowerUp(PowerUpType type)
 {
 	if (type == PowerUpType::WATERFALL)
 	{
+		this->waterFallTrigger = true; // trigger the waterfall to create independace from other PU's once set off.
+
 		int direct = (rand() % 2); //Decide which direction the waterfall is coming from.
 		if (direct == 1)
 		{
@@ -637,33 +674,31 @@ void C_Player::HandleInput(float dt)
 			}
 		}
 
-		
-
 		float xAxis = 0.0f;
 		float yAxis = 0.0f;
-		if (InputHandler::GetInstance().IsKeyPressed(sf::Keyboard::D))
-		{
-			xAxis += 1.0f;
-		}
-		if (InputHandler::GetInstance().IsKeyPressed(sf::Keyboard::A))
-		{
-			xAxis -= 1.0f;
-		}
 		
 		//Controller Movement
 		if (InputHandler::GetInstance().GetMovementInput(controlJoystickID).x != 0)
 		{
 			//Left
-			if (InputHandler::GetInstance().GetMovementInput(controlJoystickID).x <= -20)
+			if (InputHandler::GetInstance().GetMovementInput(controlJoystickID).x <= -20 && m_canMoveLeft)
 			{
 				xAxis -= 1.0f;
 				MoveDirection.x = -1.0f;
 			}
+			else if (!m_canMoveLeft)
+			{
+				MyBox2d.BOD->ApplyForceToCenter(b2Vec2(10, 0), true);
+			}
 			//Right
-			if (InputHandler::GetInstance().GetMovementInput(controlJoystickID).x >= 20)
+			if (InputHandler::GetInstance().GetMovementInput(controlJoystickID).x >= 20 && m_canMoveRight)
 			{
 				xAxis += 1.0f;
 				MoveDirection.x = 1.0f;
+			}
+			else if (!m_canMoveRight)
+			{
+				MyBox2d.BOD->ApplyForceToCenter(b2Vec2(-10, 0), true);
 			}
 		}
 
@@ -932,7 +967,7 @@ void C_Player::UsePowerUp()
 		Spr_PowerUp->setTexture(*Renderer::GetInstance().CreateTexture("images/powerups/pu_railShot_1.png"), true);
 		break;
 	case WATERFALL:
-		//Sonja's job
+		//Sonja's job - done
 		break;
 	default:
 		break;
@@ -947,25 +982,27 @@ void C_Player::ThrowBall()
 	{
 	case TRIPLESHOT:
 	{
-		MyBall = new C_Ball(MyBox2d.BOD->GetWorld(), PlayerNumber, Spr_Ball_overlay.getPosition(), b2Vec2(FaceDirection.x, FaceDirection.y));
+		MyBall = new C_Ball(MyBox2d.BOD->GetWorld(), PlayerNumber, Spr_UpperBody.getPosition(), b2Vec2(FaceDirection.x, FaceDirection.y));
 
-		C_Ball* temp = new C_Ball(MyBox2d.BOD->GetWorld(), PlayerNumber, Spr_Ball_overlay.getPosition(), b2Vec2(FaceDirection.y * 0.2, -FaceDirection.x * 0.2) + b2Vec2(FaceDirection.x * 0.8, FaceDirection.y * 0.8), true);
+		C_Ball* temp = new C_Ball(MyBox2d.BOD->GetWorld(), PlayerNumber, Spr_UpperBody.getPosition(), b2Vec2(FaceDirection.y * 0.2, -FaceDirection.x * 0.2) + b2Vec2(FaceDirection.x * 0.8, FaceDirection.y * 0.8), true);
 		MyBall_WaterFall.push_back(temp);
-		temp = new C_Ball(MyBox2d.BOD->GetWorld(), PlayerNumber, Spr_Ball_overlay.getPosition(), b2Vec2(-FaceDirection.y * 0.2, FaceDirection.x * 0.2) + b2Vec2(FaceDirection.x * 0.8, FaceDirection.y * 0.8), true);
+		temp = new C_Ball(MyBox2d.BOD->GetWorld(), PlayerNumber, Spr_UpperBody.getPosition(), b2Vec2(-FaceDirection.y * 0.2, FaceDirection.x * 0.2) + b2Vec2(FaceDirection.x * 0.8, FaceDirection.y * 0.8), true);
 		MyBall_WaterFall.push_back(temp);
 		delete Spr_PowerUp;
 		Spr_PowerUp = nullptr;
 		break;
 	}
 	case RAILSHOT:
-		MyBall = new C_Ball(MyBox2d.BOD->GetWorld(), PlayerNumber, Spr_Ball_overlay.getPosition(), b2Vec2(FaceDirection.x, FaceDirection.y));
+		MyBall = new C_Ball(MyBox2d.BOD->GetWorld(), PlayerNumber, Spr_UpperBody.getPosition(), b2Vec2(FaceDirection.x, FaceDirection.y));
 		MyBall->AddForce(b2Vec2(FaceDirection.x * 75.0f, FaceDirection.y * 75.0f));
 		MyBall->SetBounceCount(10);
 		delete Spr_PowerUp;
 		Spr_PowerUp = nullptr;
 		break;
 	default:
-		MyBall = new C_Ball(MyBox2d.BOD->GetWorld(), PlayerNumber, Spr_Ball_overlay.getPosition(), b2Vec2(FaceDirection.x, FaceDirection.y));
+		
+		MyBall = new C_Ball(MyBox2d.BOD->GetWorld(), PlayerNumber, Spr_UpperBody.getPosition(), b2Vec2(FaceDirection.x, FaceDirection.y));
+		//MyBall = new C_Ball(MyBox2d.BOD->GetWorld(), PlayerNumber, Spr_Ball_overlay.getPosition(), b2Vec2(FaceDirection.x, FaceDirection.y));
 		break;
 	}
 	myBallPowerUp = NONE;

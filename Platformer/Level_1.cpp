@@ -72,17 +72,6 @@ c_Level_1::c_Level_1(unsigned int players) : Scene()
 	
 	srand(time(0));
 
-	// create powerups
-	/*for (unsigned int i = 0; i < 4; i++)
-	{
-		myPowerUps.push_back(new C_PowerUp(world, myPowerUpSpawnPoints[i],i+1));
-	}*/
-	//myPowerUps.push_back(new C_PowerUp(world, myPowerUpWaterfall, 5));
-	/*for (unsigned int i = 4; i < myPowerUpSpawnPoints.size(); i++)
-	{
-		myPowerUps.push_back(new C_PowerUp(world, myPowerUpSpawnPoints[i], 4));
-	}*/
-
 	// player UI Icons and stats
 	TX_UI_Player_Icons[0].loadFromFile("Resources/images/UI_Icons/Red_Rudy.png");
 	TX_UI_Player_Icons[1].loadFromFile("Resources/images/UI_Icons/Green_Gordon.png");
@@ -139,8 +128,6 @@ c_Level_1::c_Level_1(unsigned int players) : Scene()
 	Spr_MyCollectedPowerUp[1].setPosition(1863.0f, 170.0f);
 	Spr_MyCollectedPowerUp[2].setPosition(174.0f, 970.0f);
 	Spr_MyCollectedPowerUp[3].setPosition(1863.0f, 970.0f);
-
-	
 	Spr_Winner.setPosition(C_GlobalVariables::ScreenSizeX / 2, C_GlobalVariables::ScreenSizeY / 2);
 }
 
@@ -227,8 +214,18 @@ void c_Level_1::Update(float dT)
 					Spr_Winner.setTexture(TX_UI_Player_Icons[i]);
 					hasWon = true;
 
+				}
+
+			}
+		}
+		else
+		{
+			for (int i = 0; i < 4; i++)
+			{
+				if (sf::Joystick::isButtonPressed(i, InputHandler::GetInstance().BUTTON_A))
+				{
 					C_GlobalVariables::Player_1_Score = MyPlayers[0]->GetScore(); // carry the scores over to level 2
-					
+
 					if (MyPlayers.size() > 1)
 					{
 						C_GlobalVariables::Player_2_Score = MyPlayers[1]->GetScore();
@@ -241,15 +238,7 @@ void c_Level_1::Update(float dT)
 					{
 						C_GlobalVariables::Player_4_Score = MyPlayers[3]->GetScore();
 					}
-				}
-			}
-		}
-		else
-		{
-			for (int i = 0; i < 4; i++)
-			{
-				if (sf::Joystick::isButtonPressed(i, InputHandler::GetInstance().BUTTON_A))
-				{
+
 					SceneManager::GetInstance().TransitionTo(new c_Level_2(InputHandler::GetInstance().playerJoystickIDs.size()));
 					SoundBuffer::GetInstance().StopBackgroundMusic();
 					SoundBuffer::GetInstance().LoadBackgroundMusic("Resources/music/Music2.wav");
@@ -285,31 +274,31 @@ void c_Level_1::Update(float dT)
 		{
 			mf_WaterFall_PowerupTimer = 0.0f; // reset WF timer
 
-			myPowerUps.push_back(new C_PowerUp(world, myPowerUpWaterfall, 5));
+			myPowerUps.push_back(new C_PowerUp(world, myPowerUpWaterfall, 5,8));
 		}
 		if (tempCheck > 0) { mf_WaterFall_PowerupTimer = 0.0f; } // reset WF_PU timer
 
 
-		if (myPowerUps.size() < 3 && tempCheck > 0) // time for another powerup
+		if (myPowerUps.size() < 4) // time for another powerup
 		{
-			int tempPos = rand() % myPlayerSpawnPoints.size() + 1;
-			int tempType = rand() % 4 + 1;
-
-			myPowerUps.push_back(new C_PowerUp(world, myPowerUpSpawnPoints[tempPos], tempType));
-		}
-		if (myPowerUps.size() < 2 && tempCheck < 1) // time for another powerup
-		{
-			int tempPos = rand() % myPlayerSpawnPoints.size() + 1;
-			int tempType = rand() % 4 + 1;
-			int tempPos2 = rand() % myPlayerSpawnPoints.size() + 1;
-			int tempType2 = rand() % 4 + 1;
-
-			myPowerUps.push_back(new C_PowerUp(world, myPowerUpSpawnPoints[tempPos], tempType));
-			if (tempPos2 != tempPos)
+			int tempPos = rand() % myPowerUpSpawnPoints.size();
+			if (C_PowerUp::positionIsReserved[tempPos] == true)
 			{
-				myPowerUps.push_back(new C_PowerUp(world, myPowerUpSpawnPoints[tempPos2], tempType2));
+				for (unsigned int i = 0; i < myPowerUpSpawnPoints.size(); i++)
+				{
+					if (C_PowerUp::positionIsReserved[i] == false)
+					{
+						tempPos = i;
+						C_PowerUp::positionIsReserved[i] = true;
+						break;
+					}
+				}
 			}
+			int tempType = rand() % 4 + 1;
+
+			myPowerUps.push_back(new C_PowerUp(world, myPowerUpSpawnPoints[tempPos], tempType, tempPos));
 		}
+		
 
 	}
 	
@@ -387,6 +376,11 @@ void c_Level_1::PostUpdate(float dT)
 		iter = m_toRemove.erase(iter);
 	}
 	m_toRemove.clear();
+
+	for (auto it : MyPlayers)
+	{
+		it->PostUpdate(dT);
+	}
 }
 
 c_Level_1::~c_Level_1()

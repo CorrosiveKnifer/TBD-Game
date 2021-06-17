@@ -25,11 +25,15 @@ C_Ball::C_Ball(b2World* world, unsigned int playerID, sf::Vector2f _worldPositio
 	if (_vectorVelocity.x == 0 && _vectorVelocity.y == 0)
 		_vectorVelocity = b2Vec2(1.0f, 0.0f);
 
-	_vectorVelocity.Normalize();
+	
 
 	// place the ball out infront to avoid instantiating inside walls.
-	_worldPosition.x += 30.0f * _vectorVelocity.x;
-	_worldPosition.y += 30.0f * _vectorVelocity.y;
+	_worldPosition.y += -600.0f / C_GlobalVariables::PPM; // better placement
+
+	_worldPosition.x += (300.0f * _vectorVelocity.x) / C_GlobalVariables::PPM;
+	_worldPosition.y += (300.0f * _vectorVelocity.y) / C_GlobalVariables::PPM;
+
+	_vectorVelocity.Normalize();
 
 	//box2d setup
 	MyBox2d.DEF.type = b2_dynamicBody;

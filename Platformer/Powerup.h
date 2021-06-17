@@ -40,7 +40,7 @@ enum PowerUpType
 class C_PowerUp : Entity
 {
 public:
-	C_PowerUp(b2World* world,b2Vec2 _worldPosition, unsigned int _PU_typeID);
+	C_PowerUp(b2World* world,b2Vec2 _worldPosition, unsigned int _PU_typeID,int _reserved_POS_ID);
 	virtual ~C_PowerUp();
 
 	//Inheritance functions:
@@ -52,6 +52,9 @@ public:
 
 	PowerUpType myPowerupType;
 	
+	static bool positionIsReserved[9];
+	int myPosition;
+
 private:
 	bool m_hasBeenUsed = false;
 	// the ball graphics
