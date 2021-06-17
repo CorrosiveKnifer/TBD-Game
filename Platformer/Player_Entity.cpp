@@ -328,12 +328,12 @@ void C_Player::Process(float dT)
 			if (mi_WaterFall_Count > 0)
 			{
 				//Left side
-				if (C_GlobalVariables::CurrentLevel == 1 && MyBox2d.BOD != nullptr)
+				if (C_GlobalVariables::CurrentLevel == 1 )
 				{
 					MyBall_WaterFall.push_back(new C_Ball(myWorld, PlayerNumber, sf::Vector2f(790.0f, 5.0f),
 						b2Vec2(-0.5f - ((float)(std::abs(mi_WaterFall_Count)) / 100.0f), -0.5f), true));
 				}
-				if (C_GlobalVariables::CurrentLevel == 2 && MyBox2d.BOD != nullptr)
+				if (C_GlobalVariables::CurrentLevel == 2 )
 				{
 					MyBall_WaterFall.push_back(new C_Ball(myWorld, PlayerNumber, sf::Vector2f(963.0f, 1065.0f),
 						b2Vec2((-0.05f - ((float)(std::abs(mi_WaterFall_Count)) / 100.0f)), 0.5f), true));
