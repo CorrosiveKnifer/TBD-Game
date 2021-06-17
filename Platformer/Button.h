@@ -32,11 +32,11 @@ public:
 
 	virtual void Draw();
 	virtual void Update();
+	virtual bool HandleMouse(sf::Vector2i pos);
 
 private:
 
 protected:
-	virtual bool HandleMouse(sf::Vector2i pos);
 	//Member Data
 public:
 
