@@ -39,6 +39,7 @@ public:
 
 	//Button functions:
 	void PlayerSelect();
+	void Controls();
 	void Settings();
 	void Quit();
 private:
@@ -58,6 +59,7 @@ protected:
 
 	Button* m_pPlayerSelectBtn;
 	Button* m_pControlsBtn;
+	Button* m_pSettingsBtn;
 	Button* m_pQuitBtn;
 
 	bool m_hasMouseClicked;

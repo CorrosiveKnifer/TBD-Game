@@ -136,11 +136,11 @@ void PlayerSelectScene::Update(float dT)
 	switch (InputHandler::GetInstance().playerJoystickIDs.size())
 	{
 	case 0:
-			player1Spr.setTextureRect(sf::IntRect(0, 0, player1Spr.getGlobalBounds().width, player1Spr.getGlobalBounds().height));
-			player2Spr.setTextureRect(sf::IntRect(0, 0, player2Spr.getGlobalBounds().width, player2Spr.getGlobalBounds().height));
-			player3Spr.setTextureRect(sf::IntRect(0, 0, player3Spr.getGlobalBounds().width, player3Spr.getGlobalBounds().height));
-			player4Spr.setTextureRect(sf::IntRect(0, 0, player4Spr.getGlobalBounds().width, player4Spr.getGlobalBounds().height));
-			break;
+		player1Spr.setTextureRect(sf::IntRect(0, 0, player1Spr.getGlobalBounds().width, player1Spr.getGlobalBounds().height));
+		player2Spr.setTextureRect(sf::IntRect(0, 0, player2Spr.getGlobalBounds().width, player2Spr.getGlobalBounds().height));
+		player3Spr.setTextureRect(sf::IntRect(0, 0, player3Spr.getGlobalBounds().width, player3Spr.getGlobalBounds().height));
+		player4Spr.setTextureRect(sf::IntRect(0, 0, player4Spr.getGlobalBounds().width, player4Spr.getGlobalBounds().height));
+		break;
 	case 1:
 		player1Spr.setTextureRect(sf::IntRect(player1Spr.getGlobalBounds().width, 0, player1Spr.getGlobalBounds().width, player1Spr.getGlobalBounds().height));
 		player2Spr.setTextureRect(sf::IntRect(0, 0, player2Spr.getGlobalBounds().width, player2Spr.getGlobalBounds().height));
@@ -174,12 +174,16 @@ void PlayerSelectScene::Update(float dT)
 
 void PlayerSelectScene::Play()
 {	
-	SceneManager::GetInstance().TransitionTo(new c_Level_1(InputHandler::GetInstance().playerJoystickIDs.size()));
 	// reset all player scores
 	C_GlobalVariables::Player_1_Score = 0;
 	C_GlobalVariables::Player_2_Score = 0;
 	C_GlobalVariables::Player_3_Score = 0;
 	C_GlobalVariables::Player_4_Score = 0;
+
+	if (InputHandler::GetInstance().playerJoystickIDs.size() > 1)
+	{
+		SceneManager::GetInstance().TransitionTo(new c_Level_1(InputHandler::GetInstance().playerJoystickIDs.size()));
+	}
 }
 
 void PlayerSelectScene::Back()
