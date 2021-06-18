@@ -51,14 +51,14 @@ void InputHandler::Update()
 		{
 			SceneManager::GetInstance().Quit();
 		}
-		if (event.type == sf::Event::JoystickButtonPressed && sf::Joystick::getIdentification(event.joystickButton.joystickId).vendorId != 0x054c)
+		if (event.type == sf::Event::JoystickButtonPressed && sf::Joystick::getIdentification(event.joystickButton.joystickId).vendorId != 0x054C)
 		{
 			int joyID = event.joystickButton.joystickId;
 			int joyBtn = event.joystickButton.button;
 
-			if (joyBtn == BUTTON_A && SceneManager::GetInstance().m_topScene->sceneID == PLAYERSELECT || joyBtn == BUTTON_B && SceneManager::GetInstance().m_topScene->sceneID == PLAYERSELECT)
+			if (joyBtn == BUTTON_Y && SceneManager::GetInstance().m_topScene->sceneID == PLAYERSELECT || joyBtn == BUTTON_B && SceneManager::GetInstance().m_topScene->sceneID == PLAYERSELECT)
 			{
-				if (joyBtn == BUTTON_A && playerJoystickIDs.size() < 4)
+				if (joyBtn == BUTTON_Y && playerJoystickIDs.size() < 4)
 				{
 					if (std::find(playerJoystickIDs.begin(), playerJoystickIDs.end(), joyID) == playerJoystickIDs.end())
 					{
@@ -82,7 +82,7 @@ void InputHandler::Update()
 				}
 			}
 		}
-		if (event.type == sf::Event::JoystickMoved && sf::Joystick::getIdentification(event.joystickButton.joystickId).vendorId != 0x054c)
+		if (event.type == sf::Event::JoystickMoved && sf::Joystick::getIdentification(event.joystickButton.joystickId).vendorId != 0x054C)
 		{
 			int joyID = event.joystickMove.joystickId;
 			sf::Joystick::Axis joyAxis = event.joystickMove.axis;
@@ -94,26 +94,26 @@ void InputHandler::Update()
 				SceneManager::GetInstance().m_topScene->sceneID == PLAYERSELECT)
 			{
 				// Right
-				if ((joyAxis = sf::Joystick::Axis::PovX) && joyPos > 20.0f)
+				if ((joyAxis == sf::Joystick::Axis::PovX) && joyPos > 50.0f)
 				{					
-					std::cout << "Working X >" << std::endl;
+					SceneManager::GetInstance().m_topScene->rightPressed = true;
 				}
 
 				// Up
-				if ((joyAxis = sf::Joystick::Axis::PovY) && joyPos > 20.0f)
+				if ((joyAxis == sf::Joystick::Axis::PovY) && joyPos > 50.0f)
 				{
-					std::cout << "Working Y >" << std::endl;
+					SceneManager::GetInstance().m_topScene->upPressed = true;
 				}
 
 				// Left
-				if ((joyAxis = sf::Joystick::Axis::PovX) && joyPos < -20.0f)
+				if ((joyAxis == sf::Joystick::Axis::PovX) && joyPos < -50.0f)
 				{
-					std::cout << "Working X <" << std::endl;
+					SceneManager::GetInstance().m_topScene->leftPressed = true;
 				}
 				// Down
-				if ((joyAxis = sf::Joystick::Axis::PovY) && joyPos < -20.0f)
+				if ((joyAxis == sf::Joystick::Axis::PovY) && joyPos < -50.0f)
 				{
-					std::cout << "Working Y <" << std::endl;
+					SceneManager::GetInstance().m_topScene->downPressed = true;
 				}
 			}
 		}

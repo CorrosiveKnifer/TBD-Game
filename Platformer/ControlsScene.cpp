@@ -91,6 +91,7 @@ void ControlsScene::Update(float dT)
 {
 	keypressed = InputHandler::GetInstance().IsAnyKeyPressed();
 
+	m_pBackBtn->m_value = 1.0f;
 	if (SceneManager::GetInstance().m_topScene->sceneID == CONTROLS)
 	{
 		if (SceneManager::GetInstance().m_topScene->buttonPressed)
@@ -99,12 +100,11 @@ void ControlsScene::Update(float dT)
 			SceneManager::GetInstance().m_topScene->buttonPressed = false;
 		}
 	}
-
+	
 	m_pBackBtn->Update();
 }
 
 void ControlsScene::Back()
 {
-
 	SceneManager::GetInstance().TransitionTo(new MainMenuScene());
 }

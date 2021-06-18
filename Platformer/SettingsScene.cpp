@@ -10,6 +10,7 @@
 #include "LogoScene.h"
 #include "MainMenuScene.h"
 
+
 //Library includes
 #include <windows.h>
 
@@ -29,22 +30,26 @@ SettingsScene::SettingsScene()
 	menuBackgroundTex.loadFromFile("Resources/images/Titles/Menu_Screen_blank.jpg");
 	menuBackgroundSpr.setTexture(menuBackgroundTex);
 
+	masterVolumeTex.loadFromFile("Resources/images/Titles/music_volume.png");
+	masterVolumeSpr.setTexture(masterVolumeTex);
+	masterVolumeSpr.setPosition(static_cast<float>(o_pRenderer->GetWindowSize().x * 2 / 8) - (masterVolumeSpr.getGlobalBounds().width / 4), o_pRenderer->GetWindowSize().y * 2 / 4);
+
 	//VolumeUp button:
 	sf::Sprite* temp = o_pRenderer->CreateSprite("images/Titles/up.png");
 	temp->setScale(0.8f, 0.7f);
-	temp->setPosition(static_cast<float>(o_pRenderer->GetWindowSize().x / 2) - (temp->getGlobalBounds().width / 4), static_cast<float>(o_pRenderer->GetWindowSize().y * 3 / 7));
+	temp->setPosition(static_cast<float>(o_pRenderer->GetWindowSize().x / 2) - (temp->getGlobalBounds().width / 4), static_cast<float>(o_pRenderer->GetWindowSize().y * 3 / 8));
 	m_pVolumeUpBtn->Initialise(temp, std::bind(&SettingsScene::volumeUp, this));
 
 	//VolumeDown button:
 	temp = o_pRenderer->CreateSprite("images/Titles/down.png");
 	temp->setScale(0.8f, 0.7f);
-	temp->setPosition(static_cast<float>(o_pRenderer->GetWindowSize().x / 2) - (temp->getGlobalBounds().width / 4), static_cast<float>(o_pRenderer->GetWindowSize().y * 4 / 7));
+	temp->setPosition(static_cast<float>(o_pRenderer->GetWindowSize().x / 2) - (temp->getGlobalBounds().width / 4), static_cast<float>(o_pRenderer->GetWindowSize().y * 5 / 8));
 	m_pVolumeDownBtn->Initialise(temp, std::bind(&SettingsScene::volumeDown, this));
 
 	//Back button:
 	temp = o_pRenderer->CreateSprite("images/Titles/back.jpg");
 	temp->setScale(0.8f, 0.7f);
-	temp->setPosition(static_cast<float>(o_pRenderer->GetWindowSize().x / 2) - (temp->getGlobalBounds().width / 4), static_cast<float>(o_pRenderer->GetWindowSize().y * 6 / 7));
+	temp->setPosition(static_cast<float>(o_pRenderer->GetWindowSize().x / 2) - (temp->getGlobalBounds().width / 4), static_cast<float>(o_pRenderer->GetWindowSize().y * 6 / 8));
 	m_pBackBtn->Initialise(temp, std::bind(&SettingsScene::Back, this));
 }
 
@@ -78,6 +83,8 @@ void SettingsScene::Draw()
 {
 	o_pRenderer->Draw(menuBackgroundSpr);
 
+	o_pRenderer->Draw(masterVolumeSpr);
+
 	//Buttons:
 	m_pVolumeUpBtn->Draw();
 	m_pVolumeDownBtn->Draw();
@@ -86,11 +93,11 @@ void SettingsScene::Draw()
 	//"Level Select"
 	o_pRenderer->SetFontSize(20);
 	o_pRenderer->SetColour(sf::Color::Black);
-	o_pRenderer->DrawRectangle(355, 400, 152, 22);
+	o_pRenderer->DrawRectangle(150, 150, 150, 150);
 	o_pRenderer->SetColour(sf::Color::White);
 
 	o_pRenderer->SetFontSize(50);
-	//o_pRenderer->DrawTextToView("Controls:" + std::to_string(keypressed), 75, 100);
+	o_pRenderer->DrawTextToView(std::to_string((int)m_pVolume / 10), static_cast<float>(o_pRenderer->GetWindowSize().x * 1.95f / 4), static_cast<float>(o_pRenderer->GetWindowSize().y * 4.25 / 8));
 
 	o_pRenderer->SetColour(sf::Color::Black);
 }
@@ -98,6 +105,76 @@ void SettingsScene::Draw()
 void SettingsScene::Update(float dT)
 {
 	keypressed = InputHandler::GetInstance().IsAnyKeyPressed();
+
+	if (SceneManager::GetInstance().m_topScene->sceneID == SETTINGS)
+	{
+		switch (menuSelection)
+		{
+		case 1:
+			m_pVolumeUpBtn->m_value = 1.0f;
+			m_pVolumeDownBtn->m_value = 0.0f;
+			m_pBackBtn->m_value = 0.0f;
+			break;
+		case 2:
+			m_pVolumeUpBtn->m_value = 0.0f;
+			m_pVolumeDownBtn->m_value = 1.0f;
+			m_pBackBtn->m_value = 0.0f;
+			break;
+		case 3:
+			m_pVolumeUpBtn->m_value = 0.0f;
+			m_pVolumeDownBtn->m_value = 0.0f;
+			m_pBackBtn->m_value = 1.0f;
+			break;
+		default:
+			break;
+		}
+
+		if (SceneManager::GetInstance().m_topScene->buttonPressed)
+		{
+			switch (menuSelection)
+			{
+			case 1:
+				SettingsScene::volumeUp();
+				break;
+			case 2:
+				SettingsScene::volumeDown();
+				break;
+			case 3:
+				SettingsScene::Back();
+				break;
+			default:
+				break;
+			}
+			SceneManager::GetInstance().m_topScene->buttonPressed = false;
+		}
+
+		if (SceneManager::GetInstance().m_topScene->upPressed)
+		{
+			menuSelection--;
+			if (menuSelection < 1)
+			{
+				menuSelection = 1;
+			}
+			if (menuSelection > 3)
+			{
+				menuSelection = 3;
+			}
+			SceneManager::GetInstance().m_topScene->upPressed = false;
+		}
+		if (SceneManager::GetInstance().m_topScene->downPressed)
+		{
+			menuSelection++;
+			if (menuSelection < 1)
+			{
+				menuSelection = 1;
+			}
+			if (menuSelection > 3)
+			{
+				menuSelection = 3;
+			}
+			SceneManager::GetInstance().m_topScene->downPressed = false;
+		}
+	}
 
 	m_pVolumeUpBtn->Update();
 	m_pVolumeDownBtn->Update();
@@ -114,7 +191,6 @@ void SettingsScene::volumeUp()
 	{
 		m_pVolume = 100.0f;
 	}
-	std::cout << m_pVolume << std::endl;
 }
 
 void SettingsScene::volumeDown()
@@ -127,7 +203,6 @@ void SettingsScene::volumeDown()
 	{
 		m_pVolume = 0.0f;
 	}
-	std::cout << m_pVolume << std::endl;
 }
 
 void SettingsScene::Back()

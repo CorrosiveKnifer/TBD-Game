@@ -28,6 +28,11 @@ public:
 	int sceneID = 0;
 	bool buttonPressed = false;
 
+	bool upPressed = false;
+	bool downPressed = false;
+	bool leftPressed = false;
+	bool rightPressed = false;
+
 private:
 
 protected:

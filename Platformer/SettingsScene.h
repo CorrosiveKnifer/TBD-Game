@@ -45,6 +45,11 @@ protected:
 
 	float m_pVolume = 100.0f;
 
+	sf::Texture masterVolumeTex;
+	sf::Sprite masterVolumeSpr;
+
+	int menuSelection = 1;
+
 	//Test variable
 	int keypressed;
 };
