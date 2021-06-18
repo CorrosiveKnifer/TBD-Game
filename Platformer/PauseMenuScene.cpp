@@ -22,8 +22,6 @@ void PauseMenuScene::Draw()
 
 	//"Paused"
 	o_pRenderer->SetFontSize(20);
-	o_pRenderer->SetColour(sf::Color::Black);
-	o_pRenderer->DrawRectangle(150, 150, 150, 150);
 	o_pRenderer->SetColour(sf::Color::White);
 
 	o_pRenderer->SetFontSize(50);
