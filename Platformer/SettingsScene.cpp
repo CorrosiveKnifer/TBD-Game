@@ -9,7 +9,7 @@
 #include "Iniparser.h"
 #include "LogoScene.h"
 #include "MainMenuScene.h"
-
+#include "SoundBuffer.h"
 
 //Library includes
 #include <windows.h>
@@ -146,6 +146,8 @@ void SettingsScene::Update(float dT)
 				break;
 			}
 			SceneManager::GetInstance().m_topScene->buttonPressed = false;
+
+			SoundBuffer::GetInstance().UpdateBGVolume(m_pVolume);
 		}
 
 		if (SceneManager::GetInstance().m_topScene->upPressed)
@@ -207,5 +209,7 @@ void SettingsScene::volumeDown()
 
 void SettingsScene::Back()
 {
+	C_GlobalVariables::MusicVolume = m_pVolume;
+	SoundBuffer::GetInstance().UpdateBGVolume(m_pVolume);
 	SceneManager::GetInstance().TransitionTo(new MainMenuScene());
 }

@@ -29,3 +29,5 @@ uint16 C_GlobalVariables::GetLayerMaskFor(unsigned int playerID)
 }
 
 int C_GlobalVariables::CurrentLevel = 0;
+
+int C_GlobalVariables::MusicVolume = 100;
