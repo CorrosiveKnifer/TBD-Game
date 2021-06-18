@@ -195,17 +195,17 @@ void c_Level_2::Update(float dT)
 			playersRemaining++;
 		}
 	}
-	//if (playersRemaining <= 1)
-	//{
-	//	//SOMEONE HAS WON
-	//	for (int i = 0; i < MyPlayers.size(); i++)
-	//	{
-	//		if (MyPlayers.at(i)->GetLives() > 0)
-	//		{
-	//			SceneManager::GetInstance().TransitionTo(new VictoryScene(MyPlayers.at(i)->GetPlayerID()));
-	//		}
-	//	}
-	//}
+	if (playersRemaining <= 1)
+	{
+		//SOMEONE HAS WON
+		for (int i = 0; i < MyPlayers.size(); i++)
+		{
+			if (MyPlayers.at(i)->GetLives() > 0)
+			{
+				SceneManager::GetInstance().TransitionTo(new VictoryScene(MyPlayers.at(i)->GetPlayerID()));
+			}
+		}
+	}
 
 	for (auto it : myPowerUps)
 	{
