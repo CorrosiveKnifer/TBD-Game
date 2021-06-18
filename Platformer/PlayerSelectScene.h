@@ -59,6 +59,7 @@ protected:
 
 	bool m_hasMouseClicked;
 
+	int menuSelection = 1;
 
 	//Test variable
 	int keypressed;	

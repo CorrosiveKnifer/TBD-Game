@@ -147,6 +147,89 @@ void MainMenuScene::Update(float dT)
 {
 	keypressed = InputHandler::GetInstance().IsAnyKeyPressed();
 
+	if (SceneManager::GetInstance().m_topScene->sceneID == MAINMENU)
+	{
+		switch (menuSelection)
+		{
+		case 1:
+			m_pPlayerSelectBtn->m_value = 1.0f;
+			m_pControlsBtn->m_value = 0.0f;
+			m_pSettingsBtn->m_value = 0.0f;
+			m_pQuitBtn->m_value = 0.0f;
+			break;
+		case 2:
+			m_pPlayerSelectBtn->m_value = 0.0f;
+			m_pControlsBtn->m_value = 1.0f;
+			m_pSettingsBtn->m_value = 0.0f;
+			m_pQuitBtn->m_value = 0.0f;
+			break;
+		case 3:
+			m_pPlayerSelectBtn->m_value = 0.0f;
+			m_pControlsBtn->m_value = 0.0f;
+			m_pSettingsBtn->m_value = 1.0f;
+			m_pQuitBtn->m_value = 0.0f;
+			break;
+		case 4:
+			m_pPlayerSelectBtn->m_value = 0.0f;
+			m_pControlsBtn->m_value = 0.0f;
+			m_pSettingsBtn->m_value = 0.0f;
+			m_pQuitBtn->m_value = 1.0f;
+			break;
+		default:
+			break;
+		}
+
+		if (SceneManager::GetInstance().m_topScene->buttonPressed)
+		{
+			switch (menuSelection)
+			{
+			case 1:
+				MainMenuScene::PlayerSelect();
+				break;
+			case 2:
+				MainMenuScene::Controls();
+				break;
+			case 3:
+				MainMenuScene::Settings();
+				break;
+			case 4:
+				MainMenuScene::Quit();
+				break;
+			default:
+				break;
+			}
+			SceneManager::GetInstance().m_topScene->buttonPressed = false;
+		}
+
+		if (SceneManager::GetInstance().m_topScene->upPressed)
+		{
+			menuSelection--;
+			if (menuSelection < 1)
+			{
+				menuSelection = 1;
+			}
+			if (menuSelection > 4)
+			{
+				menuSelection = 4;
+			}
+			SceneManager::GetInstance().m_topScene->upPressed = false;
+		}
+		if (SceneManager::GetInstance().m_topScene->downPressed)
+		{
+			menuSelection++;
+			if (menuSelection < 1)
+			{
+				menuSelection = 1;
+			}
+			if (menuSelection > 4)
+			{
+				menuSelection = 4;
+			}
+			SceneManager::GetInstance().m_topScene->downPressed = false;
+		}
+	}
+
+
 	m_pPlayerSelectBtn->Update();
 	m_pControlsBtn->Update();
 	m_pSettingsBtn->Update();

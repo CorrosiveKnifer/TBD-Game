@@ -168,6 +168,67 @@ void PlayerSelectScene::Update(float dT)
 	default:
 		break;
 	}
+
+	if (SceneManager::GetInstance().m_topScene->sceneID == PLAYERSELECT)
+	{
+		switch (menuSelection)
+		{
+		case 1:
+			m_pPlayBtn->m_value = 1.0f;
+			m_pBackBtn->m_value = 0.0f;
+			break;
+		case 2:
+			m_pPlayBtn->m_value = 0.0f;
+			m_pBackBtn->m_value = 1.0f;
+			break;
+		default:
+			break;
+		}
+
+		if (SceneManager::GetInstance().m_topScene->buttonPressed)
+		{
+			switch (menuSelection)
+			{
+			case 1:
+				PlayerSelectScene::Play();
+				break;
+			case 2:
+				PlayerSelectScene::Back();
+				break;
+			default:
+				break;
+			}
+			SceneManager::GetInstance().m_topScene->buttonPressed = false;
+		}
+
+		if (SceneManager::GetInstance().m_topScene->leftPressed)
+		{
+			menuSelection--;
+			if (menuSelection < 1)
+			{
+				menuSelection = 1;
+			}
+			if (menuSelection > 2)
+			{
+				menuSelection = 2;
+			}
+			SceneManager::GetInstance().m_topScene->leftPressed = false;
+		}
+		if (SceneManager::GetInstance().m_topScene->rightPressed)
+		{
+			menuSelection++;
+			if (menuSelection < 1)
+			{
+				menuSelection = 1;
+			}
+			if (menuSelection > 2)
+			{
+				menuSelection = 2;
+			}
+			SceneManager::GetInstance().m_topScene->rightPressed = false;
+		}
+	}
+
 	m_pPlayBtn->Update();
 	m_pBackBtn->Update();
 }

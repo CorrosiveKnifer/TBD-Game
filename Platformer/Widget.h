@@ -48,6 +48,7 @@ protected:
 	//Member Data
 public:
 
+	float m_value;
 private:
 
 protected:
@@ -59,6 +60,5 @@ protected:
 	float m_width;
 	float m_height;
 
-	float m_value;
 };
 #endif // _WIDGET_H_
