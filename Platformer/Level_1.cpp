@@ -128,7 +128,10 @@ c_Level_1::c_Level_1(unsigned int players) : Scene()
 	Spr_MyCollectedPowerUp[1].setPosition(1863.0f, 170.0f);
 	Spr_MyCollectedPowerUp[2].setPosition(174.0f, 970.0f);
 	Spr_MyCollectedPowerUp[3].setPosition(1863.0f, 970.0f);
-	Spr_Winner.setPosition(C_GlobalVariables::ScreenSizeX / 2, C_GlobalVariables::ScreenSizeY / 2);
+	Spr_Winner.setPosition(C_GlobalVariables::ScreenSizeX / 2, C_GlobalVariables::ScreenSizeY  * 0.40);
+	m_AButton = Renderer::GetInstance().CreateSprite("images/UI_Icons/A button.png");
+	m_AButton->setScale(0.25, 0.25);
+	m_AButton->setOrigin(128, 128);
 }
 
 
@@ -164,9 +167,10 @@ void c_Level_1::Draw()
 
 	if (hasWon)
 	{
+		Spr_Winner.setScale(sf::Vector2f(2, 2));
 		o_pRenderer->Draw(Spr_Winner);
 		o_pRenderer->SetFontSize(25);
-		o_pRenderer->DrawTextToWorld("Press XBox_A/PS_X to continue.", C_GlobalVariables::ScreenSizeX/2 - 150, C_GlobalVariables::ScreenSizeY/2 + 150);
+		o_pRenderer->DrawAt(*m_AButton, sf::Vector2f(C_GlobalVariables::ScreenSizeX / 2, C_GlobalVariables::ScreenSizeY * 0.60));
 	}
 }
 
@@ -174,7 +178,6 @@ void c_Level_1::Update(float dT)
 {
 	// update world
 	(*world).Step(C_GlobalVariables::timeStep, 8, 3);
-
 	//update all players
 	for (auto it : MyPlayers)
 	{

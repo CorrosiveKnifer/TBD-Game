@@ -54,6 +54,7 @@ protected:
 	sf::Texture player4Tex;
 	sf::Sprite player4Spr;
 
+	sf::Sprite* m_yButton;
 	Button* m_pPlayBtn;
 	Button* m_pBackBtn;
 

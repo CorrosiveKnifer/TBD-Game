@@ -45,6 +45,10 @@ void InputHandler::Update()
 	sf::Event event;
 
 	sf::RenderWindow* _window = Renderer::GetInstance().GetWindow();
+
+	if (SceneManager::GetInstance().m_topScene == nullptr)
+		return;
+
 	while (_window->pollEvent(event))
 	{
 		if (event.type == sf::Event::Closed)

@@ -25,7 +25,7 @@
 #include "ControlsScene.h"
 #include "PlayerSelectScene.h"
 #include "SettingsScene.h"
-
+#include "VictoryScene.h"
 //Library includes
 #include <windows.h>
 

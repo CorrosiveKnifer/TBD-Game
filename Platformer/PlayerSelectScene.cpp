@@ -64,6 +64,10 @@ PlayerSelectScene::PlayerSelectScene()
 	temp->setScale(0.8f, 0.7f);
 	temp->setPosition(static_cast<float>(o_pRenderer->GetWindowSize().x * 2 / 4), static_cast<float>(o_pRenderer->GetWindowSize().y * 6 / 7));
 	m_pBackBtn->Initialise(temp, std::bind(&PlayerSelectScene::Back, this));
+
+	m_yButton = Renderer::GetInstance().CreateSprite("images/UI_Icons/Y button.png");
+	m_yButton->setOrigin(128, 128);
+	m_yButton->setScale(sf::Vector2f(0.25, 0.25));
 }
 
 //Destructor
@@ -86,6 +90,8 @@ PlayerSelectScene::~PlayerSelectScene()
 		delete m_pBackBtn;
 		m_pBackBtn = 0;
 	}
+	delete m_yButton;
+	m_yButton;
 }
 
 // DrawContents( BackBuffer& buffer )
@@ -98,14 +104,32 @@ PlayerSelectScene::~PlayerSelectScene()
 //
 void PlayerSelectScene::Draw()
 {
-
 	o_pRenderer->Draw(menuBackgroundSpr);
 
 	o_pRenderer->Draw(player1Spr);
+	if (InputHandler::GetInstance().playerJoystickIDs.size() == 0)
+	{
+		sf::Vector2f size = sf::Vector2f(player1Spr.getTextureRect().width / 2, player1Spr.getTextureRect().height);
+		o_pRenderer->DrawAt(*m_yButton, player1Spr.getPosition() + size);
+	}
 	o_pRenderer->Draw(player2Spr);
+	if (InputHandler::GetInstance().playerJoystickIDs.size() <= 1)
+	{
+		sf::Vector2f size = sf::Vector2f(player2Spr.getTextureRect().width / 2, player2Spr.getTextureRect().height);
+		o_pRenderer->DrawAt(*m_yButton, player2Spr.getPosition() + size);
+	}
 	o_pRenderer->Draw(player3Spr);
+	if (InputHandler::GetInstance().playerJoystickIDs.size() <= 2)
+	{
+		sf::Vector2f size = sf::Vector2f(player3Spr.getTextureRect().width / 2, player3Spr.getTextureRect().height);
+		o_pRenderer->DrawAt(*m_yButton, player3Spr.getPosition() + size);
+	}
 	o_pRenderer->Draw(player4Spr);
-
+	if (InputHandler::GetInstance().playerJoystickIDs.size() <= 3)
+	{
+		sf::Vector2f size = sf::Vector2f(player4Spr.getTextureRect().width / 2, player4Spr.getTextureRect().height);
+		o_pRenderer->DrawAt(*m_yButton, player4Spr.getPosition() + size);
+	}
 	//Buttons:
 	m_pPlayBtn->Draw();
 	m_pBackBtn->Draw();
