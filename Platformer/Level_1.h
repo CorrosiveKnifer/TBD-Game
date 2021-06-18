@@ -76,6 +76,7 @@ private:
 	sf::String Str_UI_Player_Stats[4];
 	sf::Texture Tx_PowerUps[6];
 	sf::Sprite Spr_MyCollectedPowerUp[4];
+	sf::Sprite* m_AButton;
 
 	// powerups
 	vector<C_PowerUp*> myPowerUps;

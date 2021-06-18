@@ -135,13 +135,17 @@ c_Level_2::c_Level_2(unsigned int players) : Scene()
 	Spr_MyCollectedPowerUp[1].setPosition(1863.0f, 170.0f);
 	Spr_MyCollectedPowerUp[2].setPosition(174.0f, 970.0f);
 	Spr_MyCollectedPowerUp[3].setPosition(1863.0f, 970.0f);
+
+	Spr_Winner.setPosition(C_GlobalVariables::ScreenSizeX / 2, C_GlobalVariables::ScreenSizeY * 0.40);
+	m_AButton = Renderer::GetInstance().CreateSprite("images/UI_Icons/A button.png");
+	m_AButton->setScale(0.25, 0.25);
+	m_AButton->setOrigin(128, 128);
 }
 
 
 void c_Level_2::Draw()
 {
 	o_pRenderer->Draw(backgroundSpr[0]);
-
 
 	for (auto it : MyPlayers)
 	{
@@ -163,6 +167,14 @@ void c_Level_2::Draw()
 		o_pRenderer->Draw(SPR_UI_Player_Icons[i]);
 		o_pRenderer->Draw(Text_UI_Player_Stats[i]);
 		o_pRenderer->Draw(Spr_MyCollectedPowerUp[i]);
+	}
+
+	if (hasWon)
+	{
+		Spr_Winner.setScale(sf::Vector2f(2, 2));
+		o_pRenderer->Draw(Spr_Winner);
+		o_pRenderer->SetFontSize(25);
+		o_pRenderer->DrawAt(*m_AButton, sf::Vector2f(C_GlobalVariables::ScreenSizeX / 2, C_GlobalVariables::ScreenSizeY * 0.60));
 	}
 }
 
@@ -195,17 +207,49 @@ void c_Level_2::Update(float dT)
 			playersRemaining++;
 		}
 	}
-	//if (playersRemaining <= 1)
-	//{
-	//	//SOMEONE HAS WON
-	//	for (int i = 0; i < MyPlayers.size(); i++)
-	//	{
-	//		if (MyPlayers.at(i)->GetLives() > 0)
-	//		{
-	//			SceneManager::GetInstance().TransitionTo(new VictoryScene(MyPlayers.at(i)->GetPlayerID()));
-	//		}
-	//	}
-	//}
+	if (playersRemaining <= 1)
+	{
+		//SOMEONE HAS WON
+		if (!hasWon)
+		{
+			for (int i = 0; i < MyPlayers.size(); i++)
+			{
+				if (MyPlayers.at(i)->GetLives() > 0)
+				{
+					Spr_Winner.setOrigin(TX_UI_Player_Icons[i].getSize().x / 2, TX_UI_Player_Icons[i].getSize().y / 2);
+					Spr_Winner.setTexture(TX_UI_Player_Icons[i]);
+					hasWon = true;
+
+				}
+
+			}
+		}
+		else
+		{
+			for (int i = 0; i < 4; i++)
+			{
+				if (sf::Joystick::isButtonPressed(i, InputHandler::GetInstance().BUTTON_A))
+				{
+					C_GlobalVariables::Player_1_Score = MyPlayers[0]->GetScore();
+
+					if (MyPlayers.size() > 1)
+					{
+						C_GlobalVariables::Player_2_Score = MyPlayers[1]->GetScore();
+					}
+					if (MyPlayers.size() > 2)
+					{
+						C_GlobalVariables::Player_3_Score = MyPlayers[2]->GetScore();
+					}
+					if (MyPlayers.size() > 3)
+					{
+						C_GlobalVariables::Player_4_Score = MyPlayers[3]->GetScore();
+					}
+
+					SceneManager::GetInstance().TransitionTo(new VictoryScene());
+				}
+			}
+		}
+	}
 
 	for (auto it : myPowerUps)
 	{

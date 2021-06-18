@@ -45,20 +45,24 @@ void InputHandler::Update()
 	sf::Event event;
 
 	sf::RenderWindow* _window = Renderer::GetInstance().GetWindow();
+
+	if (SceneManager::GetInstance().m_topScene == nullptr)
+		return;
+
 	while (_window->pollEvent(event))
 	{
 		if (event.type == sf::Event::Closed)
 		{
 			SceneManager::GetInstance().Quit();
 		}
-		if (event.type == sf::Event::JoystickButtonPressed && sf::Joystick::getIdentification(event.joystickButton.joystickId).vendorId != 0x054c)
+		if (event.type == sf::Event::JoystickButtonPressed && sf::Joystick::getIdentification(event.joystickButton.joystickId).vendorId != 0x054C)
 		{
 			int joyID = event.joystickButton.joystickId;
 			int joyBtn = event.joystickButton.button;
 
-			if (joyBtn == BUTTON_A && SceneManager::GetInstance().m_topScene->sceneID == PLAYERSELECT || joyBtn == BUTTON_B && SceneManager::GetInstance().m_topScene->sceneID == PLAYERSELECT)
+			if (joyBtn == BUTTON_Y && SceneManager::GetInstance().m_topScene->sceneID == PLAYERSELECT || joyBtn == BUTTON_B && SceneManager::GetInstance().m_topScene->sceneID == PLAYERSELECT)
 			{
-				if (joyBtn == BUTTON_A && playerJoystickIDs.size() < 4)
+				if (joyBtn == BUTTON_Y && playerJoystickIDs.size() < 4)
 				{
 					if (std::find(playerJoystickIDs.begin(), playerJoystickIDs.end(), joyID) == playerJoystickIDs.end())
 					{
@@ -70,14 +74,52 @@ void InputHandler::Update()
 					playerJoystickIDs.erase(std::find(playerJoystickIDs.begin(), playerJoystickIDs.end(), joyID));
 				}
 			}
+
+			if (SceneManager::GetInstance().m_topScene->sceneID == CONTROLS || 
+				SceneManager::GetInstance().m_topScene->sceneID == SETTINGS || 
+				SceneManager::GetInstance().m_topScene->sceneID == MAINMENU || 
+				SceneManager::GetInstance().m_topScene->sceneID == PLAYERSELECT)
+			{
+				if (joyBtn == BUTTON_A)
+				{
+					SceneManager::GetInstance().m_topScene->buttonPressed = true;
+				}
+			}
 		}
-		if (event.type == sf::Event::JoystickMoved)
+		if (event.type == sf::Event::JoystickMoved && sf::Joystick::getIdentification(event.joystickButton.joystickId).vendorId != 0x054C)
 		{
 			int joyID = event.joystickMove.joystickId;
 			sf::Joystick::Axis joyAxis = event.joystickMove.axis;
-			float joyPos = event.joystickMove.position;
+			float joyPos = event.joystickMove.position;	
 
-			//GetAnyJoystickInput(joyID, joyAxis, joyPos);
+			if (SceneManager::GetInstance().m_topScene->sceneID == CONTROLS ||
+				SceneManager::GetInstance().m_topScene->sceneID == SETTINGS ||
+				SceneManager::GetInstance().m_topScene->sceneID == MAINMENU ||
+				SceneManager::GetInstance().m_topScene->sceneID == PLAYERSELECT)
+			{
+				// Right
+				if ((joyAxis == sf::Joystick::Axis::PovX) && joyPos > 50.0f)
+				{					
+					SceneManager::GetInstance().m_topScene->rightPressed = true;
+				}
+
+				// Up
+				if ((joyAxis == sf::Joystick::Axis::PovY) && joyPos > 50.0f)
+				{
+					SceneManager::GetInstance().m_topScene->upPressed = true;
+				}
+
+				// Left
+				if ((joyAxis == sf::Joystick::Axis::PovX) && joyPos < -50.0f)
+				{
+					SceneManager::GetInstance().m_topScene->leftPressed = true;
+				}
+				// Down
+				if ((joyAxis == sf::Joystick::Axis::PovY) && joyPos < -50.0f)
+				{
+					SceneManager::GetInstance().m_topScene->downPressed = true;
+				}
+			}
 		}
 	}
 

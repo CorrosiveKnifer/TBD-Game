@@ -28,7 +28,7 @@ class VictoryScene : public Scene
 {
 	//Member function
 public:
-	VictoryScene(int playerWon);
+	VictoryScene();
 	virtual ~VictoryScene();
 
 	//Inherited functions:
@@ -61,6 +61,7 @@ protected:
 
 	bool m_hasMouseClicked;
 
+	float m_highscore;
 	//Test variable
 	int keypressed;
 };

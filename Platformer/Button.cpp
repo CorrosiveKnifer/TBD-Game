@@ -63,17 +63,17 @@ bool Button::Initialise(sf::Sprite* _sprite, std::function<void()> clickCallback
 //
 bool Button::HandleMouse(sf::Vector2i pos)
 {
-	if (m_isVisible)
-	{
-		if (pos.x >= m_x && pos.x < m_x + ((m_width * m_scale.x )/ 2) && pos.y >= m_y && pos.y < m_y + ((m_height * m_scale.y) /1))
-		{
-			m_value = 1.0f;
-		}
-		else
-		{
-			m_value = 0.0f;
-		}
-	}
+	//if (m_isVisible)
+	//{
+	//	if (pos.x >= m_x && pos.x < m_x + ((m_width * m_scale.x )/ 2) && pos.y >= m_y && pos.y < m_y + ((m_height * m_scale.y) /1))
+	//	{
+	//		m_value = 1.0f;
+	//	}
+	//	else
+	//	{
+	//		m_value = 0.0f;
+	//	}
+	//}
 	return (m_value == 1);
 }
 
@@ -87,10 +87,10 @@ bool Button::HandleMouse(sf::Vector2i pos)
 //
 void Button::Update()
 {
-	if (HandleMouse(InputHandler::GetInstance().GetMousePosition()) && InputHandler::GetInstance().IsMousePressed(sf::Mouse::Left))
-	{
-		o_clickCallback();
-	}
+	//if (HandleMouse(InputHandler::GetInstance().GetMousePosition()) && InputHandler::GetInstance().IsMousePressed(sf::Mouse::Left))
+	//{
+	//	o_clickCallback();
+	//}
 
 	m_Anim->SetIndexX(static_cast<int>(m_value));
 }

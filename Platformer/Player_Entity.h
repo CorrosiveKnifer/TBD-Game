@@ -73,6 +73,7 @@ private:
 	void ThrowBall();
 	void Dash(float xAxis);
 private:
+	b2World* myWorld;
 	Shield* myShield;
 	PowerUpType myPowerupType;
 	bool waterFallTrigger = false;

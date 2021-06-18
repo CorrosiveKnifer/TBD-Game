@@ -65,7 +65,6 @@ private:
 	// Players
 	vector<C_Player*> MyPlayers;
 
-	sf::Sprite Spr_Winner;
 	bool hasWon = false;
 
 	// player UI icons
@@ -76,6 +75,8 @@ private:
 	sf::Texture Tx_PowerUps[6];
 	sf::Sprite Spr_MyCollectedPowerUp[4];
 
+	sf::Sprite Spr_Winner;
+	sf::Sprite* m_AButton;
 	// powerups
 	vector<C_PowerUp*> myPowerUps;
 	float mf_PowerupTimer = 0.0f;

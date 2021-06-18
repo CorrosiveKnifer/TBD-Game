@@ -20,6 +20,7 @@
 
 C_Player::C_Player(b2World* world,int _playerNumber, b2Vec2 _position) : Entity()
 {
+	myWorld = world;
 	PlayerNumber = _playerNumber;
 	controlJoystickID = InputHandler::GetInstance().playerJoystickIDs.at(_playerNumber - 1);
 
@@ -124,6 +125,14 @@ C_Player::C_Player(b2World* world,int _playerNumber, b2Vec2 _position) : Entity(
 
 void C_Player::Draw()
 {
+	if (MyBall_WaterFall.size() > 0)
+	{
+		for (auto it : MyBall_WaterFall)
+		{
+			it->Draw();
+		}
+	}
+
 	if (m_isDead)
 	{
 		return;
@@ -168,13 +177,6 @@ void C_Player::Draw()
 
 	if (MyBall_WaterFall.size() > 0)
 	{
-		for (auto it : MyBall_WaterFall)
-		{
-			it->Draw();
-		}
-	}
-	if (MyBall_WaterFall.size() > 0)
-	{
 		for (unsigned int i = 0; i < MyBall_WaterFall.size();i++)
 		{
 			if (MyBall_WaterFall[i]->GetBounceCount() <= 0)
@@ -195,8 +197,7 @@ void C_Player::Draw()
 			i++;
 		}
 	}
-
-
+	
 	if (m_emoteTimer > 0)
 	{
 		float ratio = 1.0f;
@@ -327,14 +328,14 @@ void C_Player::Process(float dT)
 			if (mi_WaterFall_Count > 0)
 			{
 				//Left side
-				if (C_GlobalVariables::CurrentLevel == 1 && MyBox2d.BOD != nullptr)
+				if (C_GlobalVariables::CurrentLevel == 1 )
 				{
-					MyBall_WaterFall.push_back(new C_Ball(MyBox2d.BOD->GetWorld(), PlayerNumber, sf::Vector2f(790.0f, 5.0f), 
+					MyBall_WaterFall.push_back(new C_Ball(myWorld, PlayerNumber, sf::Vector2f(790.0f, 5.0f),
 						b2Vec2(-0.5f - ((float)(std::abs(mi_WaterFall_Count)) / 100.0f), -0.5f), true));
 				}
-				if (C_GlobalVariables::CurrentLevel == 2 && MyBox2d.BOD != nullptr)
+				if (C_GlobalVariables::CurrentLevel == 2 )
 				{
-					MyBall_WaterFall.push_back(new C_Ball(MyBox2d.BOD->GetWorld(), PlayerNumber, sf::Vector2f(963.0f, 1065.0f),
+					MyBall_WaterFall.push_back(new C_Ball(myWorld, PlayerNumber, sf::Vector2f(963.0f, 1065.0f),
 						b2Vec2((-0.05f - ((float)(std::abs(mi_WaterFall_Count)) / 100.0f)), 0.5f), true));
 				}
 				mi_WaterFall_Count--;
@@ -344,12 +345,12 @@ void C_Player::Process(float dT)
 				//Right side
 				if (C_GlobalVariables::CurrentLevel == 1)
 				{
-					MyBall_WaterFall.push_back(new C_Ball(MyBox2d.BOD->GetWorld(), PlayerNumber, sf::Vector2f(1200.0f, 5.0f),
+					MyBall_WaterFall.push_back(new C_Ball(myWorld, PlayerNumber, sf::Vector2f(1200.0f, 5.0f),
 						b2Vec2(-0.5f - ((float)(std::abs(mi_WaterFall_Count)) / 100.0f), -0.5f), true));
 				}
 				if (C_GlobalVariables::CurrentLevel == 2)
 				{
-					MyBall_WaterFall.push_back(new C_Ball(MyBox2d.BOD->GetWorld(), PlayerNumber, sf::Vector2f(963.0f, 1065.0f),
+					MyBall_WaterFall.push_back(new C_Ball(myWorld, PlayerNumber, sf::Vector2f(963.0f, 1065.0f),
 						b2Vec2(0.05f + ((float)(std::abs(mi_WaterFall_Count)) / 100.0f), 0.5f), true));
 				}
 				mi_WaterFall_Count++;
@@ -1023,6 +1024,8 @@ void C_Player::Dash(float xAxis)
 
 C_Player::~C_Player()
 {
+	myWorld = nullptr;
+
 	if (myShield != nullptr)
 	{
 		delete myShield;

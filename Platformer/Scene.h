@@ -6,11 +6,13 @@
 
 enum SceneName {
 	LEVEL1,
+	LEVEL2,
 	MAINMENU,
 	PLAYERSELECT,
 	CONTROLS,
+	SETTINGS,
 	LOGO,
-	LEVEL2,
+	VICTORY,
 };
 
 class Scene
@@ -25,6 +27,12 @@ public:
 	virtual void DestroyEntity(Entity* entity) = 0;
 
 	int sceneID = 0;
+	bool buttonPressed = false;
+
+	bool upPressed = false;
+	bool downPressed = false;
+	bool leftPressed = false;
+	bool rightPressed = false;
 
 private:
 

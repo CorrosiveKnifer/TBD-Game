@@ -28,17 +28,56 @@
 #include <windows.h>
 
 //Constructor
-VictoryScene::VictoryScene(int playerWon)
+VictoryScene::VictoryScene()
 	: Scene()
 	, m_hasMouseClicked(false)
 	, m_mousePos(0, 0), m_mousePressPos(0)
 	, m_pBackBtn(0)
 	, keypressed(-1)
 {
-	sceneID = MAINMENU;
+	sceneID = VICTORY;
 
 	menuBackgroundTex.loadFromFile("Resources/images/Titles/Victory_Screen_Resized.jpg");
 	menuBackgroundSpr.setTexture(menuBackgroundTex);
+	o_pRenderer->LoadFont("fonts/ariblk.ttf");
+	m_highscore = 0;
+	int playerWon = 0;
+	for (int i = 1; i <= 4; i++)
+	{
+		switch (i)
+		{
+		default:
+		case 1:
+			if (C_GlobalVariables::Player_1_Score > m_highscore)
+			{
+				m_highscore = C_GlobalVariables::Player_1_Score;
+				playerWon = i;
+			};
+			break;
+		case 2:
+			if (C_GlobalVariables::Player_2_Score > m_highscore)
+			{
+				m_highscore = C_GlobalVariables::Player_2_Score;
+				playerWon = i;
+			};
+			break;
+		case 3:
+			if (C_GlobalVariables::Player_3_Score > m_highscore)
+			{
+				m_highscore = C_GlobalVariables::Player_3_Score;
+				playerWon = i;
+			};
+			break;
+		case 4:
+			if (C_GlobalVariables::Player_4_Score > m_highscore)
+			{
+				m_highscore = C_GlobalVariables::Player_4_Score;
+				playerWon = i;
+			};
+			break;
+		}
+	}
+
 
 	switch (playerWon)
 	{
@@ -63,8 +102,6 @@ VictoryScene::VictoryScene(int playerWon)
 	victorPlayerSpr.setTexture(victorPlayerTex);
 	victorPlayerSpr.setPosition(static_cast<float>(o_pRenderer->GetWindowSize().x / 2) - (victorPlayerSpr.getGlobalBounds().width / 4), o_pRenderer->GetWindowSize().y / 2);
 	victorPlayerSpr.setTextureRect(sf::IntRect(victorPlayerSpr.getGlobalBounds().width / 2, 0, victorPlayerSpr.getGlobalBounds().width, victorPlayerSpr.getGlobalBounds().height));
-	
-
 
 	m_pBackBtn = new Button();
 
@@ -107,7 +144,7 @@ void VictoryScene::Draw()
 
 	//Buttons:
 	m_pBackBtn->Draw();
-
+	
 	//"Level Select"
 	//o_pRenderer->SetFontSize(20);
 	//o_pRenderer->SetColour(sf::Color::Black);
@@ -116,7 +153,9 @@ void VictoryScene::Draw()
 	//
 	//o_pRenderer->SetFontSize(50);
 	//o_pRenderer->DrawTextToView("Main Menu:"+ std::to_string(keypressed), 75, 100);
-
+	o_pRenderer->SetColour(sf::Color::White);
+	o_pRenderer->SetFontAlign(Align::Centre);
+	o_pRenderer->DrawTextToWorld("Score: " + std::to_string((int)m_highscore), C_GlobalVariables::ScreenSizeX * 0.5, C_GlobalVariables::ScreenSizeY * 0.80);
 	o_pRenderer->SetColour(sf::Color::Black);
 }
 
@@ -130,6 +169,16 @@ void VictoryScene::Draw()
 void VictoryScene::Update(float dT)
 {
 	keypressed = InputHandler::GetInstance().IsAnyKeyPressed();
+
+	m_pBackBtn->m_value = 1.0f;
+	if (SceneManager::GetInstance().m_topScene->sceneID == VICTORY)
+	{
+		if (SceneManager::GetInstance().m_topScene->buttonPressed)
+		{
+			VictoryScene::Back();
+			SceneManager::GetInstance().m_topScene->buttonPressed = false;
+		}
+	}
 
 	m_pBackBtn->Update();
 }
