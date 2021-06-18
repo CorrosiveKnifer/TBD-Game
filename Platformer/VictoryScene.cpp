@@ -35,7 +35,7 @@ VictoryScene::VictoryScene()
 	, m_pBackBtn(0)
 	, keypressed(-1)
 {
-	sceneID = MAINMENU;
+	sceneID = VICTORY;
 
 	menuBackgroundTex.loadFromFile("Resources/images/Titles/Victory_Screen_Resized.jpg");
 	menuBackgroundSpr.setTexture(menuBackgroundTex);
@@ -169,6 +169,16 @@ void VictoryScene::Draw()
 void VictoryScene::Update(float dT)
 {
 	keypressed = InputHandler::GetInstance().IsAnyKeyPressed();
+
+	m_pBackBtn->m_value = 1.0f;
+	if (SceneManager::GetInstance().m_topScene->sceneID == VICTORY)
+	{
+		if (SceneManager::GetInstance().m_topScene->buttonPressed)
+		{
+			VictoryScene::Back();
+			SceneManager::GetInstance().m_topScene->buttonPressed = false;
+		}
+	}
 
 	m_pBackBtn->Update();
 }

@@ -12,6 +12,7 @@ enum SceneName {
 	CONTROLS,
 	SETTINGS,
 	LOGO,
+	VICTORY,
 };
 
 class Scene
