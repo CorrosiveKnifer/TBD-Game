@@ -225,28 +225,28 @@ void C_Player::Draw()
 	}
 
 	//Raycast
-	Renderer::GetInstance().DrawLine(
-		sf::Vector2f(MyBox2d.BOD->GetPosition().x* C_GlobalVariables::PPM, MyBox2d.BOD->GetPosition().y* C_GlobalVariables::PPM),
-		sf::Vector2f(MyBox2d.BOD->GetPosition().x * C_GlobalVariables::PPM, (MyBox2d.BOD->GetPosition().y + 1.85f)* C_GlobalVariables::PPM),
-		sf::Color::Green
-	);
-
-	Renderer::GetInstance().DrawLine(
-		sf::Vector2f(MyBox2d.BOD->GetPosition().x * C_GlobalVariables::PPM, MyBox2d.BOD->GetPosition().y * C_GlobalVariables::PPM),
-		sf::Vector2f((MyBox2d.BOD->GetPosition().x + -0.5 * MoveDirection.x) * C_GlobalVariables::PPM, (MyBox2d.BOD->GetPosition().y + 1.85f) * C_GlobalVariables::PPM),
-		sf::Color::Green
-	);
-	Renderer::GetInstance().DrawLine(
-		sf::Vector2f((MyBox2d.BOD->GetPosition().x - 0.85)* C_GlobalVariables::PPM, (MyBox2d.BOD->GetPosition().y - 1.85f) * C_GlobalVariables::PPM),
-		sf::Vector2f((MyBox2d.BOD->GetPosition().x - 0.85)* C_GlobalVariables::PPM, (MyBox2d.BOD->GetPosition().y + 1.5f)* C_GlobalVariables::PPM),
-		sf::Color::Green
-	);
-
-	Renderer::GetInstance().DrawLine(
-		sf::Vector2f((MyBox2d.BOD->GetPosition().x + 0.85)* C_GlobalVariables::PPM, (MyBox2d.BOD->GetPosition().y - 1.85f)* C_GlobalVariables::PPM),
-		sf::Vector2f((MyBox2d.BOD->GetPosition().x + 0.85)* C_GlobalVariables::PPM, (MyBox2d.BOD->GetPosition().y + 1.5f)* C_GlobalVariables::PPM),
-		sf::Color::Green
-	);
+	//Renderer::GetInstance().DrawLine(
+	//	sf::Vector2f(MyBox2d.BOD->GetPosition().x* C_GlobalVariables::PPM, MyBox2d.BOD->GetPosition().y* C_GlobalVariables::PPM),
+	//	sf::Vector2f(MyBox2d.BOD->GetPosition().x * C_GlobalVariables::PPM, (MyBox2d.BOD->GetPosition().y + 1.85f)* C_GlobalVariables::PPM),
+	//	sf::Color::Green
+	//);
+	//
+	//Renderer::GetInstance().DrawLine(
+	//	sf::Vector2f(MyBox2d.BOD->GetPosition().x * C_GlobalVariables::PPM, MyBox2d.BOD->GetPosition().y * C_GlobalVariables::PPM),
+	//	sf::Vector2f((MyBox2d.BOD->GetPosition().x + -0.5 * MoveDirection.x) * C_GlobalVariables::PPM, (MyBox2d.BOD->GetPosition().y + 1.85f) * C_GlobalVariables::PPM),
+	//	sf::Color::Green
+	//);
+	//Renderer::GetInstance().DrawLine(
+	//	sf::Vector2f((MyBox2d.BOD->GetPosition().x - 0.85)* C_GlobalVariables::PPM, (MyBox2d.BOD->GetPosition().y - 1.85f) * C_GlobalVariables::PPM),
+	//	sf::Vector2f((MyBox2d.BOD->GetPosition().x - 0.85)* C_GlobalVariables::PPM, (MyBox2d.BOD->GetPosition().y + 1.5f)* C_GlobalVariables::PPM),
+	//	sf::Color::Green
+	//);
+	//
+	//Renderer::GetInstance().DrawLine(
+	//	sf::Vector2f((MyBox2d.BOD->GetPosition().x + 0.85)* C_GlobalVariables::PPM, (MyBox2d.BOD->GetPosition().y - 1.85f)* C_GlobalVariables::PPM),
+	//	sf::Vector2f((MyBox2d.BOD->GetPosition().x + 0.85)* C_GlobalVariables::PPM, (MyBox2d.BOD->GetPosition().y + 1.5f)* C_GlobalVariables::PPM),
+	//	sf::Color::Green
+	//);
 }
 
 

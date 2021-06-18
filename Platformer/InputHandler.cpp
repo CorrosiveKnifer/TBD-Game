@@ -78,7 +78,8 @@ void InputHandler::Update()
 			if (SceneManager::GetInstance().m_topScene->sceneID == CONTROLS || 
 				SceneManager::GetInstance().m_topScene->sceneID == SETTINGS || 
 				SceneManager::GetInstance().m_topScene->sceneID == MAINMENU || 
-				SceneManager::GetInstance().m_topScene->sceneID == PLAYERSELECT)
+				SceneManager::GetInstance().m_topScene->sceneID == PLAYERSELECT || 
+				SceneManager::GetInstance().m_topScene->sceneID == VICTORY)
 			{
 				if (joyBtn == BUTTON_A)
 				{

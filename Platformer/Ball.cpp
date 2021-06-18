@@ -95,10 +95,10 @@ void C_Ball::Draw()
 	this->Spr_Ball.setColor(tempColor);
 	Renderer::GetInstance().Draw(this->Spr_Ball);
 
-	Renderer::GetInstance().SetFontSize(25);
-	Renderer::GetInstance().SetColour(sf::Color(255, 255, 255));
-	Renderer::GetInstance().SetFontAlign(Align::Centre);
-	Renderer::GetInstance().DrawTextToWorld(std::to_string(m_bounceCount), Spr_Ball.getPosition().x - 5, Spr_Ball.getPosition().y - 17.5);
+	//Renderer::GetInstance().SetFontSize(25);
+	//Renderer::GetInstance().SetColour(sf::Color(255, 255, 255));
+	//Renderer::GetInstance().SetFontAlign(Align::Centre);
+	//Renderer::GetInstance().DrawTextToWorld(std::to_string(m_bounceCount), Spr_Ball.getPosition().x - 5, Spr_Ball.getPosition().y - 17.5);
 }
 
 void C_Ball::Process(float dT)
