@@ -1,6 +1,18 @@
 #ifndef _SettingsScene_H_
 #define _SettingsScene_H_
-
+//
+// Bachelor of Software Engineering
+// Media Design School
+// Auckland
+// New Zealand
+//
+// (c) 2021 Media Design School
+//
+// File Name     	: SettingsScene.h
+// Description   	: Scene for the settings menu with volume controls.
+// Author         	: Bailey Johnson
+// Mail         	: bailey.johnson@mds.ac.nz
+//
 //Parent Include
 #include "Scene.h"
 

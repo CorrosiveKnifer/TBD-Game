@@ -1,6 +1,18 @@
 #ifndef _ControlsScene_H_
 #define _ControlsScene_H_
-
+//
+// Bachelor of Software Engineering
+// Media Design School
+// Auckland
+// New Zealand
+//
+// (c) 2021 Media Design School
+//
+// File Name     	: ControlsScene.h
+// Description   	: Scene for the controls menu.
+// Author         	: Bailey Johnson
+// Mail         	: bailey.johnson@mds.ac.nz
+//
 //Parent Include
 #include "Scene.h"
 
@@ -19,7 +31,6 @@ public:
 	virtual ~ControlsScene();
 
 	//Inherited functions:
-	//virtual bool DoWindowLoop();
 	virtual void Draw();
 	virtual void Update(float dT);
 	virtual void DestroyEntity(Entity* entity) {};

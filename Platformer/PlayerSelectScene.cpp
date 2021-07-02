@@ -1,3 +1,16 @@
+//
+// Bachelor of Software Engineering
+// Media Design School
+// Auckland
+// New Zealand
+//
+// (c) 2021 Media Design School
+//
+// File Name     	: PlayerSelectScene.h
+// Description   	: Scene for players to join the game with their controller
+// Author         	: Bailey Johnson
+// Mail         	: bailey.johnson@mds.ac.nz
+//
 //This include
 #include "PlayerSelectScene.h"
 

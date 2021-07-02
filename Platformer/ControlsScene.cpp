@@ -1,3 +1,16 @@
+//
+// Bachelor of Software Engineering
+// Media Design School
+// Auckland
+// New Zealand
+//
+// (c) 2021 Media Design School
+//
+// File Name     	: ControlsScene.h
+// Description   	: Scene for the controls menu.
+// Author         	: Bailey Johnson
+// Mail         	: bailey.johnson@mds.ac.nz
+//
 //This include
 #include "ControlsScene.h"
 
@@ -75,7 +88,6 @@ void ControlsScene::Draw()
 	o_pRenderer->SetColour(sf::Color::White);
 
 	o_pRenderer->SetFontSize(50);
-	//o_pRenderer->DrawTextToView("Controls:" + std::to_string(keypressed), 75, 100);
 
 	o_pRenderer->SetColour(sf::Color::Black);
 }
