@@ -5,6 +5,18 @@
 bool C_PowerUp::positionIsReserved[9] = { false }; // reserve positions to avoid overlap
 
 
+// C_PowerUp(b2World* world, b2Vec2 _worldPosition,unsigned int _PU_typeID, int _reserved_POS_ID)
+//
+// Description:	Creates a powerup type and reserves the position it was spawned in till it is collected.
+//				
+// @param	b2World*		Pointer to the world it belongs in and is simulated in
+// @param	b2Vec2			The world position to spawn this powerup at.
+// @param	unsigned int	The type of powerup to make.
+// @param	int				The reserved position ID tag to avoid overlap spawning.
+//
+// 
+// @return	C_PowerUp object
+//
 C_PowerUp::C_PowerUp(b2World* world, b2Vec2 _worldPosition,unsigned int _PU_typeID, int _reserved_POS_ID)
 {
 	myPosition = _reserved_POS_ID; // this powerups position.
@@ -68,12 +80,29 @@ C_PowerUp::C_PowerUp(b2World* world, b2Vec2 _worldPosition,unsigned int _PU_type
 	MyBox2d.BOD->CreateFixture(&MyBox2d.FIX);
 }
 
+// Draw()
+//
+// Description:	Draws a powerup sprite
+//				
+// @param	
+// 
+// @return	NA
+//
 void C_PowerUp::Draw()
 {
 	// draw powerups
 	Renderer::GetInstance().Draw(*Spr_PowerUp_Bottom);
 	Renderer::GetInstance().Draw(*Spr_PowerUp_Top);
 }
+
+// Process(float dT)
+//
+// Description:	Updates a powerup sprite position, and including a flashing effect
+//				
+// @param	float	delta time
+// 
+// @return	NA
+//
 void C_PowerUp::Process(float dT)
 {
 	Spr_PowerUp_Bottom->setPosition(this->MyBox2d.BOD->GetPosition().x * C_GlobalVariables::PPM, this->MyBox2d.BOD->GetPosition().y * C_GlobalVariables::PPM);
@@ -92,15 +121,31 @@ void C_PowerUp::Process(float dT)
 	Spr_PowerUp_Top->setColor(this->myColor);
 }
 
+// HandleHit(Entity* other)
+//
+// Description:	Reacts to collision with a player entity, applies the powerup to that player and then calls to be destroyed.
+//				
+// @param	Entity*	the entity this powerup has collided with
+// 
+// @return	NA
+//
 void C_PowerUp::HandleHit(Entity* other)
 {
 	reinterpret_cast<C_Player*>(other)->ApplyPowerUp(this->myPowerupType);
 
-	C_PowerUp::positionIsReserved[this->myPosition] = false; // free up the position for another PU.
+	C_PowerUp::positionIsReserved[this->myPosition] = false; // free up the reserved position for another PU.
 
 	SceneManager::GetInstance().DestroyEntity(this);
 }
 
+// ~C_PowerUp()
+//
+// Description:	Destructor, delete physical body, and the sprites.
+//				
+// @param	
+// 
+// @return	NA
+//
 C_PowerUp::~C_PowerUp()
 {
 	MyBox2d.BOD->GetWorld()->DestroyBody(MyBox2d.BOD);

@@ -2,6 +2,20 @@
 
 #include "Ball.h"
 
+// C_Ball( b2World* world, unsigned int playerID, sf::Vector2f _worldPosition, b2Vec2 _vectorVelocity, bool isTemporary )
+//
+// Description:	Creates a dodgeball belonging to a player entity.
+//				
+// @param	b2World*		Pointer to the world it belongs in and is simulated in
+// @param	unsigned int	The player entity to whom this ball belongs to.
+// @param	sf::Vector2f	The world position to position this ball at.
+// @param	b2Vec2			The vector the ball will initially follow
+// @param	bool			if the ball is temporary it is a ball from the watefall or triple shot power up, transparent and limited lifetime
+//
+// Inheritance from: Enitity()
+// 
+// @return	C_Ball object
+//
 C_Ball::C_Ball(b2World* world, unsigned int playerID, sf::Vector2f _worldPosition, b2Vec2 _vectorVelocity, bool isTemporary) : Entity()
 {
 	Tx_MyBall.loadFromFile("Resources/images/Ball/Ball.png");
@@ -63,6 +77,14 @@ C_Ball::C_Ball(b2World* world, unsigned int playerID, sf::Vector2f _worldPositio
 	S_ball_Hit.setVolume(40.0f);
 }
 
+// Draw()
+//
+// Description:	Draws a ball using its variables, contains multiple draws for a trail effect
+//				
+// @param	
+// 
+// @return	NA
+//
 void C_Ball::Draw()
 {
 	if (IsImmune())
@@ -101,6 +123,14 @@ void C_Ball::Draw()
 	//Renderer::GetInstance().DrawTextToWorld(std::to_string(m_bounceCount), Spr_Ball.getPosition().x - 5, Spr_Ball.getPosition().y - 17.5);
 }
 
+// Process(float dT)
+//
+// Description:	updates the ball sprite position and handles screen/world wrapping on the full ball object..
+//				
+// @param	float	feeding in delta time.
+// 
+// @return	NA
+//
 void C_Ball::Process(float dT)
 {
 	this->Spr_Ball.setPosition(this->MyBox2d.BOD->GetPosition().x * C_GlobalVariables::PPM, this->MyBox2d.BOD->GetPosition().y * C_GlobalVariables::PPM);
@@ -132,6 +162,14 @@ void C_Ball::Process(float dT)
 	}
 }
 
+// HandleHit(Entity* other)
+//
+// Description:	Reacts to ball collisions with other players or reduces the balls bounce lifetime.
+//				
+// @param	Entity*	the entity this ball has collided with
+// 
+// @return	NA
+//
 void C_Ball::HandleHit(Entity* other)
 {
 	
@@ -168,6 +206,7 @@ void C_Ball::HandleHit(Entity* other)
 	}	
 }
 
+// Destructor - destroy the physical ball in the simulation.
 C_Ball::~C_Ball()
 {
 	MyBox2d.BOD->GetWorld()->DestroyBody(MyBox2d.BOD);
