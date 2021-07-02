@@ -1,4 +1,6 @@
-#pragma once
+#ifndef _POWERUP_ENTITY_
+#define _POWERUP_ENTITY_
+
 // Bachelor of Software Engineering
 // Media Design School
 // Auckland
@@ -8,12 +10,9 @@
 //
 // File Name     	: Powerup.h
 // Description   	: Powerup class for all powerups
-// Author         	: Sonja Fowler
-// Mail         	: sonja@alp.co.nz
+// Author         	: Michael Jordan, Sonja Fowler
+// Mail         	: michael.jor8834@mediadesign.com, sonja@alp.co.nz
 //
-
-#ifndef _POWERUP_ENTITY_
-#define _POWERUP_ENTITY_
 
 // Library Includes
 #include <Box2D.h>

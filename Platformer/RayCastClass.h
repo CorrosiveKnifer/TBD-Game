@@ -1,6 +1,24 @@
-#pragma once
+#ifndef _RAYCASTING_H_
+#define _RAYCASTING_H_
+
+// Bachelor of Software Engineering
+// Media Design School
+// Auckland
+// New Zealand
+//
+// (c) 2021 Media Design School
+//
+// File Name     	: RayCastClass.h
+// Description   	: Raycasting handler to use with Box2d
+// Author         	: Michael Jordan
+// Mail         	: michael.jor8834@mediadesign.com
+//
+
+//Library include
 #include <Box2D.h>
 #include <vector>
+
+//Local Include
 #include "Entity.h"
 
 struct RaycastHit
@@ -32,3 +50,5 @@ public:
 		return 1.0f;
 	}
 };
+
+#endif

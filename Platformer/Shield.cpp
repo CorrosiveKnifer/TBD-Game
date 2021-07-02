@@ -1,5 +1,19 @@
 #include "Shield.h"
 
+// Bachelor of Software Engineering
+// Media Design School
+// Auckland
+// New Zealand
+//
+// (c) 2021 Media Design School
+//
+// File Name     	: Shield.h
+// Description   	: Shield Class for the power up activated by a player.
+// Author         	: Michael Jordan
+// Mail         	: michael.jor8834@mediadesign.com
+//
+
+//Constructor
 Shield::Shield(b2World* world, unsigned int playerID, b2Vec2 _worldPosition)
 {
 	m_bodySprite = Renderer::GetInstance().CreateSprite("images/powerups/shield.png");
@@ -23,6 +37,7 @@ Shield::Shield(b2World* world, unsigned int playerID, b2Vec2 _worldPosition)
 	MyBox2d.BOD->CreateFixture(&MyBox2d.FIX);
 }
 
+//Destructor
 Shield::~Shield()
 {
 	MyBox2d.BOD->GetWorld()->DestroyBody(MyBox2d.BOD);
@@ -31,11 +46,21 @@ Shield::~Shield()
 	m_bodySprite = 0;
 }
 
+// Draw()
+//
+// Description:	Draws a shield.
+//				
 void Shield::Draw()
 {
 	Renderer::GetInstance().Draw(*m_bodySprite);
 }
 
+// Process(float dT)
+//
+// Description:	updates the shield sprite position.
+//				
+// @param	float	feeding in delta time.
+//
 void Shield::Process(float dT)
 {
 	m_bodySprite->setPosition(this->MyBox2d.BOD->GetPosition().x * C_GlobalVariables::PPM, this->MyBox2d.BOD->GetPosition().y * C_GlobalVariables::PPM);

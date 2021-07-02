@@ -11,8 +11,8 @@
 //
 // File Name     	: InputHandler.h
 // Description   	: Handles the input from the keyboard and mouse on the window.
-// Author         	: Michael Jordan
-// Mail         	: michael.jor8834@mediadesign.com
+// Author         	: Michael Jordan, Bailey Johnson
+// Mail         	: michael.jor8834@mediadesign.com , bailey.johnson@mds.ac.nz
 //
 //Library Includes
 #include <SFML/Graphics.hpp>

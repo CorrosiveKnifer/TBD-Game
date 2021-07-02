@@ -55,7 +55,6 @@ levelMesh::levelMesh(string path, b2World& world)
                 string SnewVert2 = line.substr(found + 1, found2 - (found + 1));
 
                 vertices.push_back(new float(stof(SnewVert2)));
-                // cout << SnewVert2 << ":";
 
                  // third vertex
 
@@ -64,7 +63,6 @@ levelMesh::levelMesh(string path, b2World& world)
                 string SnewVert3 = line.substr(found2 + 1, found3 - found2);
 
                 vertices.push_back(new float(stof(SnewVert3)));
-                // cout << SnewVert3 << ":" << endl;
             }
 
             // indices - extract info from .obj 3d file
@@ -130,8 +128,6 @@ levelMesh::levelMesh(string path, b2World& world)
 //
 // Description:	Destructor: Destroy the vertices and indices of collision information.
 //				
-//
-// 
 // @return	NA
 //
 levelMesh::~levelMesh()

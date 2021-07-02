@@ -1,4 +1,19 @@
-#pragma once
+#ifndef _SHIELD_
+#define _SHIELD_
+
+// Bachelor of Software Engineering
+// Media Design School
+// Auckland
+// New Zealand
+//
+// (c) 2021 Media Design School
+//
+// File Name     	: Shield.h
+// Description   	: Shield Class for the power up activated by a player.
+// Author         	: Michael Jordan
+// Mail         	: michael.jor8834@mediadesign.com
+//
+
 #include "Entity.h"
 class Shield :    public Entity
 {
@@ -35,3 +50,4 @@ protected:
 
 };
 
+#endif

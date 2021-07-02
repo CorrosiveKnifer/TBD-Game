@@ -11,8 +11,8 @@
 //
 // File Name     	: VictoryScene.h
 // Description   	: A class for the Main menu, processed before the game is played.
-// Author         	: Michael Jordan
-// Mail         	: michael.jor8834@mediadesign.com
+// Author         	: Michael Jordan, Bailey Johnson
+// Mail         	: michael.jor8834@mediadesign.com, bailey.johnson@mds.ac.nz
 //
 //Parent Include
 #include "Scene.h"
@@ -32,7 +32,6 @@ public:
 	virtual ~VictoryScene();
 
 	//Inherited functions:
-	//virtual bool DoWindowLoop();
 	virtual void Draw();
 	virtual void Update(float dT);
 	virtual void DestroyEntity(Entity* entity) {};

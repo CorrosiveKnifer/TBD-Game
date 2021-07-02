@@ -1,4 +1,19 @@
-#pragma once
+#ifndef _COLLISION_LISTENER_H_
+#define _COLLISION_LISTENER_H_
+
+// Bachelor of Software Engineering
+// Media Design School
+// Auckland
+// New Zealand
+//
+// (c) 2021 Media Design School
+//
+// File Name     	: CollisionListener.h
+// Description   	: Listener for physics body collision
+// Author         	: Michael Jordan
+// Mail         	: michael.jor8834@mediadesign.com
+//
+
 // system includes
 #include <typeinfo>
 
@@ -153,3 +168,5 @@ public:
 		return EntityType::NONE;
 	}
 };
+
+#endif

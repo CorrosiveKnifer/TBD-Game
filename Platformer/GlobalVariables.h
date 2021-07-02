@@ -15,7 +15,6 @@
 // Library Includes
 #include <Box2D.h>
 
-
 class C_GlobalVariables
 {
 public:

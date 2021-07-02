@@ -1,4 +1,6 @@
-#pragma once
+#ifndef _LEVEL_2_
+#define _LEVEL_2_
+
 // Bachelor of Software Engineering
 // Media Design School
 // Auckland
@@ -11,8 +13,6 @@
 // Author         	: Sonja Fowler
 // Mail         	: sonja@alp.co.nz
 //
-#ifndef _LEVEL_2_
-#define _LEVEL_2_
 
 // system includes
 #include <vector>

@@ -8,8 +8,8 @@
 //
 // File Name     	: Player_Entity.h
 // Description   	: Player Class for any player.
-// Author         	: Sonja Fowler
-// Mail         	: sonja@alp.co.nz
+// Author         	: Sonja Fowler, Michael Jordan
+// Mail         	: sonja@alp.co.nz, michael.jor8834@mediadesign.com
 //
 // 
 // parent include
@@ -50,8 +50,7 @@ public:
 
 	void Respawn(b2Vec2 position, b2World* world);
 	void ApplyPowerUp(PowerUpType type);
-	//sf::Sprite& GetSpriteLegs() { return Spr_Legs; }
-	//sf::Sprite& GetSpr_UpperBody() { return Spr_UpperBody; }
+
 	b2Vec2 GetPosition() { return MyBox2d.BOD->GetPosition(); };
 
 	sf::Sprite& GetSpriteBall() { return Spr_Ball_overlay; };
@@ -149,7 +148,7 @@ private:
 	bool m_hasJumped = false;
 	bool m_canMoveLeft = true;
 	bool m_canMoveRight = true;
-	//bool m_hasThrown = false;
+
 	int myHealth = C_GlobalVariables::maxHealth;
 	int myLives = C_GlobalVariables::maxLives;
 	int myScore = 0;

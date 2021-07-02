@@ -1,9 +1,22 @@
+// Bachelor of Software Engineering
+// Media Design School
+// Auckland
+// New Zealand
+//
+// (c) 2021 Media Design School
+//
+// File Name     	: Powerup.cpp
+// Description   	: Powerup class for all powerups
+// Author         	: Michael Jordan, Sonja Fowler
+// Mail         	: michael.jor8834@mediadesign.com, sonja@alp.co.nz
+//
+
+//Local Includes
 #include "Powerup.h"
 #include "Player_Entity.h"
 #include "SceneManager.h"
 
 bool C_PowerUp::positionIsReserved[9] = { false }; // reserve positions to avoid overlap
-
 
 // C_PowerUp(b2World* world, b2Vec2 _worldPosition,unsigned int _PU_typeID, int _reserved_POS_ID)
 //

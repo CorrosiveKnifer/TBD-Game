@@ -1,6 +1,20 @@
 #ifndef _SCENE_H_
 #define _SCENE_H_
 
+// Bachelor of Software Engineering
+// Media Design School
+// Auckland
+// New Zealand
+//
+// (c) 2021 Media Design School
+//
+// File Name     	: Scene.h
+// Description   	: Scene interface for the scene manager to reference
+// Author         	: Michael Jordan
+// Mail         	: michael.jor8834@mediadesign.com
+//
+
+//Local Includes
 #include "Renderer.h"
 #include "Entity.h"
 

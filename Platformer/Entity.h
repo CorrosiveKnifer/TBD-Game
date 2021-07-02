@@ -6,7 +6,7 @@
 // Auckland
 // New Zealand
 //
-// (c) 2020 Media Design School
+// (c) 2021 Media Design School
 //
 // File Name     	: Entity.h
 // Description   	: Parent class for playable, non-playable or objects within 

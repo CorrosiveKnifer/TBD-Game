@@ -1,4 +1,6 @@
-#pragma once
+#ifndef _BALL_ENTITY_
+#define _BALL_ENTITY_
+
 // Bachelor of Software Engineering
 // Media Design School
 // Auckland
@@ -6,14 +8,11 @@
 //
 // (c) 2021 Media Design School
 //
-// File Name     	: Player_Entity.h
-// Description   	: Player Class for any player.
-// Author         	: Sonja Fowler
-// Mail         	: sonja@alp.co.nz
+// File Name     	: Ball.h
+// Description   	: Ball Class for ball produced by a player.
+// Author         	: Sonja Fowler, Michael Jordan
+// Mail         	: sonja@alp.co.nz, michael.jor8834@mediadesign.com
 //
-
-#ifndef _BALL_ENTITY_
-#define _BALL_ENTITY_
 
 // Library Includes
 #include <Box2D.h>

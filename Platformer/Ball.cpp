@@ -1,5 +1,18 @@
+// Bachelor of Software Engineering
+// Media Design School
+// Auckland
+// New Zealand
+//
+// (c) 2021 Media Design School
+//
+// File Name     	: Ball.cpp
+// Description   	: Ball Class for ball produced by a player.
+// Author         	: Sonja Fowler, Michael Jordan
+// Mail         	: sonja@alp.co.nz, michael.jor8834@mediadesign.com
+//
 
 
+//Self Include
 #include "Ball.h"
 
 // C_Ball( b2World* world, unsigned int playerID, sf::Vector2f _worldPosition, b2Vec2 _vectorVelocity, bool isTemporary )
@@ -33,9 +46,8 @@ C_Ball::C_Ball(b2World* world, unsigned int playerID, sf::Vector2f _worldPositio
 
 	if(isTemporary)
 		myBallColor = sf::Color(myBallColor.r * 0.85f, myBallColor.g * 0.85f, myBallColor.b * 0.85f, myBallColor.a * 0.50f);
+
 	// create a position ahead of the overlay ball for creation.
-	// _worldPosition = the position of the overlay ball sprite.
-	// _vectorVelocity the normalised direction vector the ball should go, IE Up,Right vector = (1.0f, -1.0f)
 	if (_vectorVelocity.x == 0 && _vectorVelocity.y == 0)
 		_vectorVelocity = b2Vec2(1.0f, 0.0f);
 
@@ -116,11 +128,6 @@ void C_Ball::Draw()
 	this->Spr_Ball.setScale(1.0f, 1.0f);
 	this->Spr_Ball.setColor(tempColor);
 	Renderer::GetInstance().Draw(this->Spr_Ball);
-
-	//Renderer::GetInstance().SetFontSize(25);
-	//Renderer::GetInstance().SetColour(sf::Color(255, 255, 255));
-	//Renderer::GetInstance().SetFontAlign(Align::Centre);
-	//Renderer::GetInstance().DrawTextToWorld(std::to_string(m_bounceCount), Spr_Ball.getPosition().x - 5, Spr_Ball.getPosition().y - 17.5);
 }
 
 // Process(float dT)

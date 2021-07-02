@@ -8,8 +8,8 @@
 //
 // File Name     	: MainMenuScene.cpp
 // Description   	: A class for the Main menu, processed before the game is played.
-// Author         	: Michael Jordan
-// Mail         	: michael.jor8834@mediadesign.com
+// Author         	: Michael Jordan, Bailey Johnson
+// Mail         	: michael.jor8834@mediadesign.com, bailey.johnson@mds.ac.nz
 //
 //This include
 #include "MainMenuScene.h"
