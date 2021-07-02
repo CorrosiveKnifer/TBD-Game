@@ -14,6 +14,16 @@
 #include "LevelLoader.h"
 
 // constructor
+// levelMesh(string path, b2World& world)
+//
+// Description:	Loads level information from files for level collision 
+//				
+// @param	string  	The directory path to the files to load
+// @param	b2World&  	The world reference to apply the collision creation to.
+//
+// 
+// @return	NA
+//
 levelMesh::levelMesh(string path, b2World& world)
 {
     string line;
@@ -116,6 +126,14 @@ levelMesh::levelMesh(string path, b2World& world)
     myfile.close();
 }
 
+// ~levelMesh()
+//
+// Description:	Destructor: Destroy the vertices and indices of collision information.
+//				
+//
+// 
+// @return	NA
+//
 levelMesh::~levelMesh()
 {
     vector<float*>::iterator vertIter = vertices.begin();
@@ -132,6 +150,18 @@ levelMesh::~levelMesh()
     }
 }
 
+// levelSpawnPoints(string path, vector<b2Vec2>& myPlayerSpawnPoints, vector<b2Vec2>& myPowerUpSpawnPoints, b2Vec2& _specialPowerUp)
+//
+// Description:	Loads level information from files for level collision 
+//				
+// @param	string  	        The directory path to the files to load
+// @param	vector<b2Vec2>&  	Load the player spawn points
+// @param	vector<b2Vec2>&  	Load the powerup spawn points
+// @param	vector<b2Vec2>&  	Load the waterfall powerup spawn point
+//
+// 
+// @return	NA
+//
 void levelMesh::levelSpawnPoints(string path, vector<b2Vec2>& myPlayerSpawnPoints, vector<b2Vec2>& myPowerUpSpawnPoints, b2Vec2& _specialPowerUp)
 {
     string line;

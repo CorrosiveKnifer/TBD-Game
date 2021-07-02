@@ -5,7 +5,7 @@
 //
 // (c) 2021 Media Design School
 //
-// File Name     	: LevelLoader.cpp
+// File Name     	: Level_1.cpp
 // Description   	: Level 1, setup everything needed for level 1.
 // Author         	: Sonja Fowler
 // Mail         	: sonja@alp.co.nz
@@ -20,6 +20,17 @@
 #include "SceneManager.h"
 #include "VictoryScene.h"
 
+// c_Level_1(unsigned int players) : Scene()
+//
+// Description:	Creates a game level to play in, loads all graphics, collisions information, spawn points,creates players,
+//				powerups, the HUD graphics and text for player information
+//				
+// @param	unsigned int	The amount of players to spawn in this level
+//
+// Inheritance from: Scene()
+// 
+// @return	c_Level_1 object
+//
 c_Level_1::c_Level_1(unsigned int players) : Scene()
 {
 	sceneID = LEVEL1;
@@ -134,7 +145,15 @@ c_Level_1::c_Level_1(unsigned int players) : Scene()
 	m_AButton->setOrigin(128, 128);
 }
 
-
+// Draw()
+//
+// Description:	draw the level graphics and then all of the visible objects active in the level
+//				
+// @param	
+//
+// 
+// @return	NA
+//
 void c_Level_1::Draw()
 {
 	o_pRenderer->Draw(backgroundSpr[0]);
@@ -174,6 +193,15 @@ void c_Level_1::Draw()
 	}
 }
 
+// Update(float dT)
+//
+// Description:	Updates the level : all the players, the powerups, the balls, the players HUD information
+//				
+// @param	float		delta time
+//
+// 
+// @return	NA
+//
 void c_Level_1::Update(float dT)
 {
 	// update world
@@ -308,6 +336,15 @@ void c_Level_1::Update(float dT)
 	PostUpdate(dT);
 }
 
+// DestroyEntity(Entity* entity)
+//
+// Description:	Destroys an entity, placing it in a list of objects to be destroyed at the opportune moment.
+//				
+// @param	Entity*		the entity to destroy.
+//
+// 
+// @return	NA
+//
 void c_Level_1::DestroyEntity(Entity* entity)
 {
 	C_PowerUp* testCase = reinterpret_cast<C_PowerUp*>(entity);
@@ -327,6 +364,15 @@ void c_Level_1::DestroyEntity(Entity* entity)
 	}
 }
 
+// RespawnPlayer(C_Player* player)
+//
+// Description:	Respawns a player to a position worked out to be safest in the world.
+//				
+// @param	C_Player*	The player to re-spawn
+//
+// 
+// @return	NA
+//
 void c_Level_1::RespawnPlayer(C_Player* player)
 {
 	b2Vec2 averagePos(0, 0);
@@ -370,6 +416,15 @@ void c_Level_1::RespawnPlayer(C_Player* player)
 	player->Respawn(respawnPos, world);
 }
 
+// PostUpdate(float dT)
+//
+// Description:	a post update to the level, removing/destroying entity objects 
+//				
+// @param	float	delta time
+//
+// 
+// @return	NA
+//
 void c_Level_1::PostUpdate(float dT)
 {
 	std::vector<Entity*>::iterator iter = m_toRemove.begin();
@@ -386,6 +441,15 @@ void c_Level_1::PostUpdate(float dT)
 	}
 }
 
+// ~c_Level_1()
+//
+// Description:	Destroy level 1 and all of its objects.
+//				
+// @param	
+//
+// 
+// @return	NA
+//
 c_Level_1::~c_Level_1()
 {
 	vector<levelMesh*>::iterator meshIter = myLevel1Meshes.begin();

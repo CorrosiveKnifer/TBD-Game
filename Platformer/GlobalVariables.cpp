@@ -1,3 +1,17 @@
+// Bachelor of Software Engineering
+// Media Design School
+// Auckland
+// New Zealand
+//
+// (c) 2021 Media Design School
+//
+// File Name     	: GlobalVariables.cpp
+// Description   	: Global variables, used frequently 
+// Author         	: Sonja Fowler
+// Mail         	: sonja@alp.co.nz
+//
+// 
+
 #include "GlobalVariables.h"
 
 int C_GlobalVariables::ScreenSizeX = 1920;

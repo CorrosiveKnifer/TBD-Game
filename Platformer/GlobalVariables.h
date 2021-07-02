@@ -1,5 +1,17 @@
 #pragma once
-
+// Bachelor of Software Engineering
+// Media Design School
+// Auckland
+// New Zealand
+//
+// (c) 2021 Media Design School
+//
+// File Name     	: GlobalVariables.h
+// Description   	: Global variables, used frequently 
+// Author         	: Sonja Fowler
+// Mail         	: sonja@alp.co.nz
+//
+// 
 // Library Includes
 #include <Box2D.h>
 
